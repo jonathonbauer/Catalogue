@@ -10,10 +10,40 @@ import UIKit
 
 class ItemDetailVC: UIViewController {
 
+    // MARK: Outlets
+    
+    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var price: UITextField!
+    @IBOutlet weak var details: UITextView!
+    @IBOutlet weak var stockButton: UIButton!
+    @IBOutlet weak var deleteButton: UIButton!
+    
+    // MARK: Actions
+    
+    @IBAction func deleteItem(_ sender: Any) {
+    }
+    
+    @IBAction func toggleSoldOut(_ sender: Any) {
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Hide the tool bar and customize the nav bar
+        
+        
+        // Customize the buttons
+        stockButton.layer.cornerRadius = 10
+        deleteButton.layer.cornerRadius = 10
+        
+        
+        // Load the information if it is not a new item
+        
+        
+        
     }
     
 

@@ -43,6 +43,7 @@ class InventoryCVC: UICollectionViewController {
         self.navItem = self.tabBarController?.navigationItem
         self.navItem?.title = "Inventory"
         self.navItem?.hidesBackButton = true
+        self.navItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         
         
     }
@@ -53,12 +54,15 @@ class InventoryCVC: UICollectionViewController {
            // When the view Appears on the screen, set the title and hide the back button
            self.navItem?.title = "Inventory"
            self.navItem?.hidesBackButton = true
+            
        }
     
 
     // MARK: Functions
 
-    
+    @objc func add(){
+        self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
+    }
     /*
     // MARK: - Navigation
 

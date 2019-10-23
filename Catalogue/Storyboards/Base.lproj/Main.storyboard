@@ -13,11 +13,11 @@
             <objects>
                 <viewController title="Log In" id="GPu-X5-QGQ" customClass="LogInVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FW8-U7-cOR">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYg-xV-jP4">
-                                <rect key="frame" x="153" y="406" width="108" height="30"/>
+                                <rect key="frame" x="153" y="433" width="108" height="30"/>
                                 <state key="normal" title="Log In As Guest"/>
                                 <connections>
                                     <segue destination="4de-sn-fa2" kind="show" id="fsp-gH-IH6"/>
@@ -50,7 +50,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hFl-eH-T9x" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3787" y="767"/>
+            <point key="canvasLocation" x="3787" y="812"/>
         </scene>
         <!--Log Item-->
         <scene sceneID="yMM-8x-RfM">
@@ -70,9 +70,9 @@
         <!--Inventory-->
         <scene sceneID="XHQ-FS-jpY">
             <objects>
-                <collectionViewController title="Inventory" id="xdJ-L8-QfR" customClass="InventoryCVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController title="Inventory" hidesBottomBarWhenPushed="YES" id="xdJ-L8-QfR" customClass="InventoryCVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="c2y-cb-1i1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="AaN-fP-QFq">
@@ -102,18 +102,19 @@
                     <tabBarItem key="tabBarItem" title="Inventory" image="cube.box" catalog="system" selectedImage="cube.box.fill" id="2MH-YU-hvs">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBarItem>
-                    <navigationItem key="navigationItem" title="Inventory" id="JJf-kr-fYr"/>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IBE-kJ-3Zt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2870" y="767"/>
+            <point key="canvasLocation" x="2870" y="812"/>
         </scene>
         <!--Log-->
         <scene sceneID="hCh-1i-gzX">
             <objects>
                 <tableViewController title="Log" id="INq-xN-6U7" customClass="LogTVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="qZa-AC-3ei">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
@@ -145,11 +146,10 @@
         <!--Tab Bar Controller-->
         <scene sceneID="pJQ-qF-5v3">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="W0M-SM-lwO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="4de-sn-fa2" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="6rv-BJ-gRc"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kPl-ut-s2Z">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
@@ -159,18 +159,23 @@
                         <segue destination="ZRf-T1-zhs" kind="relationship" relationship="viewControllers" id="jwm-WH-uP5"/>
                     </connections>
                 </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="W0M-SM-lwO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1996" y="812"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="kKS-Oq-dT8">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="nqk-co-OIB" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nqk-co-OIB" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="6uc-rE-Udh">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Zia-FR-qLd">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
                         <segue destination="GPu-X5-QGQ" kind="relationship" relationship="rootViewController" id="dzh-Sj-xWW"/>
                     </connections>
@@ -184,11 +189,11 @@
             <objects>
                 <viewController title="Settings" id="ZRf-T1-zhs" customClass="SettingsVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5LC-5k-F6X">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zn8-Ke-gui">
-                                <rect key="frame" x="179.5" y="667" width="55" height="30"/>
+                                <rect key="frame" x="179.5" y="721" width="55" height="30"/>
                                 <state key="normal" title="Log Out">
                                     <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -219,6 +224,6 @@
         <image name="gear" catalog="system" width="64" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Muq-YE-q8T"/>
+        <segue reference="dzh-Sj-xWW"/>
     </inferredMetricsTieBreakers>
 </document>

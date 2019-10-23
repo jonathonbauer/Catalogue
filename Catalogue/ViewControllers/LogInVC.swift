@@ -10,10 +10,15 @@ import UIKit
 
 class LogInVC: UIViewController {
 
+    // MARK: Properties
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Set the Information for the Navigation Item
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.title = "Log In"
     }
     
 

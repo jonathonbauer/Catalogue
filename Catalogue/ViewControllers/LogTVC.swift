@@ -9,7 +9,19 @@
 import UIKit
 
 class LogTVC: UITableViewController {
-
+    
+    // MARK: Outlets
+    
+    // MARK: Actions
+    
+    @IBAction func addItem(_ sender: Any?) {
+        print("Add Item Pressed")
+    }
+    
+    // MARK: Properties
+    
+    private var navItem: UINavigationItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,7 +29,20 @@ class LogTVC: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+//         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        // Get the NavigationItem from the View
+        self.navItem = self.tabBarController?.navigationItem
+        
+    
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // When the view Appears on the screen, set the title and hide the back button
+        self.navItem?.title = "Log"
+        self.navItem?.hidesBackButton = true
     }
 
     // MARK: - Table view data source

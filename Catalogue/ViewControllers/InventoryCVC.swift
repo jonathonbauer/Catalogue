@@ -7,11 +7,26 @@
 //
 
 import UIKit
+import CoreData
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "itemCell"
 
 class InventoryCVC: UICollectionViewController {
 
+    // MARK: Outlets
+    
+    // MARK: Actions
+    
+    @IBAction func addItem(_ sender: Any?) {
+        print("Add Item Pressed")
+    }
+    
+    // MARK: Properties
+    
+    private var navItem: UINavigationItem?
+    
+    // MARK: viewDidLoad & viewDidAppear
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,10 +35,26 @@ class InventoryCVC: UICollectionViewController {
 
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        
+        // Get the NavigationItem from the View
+        self.navItem = self.tabBarController?.navigationItem
+       
+        
+        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+        
+           // When the view Appears on the screen, set the title and hide the back button
+           self.navItem?.title = "Inventory"
+           self.navItem?.hidesBackButton = true
+       }
+    
 
+    // MARK: Functions
+
+    
     /*
     // MARK: - Navigation
 

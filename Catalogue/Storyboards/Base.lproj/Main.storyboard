@@ -16,8 +16,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sun.max.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="3Sn-4D-tEw">
+                                <rect key="frame" x="132" y="272.5" width="150" height="150.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="Kr2-z2-82R"/>
+                                    <constraint firstAttribute="width" constant="150" id="V3h-3a-0Gz"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ROF-wu-saT">
+                                <rect key="frame" x="48" y="455" width="318" height="171"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="User" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o1H-0g-twv">
+                                        <rect key="frame" x="0.0" y="0.0" width="318" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="w9D-YD-mdh"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <textInputTraits key="textInputTraits" textContentType="username"/>
+                                    </textField>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gNG-Wy-LY6">
+                                        <rect key="frame" x="0.0" y="60" width="318" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="35c-Ld-GlJ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myz-Y1-woV">
+                                        <rect key="frame" x="0.0" y="120" width="318" height="51"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                        <state key="normal" title="Log In"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYg-xV-jP4">
-                                <rect key="frame" x="153" y="433" width="108" height="30"/>
+                                <rect key="frame" x="99" y="680" width="216" height="51"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
                                 <state key="normal" title="Log In As Guest"/>
                                 <connections>
                                     <segue destination="4de-sn-fa2" kind="show" id="fsp-gH-IH6"/>
@@ -26,8 +60,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="WYg-xV-jP4" firstAttribute="centerX" secondItem="FW8-U7-cOR" secondAttribute="centerX" id="DhD-Se-MGD"/>
-                            <constraint firstItem="WYg-xV-jP4" firstAttribute="centerY" secondItem="FW8-U7-cOR" secondAttribute="centerY" id="PaK-x5-xxA"/>
+                            <constraint firstItem="ROF-wu-saT" firstAttribute="leading" secondItem="maI-3Y-NKQ" secondAttribute="leading" constant="48" id="2GQ-8n-pSf"/>
+                            <constraint firstItem="WYg-xV-jP4" firstAttribute="centerX" secondItem="FW8-U7-cOR" secondAttribute="centerX" id="YAk-lg-A1e"/>
+                            <constraint firstItem="3Sn-4D-tEw" firstAttribute="centerY" secondItem="FW8-U7-cOR" secondAttribute="centerY" constant="-100" id="YVg-GE-dpb"/>
+                            <constraint firstItem="ROF-wu-saT" firstAttribute="top" secondItem="3Sn-4D-tEw" secondAttribute="bottom" constant="32" id="ba9-hQ-Jly"/>
+                            <constraint firstItem="maI-3Y-NKQ" firstAttribute="trailing" secondItem="ROF-wu-saT" secondAttribute="trailing" constant="48" id="cdE-qE-cTi"/>
+                            <constraint firstItem="3Sn-4D-tEw" firstAttribute="centerX" secondItem="FW8-U7-cOR" secondAttribute="centerX" id="dRX-0r-ovR"/>
+                            <constraint firstItem="WYg-xV-jP4" firstAttribute="top" secondItem="ROF-wu-saT" secondAttribute="bottom" constant="54" id="fEj-hZ-Zsw"/>
+                            <constraint firstItem="ROF-wu-saT" firstAttribute="centerX" secondItem="FW8-U7-cOR" secondAttribute="centerX" id="x6x-4X-8yI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="maI-3Y-NKQ"/>
                     </view>
@@ -148,6 +188,7 @@
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="4de-sn-fa2" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="p33-XN-7Sl"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="kPl-ut-s2Z">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -222,6 +263,7 @@
         <image name="cube.box" catalog="system" width="64" height="62"/>
         <image name="cube.box.fill" catalog="system" width="64" height="62"/>
         <image name="gear" catalog="system" width="64" height="58"/>
+        <image name="sun.max.fill" catalog="system" width="64" height="62"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dzh-Sj-xWW"/>

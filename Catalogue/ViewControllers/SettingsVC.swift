@@ -23,7 +23,6 @@ class SettingsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         // Get the NavigationItem from the View
         self.navItem = self.tabBarController?.navigationItem
     }

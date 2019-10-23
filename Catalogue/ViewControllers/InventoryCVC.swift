@@ -36,9 +36,13 @@ class InventoryCVC: UICollectionViewController {
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
-        // Get the NavigationItem from the View
+        // Get the NavigationItem from the View, set the title and hide the back button
+        // As this is the first view to be loaded on log in we have to hide the back button and
+        // change the title here as well as whenver this view reappears
+        
         self.navItem = self.tabBarController?.navigationItem
-       
+        self.navItem?.title = "Inventory"
+        self.navItem?.hidesBackButton = true
         
         
     }

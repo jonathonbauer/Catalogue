@@ -24,12 +24,18 @@ class InventoryCVC: UICollectionViewController {
     // MARK: Properties
     
     private var navItem: UINavigationItem?
+    var container: NSPersistentContainer!
     
     // MARK: viewDidLoad & viewDidAppear
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if(container == nil) {
+            print("container is nil on inventory page")
+        }
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -73,6 +79,16 @@ class InventoryCVC: UICollectionViewController {
     }
     */
 
+    // MARK: Prepare
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         // Pass the container to the next view controller
+               if let navVC = segue.destination as? UINavigationController,
+                   let itemVC = navVC.viewControllers[0] as? ItemDetailVC {
+                   itemVC.container = container
+               }
+    }
+    
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

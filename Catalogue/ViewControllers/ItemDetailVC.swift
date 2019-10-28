@@ -46,20 +46,25 @@ class ItemDetailVC: UIViewController {
     
     @IBAction func saveItem(_ sender: Any) {
         
-//        let itemToSave = Item()
-//        itemToSave.name = name.text
-//        itemToSave.price = (price.text as NSString?)?.doubleValue ?? 0.00
-//        itemToSave.details = details.text
+        // Check that there is valid input
+        guard
+            let nameInput = self.name.text,
+            let priceInput = (self.price.text as NSString?)?.doubleValue,
+            let detailsInput = self.details.text
+        else {
+            print("Invalid input")
+            return
+        }
         
+        // If this is a new item, get the details and save it to the database
         if item == nil {
             let moc = container.viewContext
-//            let item = Item.fe
             
             moc.persist {
                 let itemToSave = Item(context: moc)
-                itemToSave.name = self.name.text
-                itemToSave.price = (self.price.text as NSString?)?.doubleValue ?? 0.00
-                itemToSave.details = self.details.text
+                itemToSave.name = nameInput
+                itemToSave.price = priceInput
+                itemToSave.details = detailsInput
                 print("Saving item!")
             }
         }
@@ -70,12 +75,16 @@ class ItemDetailVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        if(container == nil) {
-            print("container is nil on item detail page")
-        }
-        // Initialize the managed object context
-//        let moc = container.viewContext
+        
+        // Register a tap recognizer to dismiss the keyboard
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // Set the text fields delegates to this view controller
+        self.name.delegate = self
+        self.price.delegate = self
+        self.details.delegate = self
+        
         
         // Check if this is an edit or a new item
 //        if let itemToEdit = item {
@@ -102,20 +111,41 @@ class ItemDetailVC: UIViewController {
         // Load the information if it is not a new item
         
         
-        
     }
+    
+    // MARK: View Will Appear
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Get the Persistent Container if it is nil
+        if container == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            container = appDelegate.persistentContainer
+        }
+    }
+    
     
     // MARK: Functions
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // Create an action to dismiss the keyboard
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
-    */
 
+}
+
+
+// MARK: Extensions
+
+extension ItemDetailVC:UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+}
+
+extension ItemDetailVC:UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        textView.resignFirstResponder()
+    }
 }

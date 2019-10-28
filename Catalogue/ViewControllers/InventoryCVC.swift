@@ -7,23 +7,68 @@
 //
 
 import UIKit
+import CoreData
 
-private let reuseIdentifier = "Cell"
+private let reuseIdentifier = "itemCell"
 
 class InventoryCVC: UICollectionViewController {
 
+    // MARK: Outlets
+    
+    // MARK: Actions
+    
+    @IBAction func addItem(_ sender: Any?) {
+        print("Add Item Pressed")
+    }
+    
+    // MARK: Properties
+    
+    private var navItem: UINavigationItem?
+    var container: NSPersistentContainer!
+    
+    // MARK: viewDidLoad & viewDidAppear
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if(container == nil) {
+            print("container is nil on inventory page")
+        }
+        
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        
+        // Get the NavigationItem from the View, set the title and hide the back button
+        // As this is the first view to be loaded on log in we have to hide the back button and
+        // change the title here as well as whenver this view reappears
+        
+        self.navItem = self.tabBarController?.navigationItem
+        self.navItem?.title = "Inventory"
+        self.navItem?.hidesBackButton = true
+        self.navItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
+        
+        
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+        
+           // When the view Appears on the screen, set the title and hide the back button
+           self.navItem?.title = "Inventory"
+           self.navItem?.hidesBackButton = true
+            
+       }
+    
 
+    // MARK: Functions
+
+    @objc func add(){
+        self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
+    }
     /*
     // MARK: - Navigation
 
@@ -34,6 +79,16 @@ class InventoryCVC: UICollectionViewController {
     }
     */
 
+    // MARK: Prepare
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+         // Pass the container to the next view controller
+               if let navVC = segue.destination as? UINavigationController,
+                   let itemVC = navVC.viewControllers[0] as? ItemDetailVC {
+                   itemVC.container = container
+               }
+    }
+    
     // MARK: UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {

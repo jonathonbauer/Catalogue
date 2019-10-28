@@ -12,6 +12,10 @@ import CoreData
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    // MARK: Properties
+    var window: UIWindow?
+    
+    
     // MARK: Persistent Container Creation
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -46,8 +50,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // Pass the context into the root viewController
+//        // Pass the context into the root viewController
+//        print(window?.rootViewController)
+////        print(window?.rootViewController as? UINavigationController)
+//        
+//        if let vc = window?.rootViewController as? UINavigationController {
+//            print("true")
+//        } else {
+//            print("false")
+//        }
         
+        
+//        if let navVC = window?.rootViewController as? UINavigationController,
+//            let initialVC = navVC.viewControllers[0] as? LogInVC {
+//            print("setting the container")
+//            initialVC.container = persistentContainer
+//        } else {
+//            print("container not set")
+//        }
         
         
         return true

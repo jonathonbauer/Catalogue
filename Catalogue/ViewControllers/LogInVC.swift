@@ -17,10 +17,6 @@ class LogInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(container == nil) {
-            print("container is nil on log in page")
-        }
-        
         // Set the Information for the Navigation Item
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = "Log In"

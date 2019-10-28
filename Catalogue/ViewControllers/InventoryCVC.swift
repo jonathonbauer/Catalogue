@@ -9,10 +9,17 @@
 import UIKit
 import CoreData
 
-private let reuseIdentifier = "itemCell"
+private let reuseIdentifier = "inventoryCell"
 
 class InventoryCVC: UICollectionViewController {
 
+    // MARK: Properties
+    
+    private var navItem: UINavigationItem?
+    var container: NSPersistentContainer!
+    var items = [NSManagedObject]()
+    var categories = [NSManagedObject]()
+    
     // MARK: Outlets
     
     // MARK: Actions
@@ -21,63 +28,88 @@ class InventoryCVC: UICollectionViewController {
         print("Add Item Pressed")
     }
     
-    // MARK: Properties
-    
-    private var navItem: UINavigationItem?
-    var container: NSPersistentContainer!
-    
     // MARK: viewDidLoad & viewDidAppear
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        if(container == nil) {
-            print("container is nil on inventory page")
+        
+        // Get the Persistent Container if it is nil
+        if container == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            container = appDelegate.persistentContainer
         }
-        
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
         // Get the NavigationItem from the View, set the title and hide the back button
-        // As this is the first view to be loaded on log in we have to hide the back button and
-        // change the title here as well as whenver this view reappears
         
         self.navItem = self.tabBarController?.navigationItem
         self.navItem?.title = "Inventory"
         self.navItem?.hidesBackButton = true
         self.navItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
         
+        // MARK: Retrieve the database contents
+        
+        // Get the database and create a request
+        let moc = container.viewContext
+        
+        let itemRequest = NSFetchRequest<Item>(entityName: "Item")
+        let categoryRequest = NSFetchRequest<Category>(entityName: "Category")
+        
+        itemRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        categoryRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        do {
+            items = try moc.fetch(itemRequest)
+            categories = try moc.fetch(categoryRequest)
+        } catch {
+            fatalError("Could not load items or categories")
+        }
+        
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-           super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-           // When the view Appears on the screen, set the title and hide the back button
-           self.navItem?.title = "Inventory"
-           self.navItem?.hidesBackButton = true
-            
-       }
+        // When the view Appears on the screen, set the title and hide the back button
+        self.navItem?.title = "Inventory"
+        self.navItem?.hidesBackButton = true
+        
+        // Get the Persistent Container if it is nil
+        if container == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            container = appDelegate.persistentContainer
+        }
+        
+    }
     
 
     // MARK: Functions
 
+    // Add button function
     @objc func add(){
-        self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        // Create the three buttons for the controller
+        let itemButton = UIAlertAction(title: "New Item", style: .default) { _ in
+            self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
+        }
+        
+        let categoryButton = UIAlertAction(title: "New Category", style: .default) { _ in
+            self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
+        }
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alertController.addAction(itemButton)
+        alertController.addAction(categoryButton)
+        alertController.addAction(cancelButton)
+        
+        // Present the controller
+        self.present(alertController, animated: true, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-    */
+    
 
     // MARK: Prepare
     
@@ -93,19 +125,28 @@ class InventoryCVC: UICollectionViewController {
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
-
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "categoryHeader", for: indexPath) as! CategoryHeader
+        
+        header.nameLabel.text = "HEADER"
+        
+        return header
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 0
+        return items.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-    
-        // Configure the cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath as IndexPath) as! InventoryCell
+        
+        cell.nameLabel?.text = items[indexPath.row].value(forKey: "name") as? String
+        
+        cell.contentView.backgroundColor = UIColor.yellow
     
         return cell
     }
@@ -142,3 +183,4 @@ class InventoryCVC: UICollectionViewController {
     */
 
 }
+

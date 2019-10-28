@@ -274,21 +274,51 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="itemCell" id="yT0-ou-vYL" customClass="InventoryCell" customModule="Catalogue" customModuleProvider="target">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="inventoryCell" id="yT0-ou-vYL" customClass="InventoryCell" customModule="Catalogue" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="50" width="50" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="9qm-sK-nYW">
                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ef-xh-Fm3">
+                                            <rect key="frame" x="8" y="14.5" width="34" height="21"/>
+                                            <accessibility key="accessibilityConfiguration" identifier="nameLabel"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="8Ef-xh-Fm3" firstAttribute="centerY" secondItem="9qm-sK-nYW" secondAttribute="centerY" id="jLy-B7-DZw"/>
+                                        <constraint firstItem="8Ef-xh-Fm3" firstAttribute="centerX" secondItem="9qm-sK-nYW" secondAttribute="centerX" id="uNV-Y7-WHh"/>
+                                    </constraints>
                                 </collectionViewCellContentView>
                                 <connections>
+                                    <outlet property="nameLabel" destination="8Ef-xh-Fm3" id="xO5-0g-VQm"/>
                                     <segue destination="YL0-as-aTH" kind="showDetail" identifier="itemDetailSegue" id="2VG-ca-kdq"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
-                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="categoryCell" id="Hwx-x1-Zu9">
+                        <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="categoryHeader" id="Hwx-x1-Zu9" customClass="CategoryHeader" customModule="Catalogue" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                             <autoresizingMask key="autoresizingMask"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zvg-0E-eEW">
+                                    <rect key="frame" x="16" y="14.5" width="382" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="zvg-0E-eEW" firstAttribute="leading" secondItem="Hwx-x1-Zu9" secondAttribute="leadingMargin" constant="8" id="4Fq-gL-pE8"/>
+                                <constraint firstAttribute="trailingMargin" secondItem="zvg-0E-eEW" secondAttribute="trailing" constant="8" id="Pas-hz-17F"/>
+                                <constraint firstItem="zvg-0E-eEW" firstAttribute="centerY" secondItem="Hwx-x1-Zu9" secondAttribute="centerY" id="nfA-06-uKc"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="nameLabel" destination="zvg-0E-eEW" id="lpG-DN-byD"/>
+                            </connections>
                         </collectionReusableView>
                         <connections>
                             <outlet property="dataSource" destination="xdJ-L8-QfR" id="4jV-E2-ORH"/>

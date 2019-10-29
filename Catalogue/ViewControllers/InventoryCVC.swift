@@ -97,7 +97,7 @@ class InventoryCVC: UICollectionViewController {
         }
         
         let categoryButton = UIAlertAction(title: "New Category", style: .default) { _ in
-            self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
+            self.performSegue(withIdentifier: "categoryDetailSegue", sender: self)
         }
         
         let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
@@ -131,7 +131,7 @@ class InventoryCVC: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "categoryHeader", for: indexPath) as! CategoryHeader
         
-        header.nameLabel.text = "HEADER"
+        header.nameButton.setTitle("HEADER", for: .normal)
         
         return header
     }

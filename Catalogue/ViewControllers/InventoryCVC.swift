@@ -16,6 +16,7 @@ class InventoryCVC: UICollectionViewController {
     // MARK: Properties
     
     private var navItem: UINavigationItem?
+    
     var container: NSPersistentContainer!
     var items = [NSManagedObject]()
     var categories = [NSManagedObject]()

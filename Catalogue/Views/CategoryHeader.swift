@@ -10,5 +10,5 @@ import UIKit
 
 class CategoryHeader: UICollectionReusableView {
     // MARK: Outlets
-    @IBOutlet weak var nameButton: UIButton!
+    @IBOutlet weak var name: UILabel!
 }

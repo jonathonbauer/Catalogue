@@ -12,13 +12,20 @@ import CoreData
 class InventoryVC: UIViewController {
     
     // MARK: Properties
-    
-    private let reuseIdentifier = "inventoryCell"
     private var navItem: UINavigationItem?
-
+    
     var db: DBHelper!
     var items = [NSManagedObject]()
     var categories = [NSManagedObject]()
+    
+    // Number formatter for formatting price
+    let format: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.minimumFractionDigits = 2
+        f.maximumFractionDigits = 2
+        return f
+    }()
     
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
@@ -36,6 +43,12 @@ class InventoryVC: UIViewController {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
             db = appDelegate.dbHelper
         }
+        
+        // Set the CollectionView datasource and delegate to this class
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+//        self.collectionView!.register(InventoryCell.self, forCellWithReuseIdentifier: "itemCell")
         
     }
     
@@ -106,5 +119,57 @@ class InventoryVC: UIViewController {
     // MARK: Functions
     
     
+    
+}
+
+
+// MARK: Extensions
+
+
+// MARK: CollectionView DataSource
+
+
+extension InventoryVC: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemCell
+
+        cell.layer.borderWidth = 1
+    
+        let item = items[indexPath.row]
+        
+        cell.name?.text = item.value(forKey: "name") as? String
+        cell.price?.text = "$\(self.format.string(from: NSNumber(value: (item.value(forKey: "price") as! Double))) ?? "0.00")"
+
+        
+        if((items[indexPath.row].value(forKey: "soldOut") as? Bool)!) {
+            cell.soldOut?.text = "Sold Out"
+        } else {
+            cell.soldOut?.text = "In Stock"
+        }
+        
+        return cell
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "categoryHeader", for: indexPath) as! CategoryHeader
+        
+        header.name?.text = "Produce"
+        header.layer.cornerRadius = 5
+        
+        return header
+    }
+}
+
+// MARK: CollectionView Delegate
+
+extension InventoryVC: UICollectionViewDelegate {
     
 }

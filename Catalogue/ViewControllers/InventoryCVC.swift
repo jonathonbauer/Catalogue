@@ -133,7 +133,7 @@ class InventoryCVC: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "categoryHeader", for: indexPath) as! CategoryHeader
         
-        header.nameButton.setTitle("HEADER", for: .normal)
+//        header.nameButton.setTitle("HEADER", for: .normal)
         
         return header
     }

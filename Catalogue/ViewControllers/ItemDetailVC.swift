@@ -12,8 +12,8 @@ import CoreData
 class ItemDetailVC: UIViewController {
 
     // MARK: Properties
-    var container: NSPersistentContainer!
     var item: Item?
+    var db: DBHelper!
     
     
     // Number formatter for formatting price
@@ -58,15 +58,15 @@ class ItemDetailVC: UIViewController {
         
         // If this is a new item, get the details and save it to the database
         if item == nil {
-            let moc = container.viewContext
+
+            let success = db.addItem(name: nameInput, price: priceInput, details: detailsInput)
             
-            moc.persist {
-                let itemToSave = Item(context: moc)
-                itemToSave.name = nameInput
-                itemToSave.price = priceInput
-                itemToSave.details = detailsInput
-                print("Saving item!")
+            if(success) {
+                print("Successfully added item!")
+            } else {
+                print("Could not add item")
             }
+            
         }
         
     }
@@ -86,22 +86,6 @@ class ItemDetailVC: UIViewController {
         self.details.delegate = self
         
         
-        // Check if this is an edit or a new item
-//        if let itemToEdit = item {
-//            name.text = itemToEdit.name
-//            price.text = "$\(itemToEdit.price)"
-//            details.text = itemToEdit.details
-//
-//            if itemToEdit.soldOut {
-//                // Change the button if it is sold out
-//
-//            }
-//
-//        }
-        
-        // Hide the tool bar and customize the nav bar
-        
-        
         // Customize the buttons
         stockButton.layer.cornerRadius = 10
         deleteButton.layer.cornerRadius = 10
@@ -118,10 +102,10 @@ class ItemDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Get the Persistent Container if it is nil
-        if container == nil {
+        // Get the database if it is nil
+        if db == nil {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            container = appDelegate.persistentContainer
+            db = appDelegate.dbHelper
         }
     }
     

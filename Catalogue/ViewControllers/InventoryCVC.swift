@@ -64,7 +64,8 @@ class InventoryCVC: UICollectionViewController {
         } catch {
             fatalError("Could not load items or categories")
         }
-        
+        print("Fetched \(items.count) items")
+        print("Fetched \(categories.count) items")
         
     }
     
@@ -116,10 +117,10 @@ class InventoryCVC: UICollectionViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
          // Pass the container to the next view controller
-               if let navVC = segue.destination as? UINavigationController,
-                   let itemVC = navVC.viewControllers[0] as? ItemDetailVC {
-                   itemVC.container = container
-               }
+//               if let navVC = segue.destination as? UINavigationController,
+//                   let itemVC = navVC.viewControllers[0] as? ItemDetailVC {
+////                   itemVC.container = container
+//               }
     }
     
     // MARK: UICollectionViewDataSource

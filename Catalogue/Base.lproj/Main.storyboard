@@ -393,7 +393,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="9000+" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dJJ-1E-Ave">
+                                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="9000+" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dJJ-1E-Ave">
                                                 <rect key="frame" x="181" y="0.0" width="201" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -409,7 +409,7 @@
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="20%" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-iS-xDF">
+                                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="20%" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kap-iS-xDF">
                                                 <rect key="frame" x="180" y="0.0" width="202" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits"/>
@@ -418,15 +418,14 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NPq-Yv-gQ2">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="This is where you would describe what this category is and what is contained within." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NPq-Yv-gQ2">
                                 <rect key="frame" x="16" y="272" width="382" height="200"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="dQA-9C-vgd"/>
                                 </constraints>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDe-az-vI6">
@@ -439,6 +438,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Delete Item"/>
                                 <connections>
+                                    <action selector="deleteCategory:" destination="eav-XE-TV6" eventType="touchUpInside" id="oHY-12-wnR"/>
                                     <action selector="deleteItem:" destination="XGu-7D-YXm" eventType="touchUpInside" id="Pnq-p5-chs"/>
                                 </connections>
                             </button>
@@ -452,6 +452,7 @@
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Save"/>
                                 <connections>
+                                    <action selector="saveCategory:" destination="eav-XE-TV6" eventType="touchUpInside" id="Y9m-52-bo5"/>
                                     <action selector="saveItem:" destination="XGu-7D-YXm" eventType="touchUpInside" id="ifc-tH-EsZ"/>
                                     <action selector="toggleSoldOut:" destination="XGu-7D-YXm" eventType="touchUpInside" id="PoW-ga-oB2"/>
                                 </connections>
@@ -491,6 +492,14 @@
                         <viewLayoutGuide key="safeArea" id="CBp-Yw-FZ5"/>
                     </view>
                     <navigationItem key="navigationItem" id="f2u-TL-mR6"/>
+                    <connections>
+                        <outlet property="deleteButton" destination="tDe-az-vI6" id="tGk-ie-lch"/>
+                        <outlet property="details" destination="NPq-Yv-gQ2" id="pkZ-GO-bpC"/>
+                        <outlet property="name" destination="Q3a-Jd-bTg" id="FnY-VO-tJI"/>
+                        <outlet property="numberOfItems" destination="dJJ-1E-Ave" id="bcy-Dz-bHX"/>
+                        <outlet property="percentSoldOut" destination="Kap-iS-xDF" id="7Ah-qg-MlA"/>
+                        <outlet property="saveButton" destination="x6y-Yb-ni8" id="GtX-GI-3UJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyN-Ho-nXb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

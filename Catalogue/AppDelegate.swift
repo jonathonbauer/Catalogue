@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: Persistent Container Creation
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    var persistentContainer: NSPersistentContainer = {
         
         let container = NSPersistentContainer(name: "Catalogue")
         
@@ -29,6 +29,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         })
         return container
+    }()
+    
+    lazy var dbHelper: DBHelper = {
+       let dbHelper = DBHelper()
+        dbHelper.container = self.persistentContainer
+        return dbHelper
     }()
     
     // MARK: Database Save Function

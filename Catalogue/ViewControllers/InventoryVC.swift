@@ -172,4 +172,14 @@ extension InventoryVC: UICollectionViewDataSource {
 
 extension InventoryVC: UICollectionViewDelegate {
     
+    func collectionView(_ collectionView: UICollectionView,
+             didSelectItemAt indexPath: IndexPath) {
+        
+        guard let navVC = self.navigationController else { return }
+        
+        let newVC: ItemDetailVC? = self.storyboard?.instantiateViewController(identifier: "ItemDetailVC")
+        newVC?.item = items[indexPath.row]
+        
+        navVC.present(newVC!, animated: true, completion: nil)
+    }
 }

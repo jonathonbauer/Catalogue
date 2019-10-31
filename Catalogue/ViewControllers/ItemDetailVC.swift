@@ -12,7 +12,7 @@ import CoreData
 class ItemDetailVC: UIViewController {
 
     // MARK: Properties
-    var item: Item?
+    var item: NSManagedObject?
     var db: DBHelper!
     
     
@@ -93,7 +93,11 @@ class ItemDetailVC: UIViewController {
         
         
         // Load the information if it is not a new item
-        
+        if(item != nil) {
+            self.name.text = item?.value(forKey: "name") as? String
+            self.price.text = "$\(self.format.string(from: NSNumber(value: (item?.value(forKey: "price") as! Double))) ?? "0.00")"
+                self.details.text = item?.value(forKey: "details") as? String
+        }
         
     }
     

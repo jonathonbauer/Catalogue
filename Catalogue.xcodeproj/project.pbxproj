@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		6A1D8654235A8207008C4D75 /* Catalogue.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8652235A8207008C4D75 /* Catalogue.xcdatamodeld */; };
 		6A1D865E235A8BA1008C4D75 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D865D235A8BA1008C4D75 /* LogInVC.swift */; };
-		6A1D8660235A8BD9008C4D75 /* InventoryCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D865F235A8BD9008C4D75 /* InventoryCVC.swift */; };
 		6A1D8662235A8C13008C4D75 /* ItemDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */; };
 		6A1D8664235A8C2D008C4D75 /* LogTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8663235A8C2D008C4D75 /* LogTVC.swift */; };
 		6A1D8667235A8C52008C4D75 /* InventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8666235A8C52008C4D75 /* InventoryCell.swift */; };
@@ -34,7 +33,6 @@
 /* Begin PBXFileReference section */
 		6A1D8653235A8207008C4D75 /* Catalogue.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Catalogue.xcdatamodel; sourceTree = "<group>"; };
 		6A1D865D235A8BA1008C4D75 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
-		6A1D865F235A8BD9008C4D75 /* InventoryCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryCVC.swift; sourceTree = "<group>"; };
 		6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailVC.swift; sourceTree = "<group>"; };
 		6A1D8663235A8C2D008C4D75 /* LogTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTVC.swift; sourceTree = "<group>"; };
 		6A1D8666235A8C52008C4D75 /* InventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryCell.swift; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				6A1D865D235A8BA1008C4D75 /* LogInVC.swift */,
-				6A1D865F235A8BD9008C4D75 /* InventoryCVC.swift */,
 				6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */,
 				6A1D8663235A8C2D008C4D75 /* LogTVC.swift */,
 				6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */,
@@ -212,7 +209,6 @@
 			files = (
 				6A1D866B235A8C82008C4D75 /* LogCell.swift in Sources */,
 				6A1D866D235A92E7008C4D75 /* LogDetailVC.swift in Sources */,
-				6A1D8660235A8BD9008C4D75 /* InventoryCVC.swift in Sources */,
 				6A1D8654235A8207008C4D75 /* Catalogue.xcdatamodeld in Sources */,
 				6A1D8673235A985F008C4D75 /* SettingsVC.swift in Sources */,
 				6AE7976E236731F900B9D191 /* CategoryHeader.swift in Sources */,

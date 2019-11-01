@@ -12,7 +12,7 @@ import CoreData
 class CategoryDetailVC: UIViewController {
 
     // MARK: Properties
-    var category: Category?
+    var category: NSManagedObject?
     var db: DBHelper!
     
     // MARK: Outlets

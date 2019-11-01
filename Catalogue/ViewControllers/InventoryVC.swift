@@ -15,8 +15,9 @@ class InventoryVC: UIViewController {
     private var navItem: UINavigationItem?
     
     var db: DBHelper!
-    var items = [NSManagedObject]()
-    var categories = [NSManagedObject]()
+    var items = [Item]()
+    var categories = [Category]()
+    var section: Int?
     
     // Number formatter for formatting price
     let format: NumberFormatter = {
@@ -130,6 +131,17 @@ class InventoryVC: UIViewController {
 
 
 extension InventoryVC: UICollectionViewDataSource {
+    
+    // User selecting the header function
+    @objc func categoryTapped(){
+//        guard let navVC = self.navigationController else { return }
+
+//        let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
+//        newVC?.category = categories[section!]
+//        navVC.present(newVC!, animated: true, completion: nil)
+        print("TAP")
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items.count
     }
@@ -155,14 +167,24 @@ extension InventoryVC: UICollectionViewDataSource {
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "categoryHeader", for: indexPath) as! CategoryHeader
         
-        header.name?.text = "Produce"
+        let category = categories[indexPath.section]
+        
+//        header.name?.text = "Category Name"
+        header.name?.text = category.value(forKey: "name") as? String
         header.layer.cornerRadius = 5
+        
+        section = indexPath.section
+        
+        
+        // Detect if a user selects the category
+        let tap = UITapGestureRecognizer(target:self, action:#selector(categoryTapped))
+        header.addGestureRecognizer(tap)
         
         return header
     }
@@ -182,4 +204,7 @@ extension InventoryVC: UICollectionViewDelegate {
         
         navVC.present(newVC!, animated: true, completion: nil)
     }
+    
+    
+    
 }

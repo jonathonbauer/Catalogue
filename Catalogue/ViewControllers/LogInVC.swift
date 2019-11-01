@@ -28,11 +28,7 @@ class LogInVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        // Pass the container to the next view controller
-        if let tabVC = segue.destination as? UITabBarController,
-            let inventoryVC = tabVC.viewControllers?[0] as? InventoryCVC {
-            inventoryVC.container = container
-        }
+
     }
 
 

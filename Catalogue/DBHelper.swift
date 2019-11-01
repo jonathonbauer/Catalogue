@@ -21,7 +21,7 @@ class DBHelper {
     
     // MARK: Item Functions
     
-    func addItem(name: String, price: Double, details: String) -> Bool {
+    func addItem(name: String, price: Double, details: String, category: Category?) -> Bool {
         
         let moc = self.container.viewContext
         
@@ -30,6 +30,8 @@ class DBHelper {
             newItem.name = name
             newItem.price = price
             newItem.details = details
+            guard let category = category else { return }
+            newItem.category = category
             print("Saving item!")
         }
         
@@ -37,7 +39,7 @@ class DBHelper {
     }
     
     
-    func getAllItems() -> [NSManagedObject] {
+    func getAllItems() -> [Item] {
         // Get the database and create a request
         let moc = self.container.viewContext
         var items = [NSManagedObject]()
@@ -52,7 +54,7 @@ class DBHelper {
             fatalError("Could not load items")
         }
         print("Fetched \(items.count) items")
-        return items
+        return items as! [Item]
     }
     
     
@@ -72,7 +74,7 @@ class DBHelper {
         return true
     }
     
-    func getAllCategories() -> [NSManagedObject] {
+    func getAllCategories() -> [Category] {
           // Get the database and create a request
         let moc = self.container.viewContext
           var categories = [NSManagedObject]()
@@ -87,7 +89,7 @@ class DBHelper {
               fatalError("Could not load items")
           }
           print("Fetched \(categories.count) categories")
-          return categories
+          return categories as! [Category]
       }
     
     

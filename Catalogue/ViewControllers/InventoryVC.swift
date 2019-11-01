@@ -15,7 +15,7 @@ class InventoryVC: UIViewController {
     private var navItem: UINavigationItem?
     
     var db: DBHelper!
-    var items = [Item]()
+    var inventory = [Category: [Item]]()
     var categories = [Category]()
     var section: Int?
     
@@ -32,8 +32,6 @@ class InventoryVC: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     
     
-    
-    
     // MARK: viewDidLoad & viewDidAppear
     
     override func viewDidLoad() {
@@ -48,8 +46,6 @@ class InventoryVC: UIViewController {
         // Set the CollectionView datasource and delegate to this class
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-//        self.collectionView!.register(InventoryCell.self, forCellWithReuseIdentifier: "itemCell")
         
     }
     
@@ -68,9 +64,14 @@ class InventoryVC: UIViewController {
         
         // MARK: Retrieve the database contents
         
-        items = db.getAllItems()
+        // Get all the categories
         categories = db.getAllCategories()
         
+        // Get the inventory of items for each category, store it in the dictionary
+        for i in 0...categories.count - 1 {
+            print("index: \(i)")
+            inventory[categories[i]] = db.getAllItemsForCategory(category: categories[i])
+        }
         
     }
     
@@ -101,7 +102,6 @@ class InventoryVC: UIViewController {
             
             let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
             
-            //            navVC.pushViewController(newVC!, animated: true)
             navVC.present(newVC!, animated: true, completion: nil)
             
             
@@ -120,7 +120,6 @@ class InventoryVC: UIViewController {
     // MARK: Functions
     
     
-    
 }
 
 
@@ -134,30 +133,28 @@ extension InventoryVC: UICollectionViewDataSource {
     
     // User selecting the header function
     @objc func categoryTapped(){
-//        guard let navVC = self.navigationController else { return }
-
-//        let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
-//        newVC?.category = categories[section!]
-//        navVC.present(newVC!, animated: true, completion: nil)
+        
         print("TAP")
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return items.count
+        return inventory[categories[section]]!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemCell
-
+        
         cell.layer.borderWidth = 1
-    
-        let item = items[indexPath.row]
         
-        cell.name?.text = item.value(forKey: "name") as? String
+        print("Section \(indexPath.section)")
+        print("Row \(indexPath.row)")
+        let item = inventory[categories[indexPath.section]]![indexPath.row]
+        
+        cell.name?.text = item.name
         cell.price?.text = "$\(self.format.string(from: NSNumber(value: (item.value(forKey: "price") as! Double))) ?? "0.00")"
-
         
-        if((items[indexPath.row].value(forKey: "soldOut") as? Bool)!) {
+        
+        if(item.soldOut) {
             cell.soldOut?.text = "Sold Out"
         } else {
             cell.soldOut?.text = "In Stock"
@@ -173,14 +170,12 @@ extension InventoryVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "categoryHeader", for: indexPath) as! CategoryHeader
         
+        // Get the current category
         let category = categories[indexPath.section]
         
-//        header.name?.text = "Category Name"
-        header.name?.text = category.value(forKey: "name") as? String
+        // Customize the view of the header
+        header.name?.text = category.name
         header.layer.cornerRadius = 5
-        
-        section = indexPath.section
-        
         
         // Detect if a user selects the category
         let tap = UITapGestureRecognizer(target:self, action:#selector(categoryTapped))
@@ -195,12 +190,12 @@ extension InventoryVC: UICollectionViewDataSource {
 extension InventoryVC: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView,
-             didSelectItemAt indexPath: IndexPath) {
+                        didSelectItemAt indexPath: IndexPath) {
         
         guard let navVC = self.navigationController else { return }
         
         let newVC: ItemDetailVC? = self.storyboard?.instantiateViewController(identifier: "ItemDetailVC")
-        newVC?.item = items[indexPath.row]
+        newVC?.item = inventory[categories[indexPath.section]]![indexPath.row]
         
         navVC.present(newVC!, animated: true, completion: nil)
     }

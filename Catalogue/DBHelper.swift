@@ -57,6 +57,26 @@ class DBHelper {
         return items as! [Item]
     }
     
+    func getAllItemsForCategory(category: Category) -> [Item] {
+        // Get the database and create a request
+        let moc = self.container.viewContext
+        var items = [NSManagedObject]()
+        
+        let itemRequest = NSFetchRequest<Item>(entityName: "Item")
+        itemRequest.predicate = NSPredicate(format: "category == %@", category)
+        
+        itemRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        do {
+            items = try moc.fetch(itemRequest)
+        } catch {
+            fatalError("Could not load items")
+        }
+        print("Fetched \(items.count) items with the category \(String(describing: category.name))")
+        return items as! [Item]
+        
+    }
+    
     
     // MARK: Category Functions
     

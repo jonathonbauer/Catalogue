@@ -9,16 +9,20 @@
 /* Begin PBXBuildFile section */
 		6A1D8654235A8207008C4D75 /* Catalogue.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8652235A8207008C4D75 /* Catalogue.xcdatamodeld */; };
 		6A1D865E235A8BA1008C4D75 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D865D235A8BA1008C4D75 /* LogInVC.swift */; };
-		6A1D8660235A8BD9008C4D75 /* InventoryCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D865F235A8BD9008C4D75 /* InventoryCVC.swift */; };
 		6A1D8662235A8C13008C4D75 /* ItemDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */; };
 		6A1D8664235A8C2D008C4D75 /* LogTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8663235A8C2D008C4D75 /* LogTVC.swift */; };
 		6A1D8667235A8C52008C4D75 /* InventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8666235A8C52008C4D75 /* InventoryCell.swift */; };
-		6A1D8669235A8C78008C4D75 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8668235A8C78008C4D75 /* ItemCell.swift */; };
 		6A1D866B235A8C82008C4D75 /* LogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D866A235A8C82008C4D75 /* LogCell.swift */; };
 		6A1D866D235A92E7008C4D75 /* LogDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */; };
 		6A1D8673235A985F008C4D75 /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8672235A985F008C4D75 /* SettingsVC.swift */; };
+		6A94909F236B7C4C0021FAD8 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A94909E236B7C4C0021FAD8 /* ItemCell.swift */; };
+		6AA4FF272367F4CF00CF7649 /* CategoryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA4FF262367F4CF00CF7649 /* CategoryDetailVC.swift */; };
+		6AA4FF2923688C5C00CF7649 /* InventoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA4FF2823688C5C00CF7649 /* InventoryVC.swift */; };
+		6AA4FF2B23688F0300CF7649 /* LogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA4FF2A23688F0300CF7649 /* LogVC.swift */; };
 		6AE7976523627C5100B9D191 /* NSPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976423627C5100B9D191 /* NSPersistentContainer.swift */; };
 		6AE7976723627C8800B9D191 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976623627C8800B9D191 /* NSManagedObjectContext.swift */; };
+		6AE7976C23667C5D00B9D191 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976B23667C5D00B9D191 /* DBHelper.swift */; };
+		6AE7976E236731F900B9D191 /* CategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976D236731F900B9D191 /* CategoryHeader.swift */; };
 		6AF9C8FB234E1C3C002BD8BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */; };
 		6AF9C8FD234E1C3C002BD8BF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9C8FC234E1C3C002BD8BF /* SceneDelegate.swift */; };
 		6AF9C902234E1C3C002BD8BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF9C900234E1C3C002BD8BF /* Main.storyboard */; };
@@ -29,16 +33,20 @@
 /* Begin PBXFileReference section */
 		6A1D8653235A8207008C4D75 /* Catalogue.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Catalogue.xcdatamodel; sourceTree = "<group>"; };
 		6A1D865D235A8BA1008C4D75 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
-		6A1D865F235A8BD9008C4D75 /* InventoryCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryCVC.swift; sourceTree = "<group>"; };
 		6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailVC.swift; sourceTree = "<group>"; };
 		6A1D8663235A8C2D008C4D75 /* LogTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTVC.swift; sourceTree = "<group>"; };
 		6A1D8666235A8C52008C4D75 /* InventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryCell.swift; sourceTree = "<group>"; };
-		6A1D8668235A8C78008C4D75 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		6A1D866A235A8C82008C4D75 /* LogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogCell.swift; sourceTree = "<group>"; };
 		6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailVC.swift; sourceTree = "<group>"; };
 		6A1D8672235A985F008C4D75 /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		6A94909E236B7C4C0021FAD8 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		6AA4FF262367F4CF00CF7649 /* CategoryDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailVC.swift; sourceTree = "<group>"; };
+		6AA4FF2823688C5C00CF7649 /* InventoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryVC.swift; sourceTree = "<group>"; };
+		6AA4FF2A23688F0300CF7649 /* LogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogVC.swift; sourceTree = "<group>"; };
 		6AE7976423627C5100B9D191 /* NSPersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer.swift; sourceTree = "<group>"; };
 		6AE7976623627C8800B9D191 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
+		6AE7976B23667C5D00B9D191 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		6AE7976D236731F900B9D191 /* CategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeader.swift; sourceTree = "<group>"; };
 		6AF9C8F7234E1C3C002BD8BF /* Catalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Catalogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6AF9C8FC234E1C3C002BD8BF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,29 +71,24 @@
 			isa = PBXGroup;
 			children = (
 				6A1D865D235A8BA1008C4D75 /* LogInVC.swift */,
-				6A1D865F235A8BD9008C4D75 /* InventoryCVC.swift */,
 				6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */,
 				6A1D8663235A8C2D008C4D75 /* LogTVC.swift */,
 				6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */,
 				6A1D8672235A985F008C4D75 /* SettingsVC.swift */,
+				6AA4FF262367F4CF00CF7649 /* CategoryDetailVC.swift */,
+				6AA4FF2823688C5C00CF7649 /* InventoryVC.swift */,
+				6AA4FF2A23688F0300CF7649 /* LogVC.swift */,
 			);
 			path = ViewControllers;
-			sourceTree = "<group>";
-		};
-		6A1D8650235A81D5008C4D75 /* Storyboards */ = {
-			isa = PBXGroup;
-			children = (
-				6AF9C905234E1C3E002BD8BF /* LaunchScreen.storyboard */,
-			);
-			path = Storyboards;
 			sourceTree = "<group>";
 		};
 		6A1D8665235A8C38008C4D75 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				6A1D8666235A8C52008C4D75 /* InventoryCell.swift */,
-				6A1D8668235A8C78008C4D75 /* ItemCell.swift */,
 				6A1D866A235A8C82008C4D75 /* LogCell.swift */,
+				6AE7976D236731F900B9D191 /* CategoryHeader.swift */,
+				6A94909E236B7C4C0021FAD8 /* ItemCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -120,14 +123,15 @@
 			children = (
 				6AE7976323627BBF00B9D191 /* CoreData Extensions */,
 				6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */,
+				6AF9C905234E1C3E002BD8BF /* LaunchScreen.storyboard */,
 				6AF9C900234E1C3C002BD8BF /* Main.storyboard */,
 				6AF9C8FC234E1C3C002BD8BF /* SceneDelegate.swift */,
 				6A1D8652235A8207008C4D75 /* Catalogue.xcdatamodeld */,
 				6AF9C908234E1C3E002BD8BF /* Info.plist */,
 				6A1D864F235A814A008C4D75 /* ViewControllers */,
 				6A1D8665235A8C38008C4D75 /* Views */,
-				6A1D8650235A81D5008C4D75 /* Storyboards */,
 				6AF9C903234E1C3E002BD8BF /* Assets.xcassets */,
+				6AE7976B23667C5D00B9D191 /* DBHelper.swift */,
 			);
 			path = Catalogue;
 			sourceTree = "<group>";
@@ -205,18 +209,22 @@
 			files = (
 				6A1D866B235A8C82008C4D75 /* LogCell.swift in Sources */,
 				6A1D866D235A92E7008C4D75 /* LogDetailVC.swift in Sources */,
-				6A1D8660235A8BD9008C4D75 /* InventoryCVC.swift in Sources */,
 				6A1D8654235A8207008C4D75 /* Catalogue.xcdatamodeld in Sources */,
-				6A1D8669235A8C78008C4D75 /* ItemCell.swift in Sources */,
 				6A1D8673235A985F008C4D75 /* SettingsVC.swift in Sources */,
+				6AE7976E236731F900B9D191 /* CategoryHeader.swift in Sources */,
+				6A94909F236B7C4C0021FAD8 /* ItemCell.swift in Sources */,
+				6AA4FF2923688C5C00CF7649 /* InventoryVC.swift in Sources */,
 				6AE7976523627C5100B9D191 /* NSPersistentContainer.swift in Sources */,
+				6AE7976C23667C5D00B9D191 /* DBHelper.swift in Sources */,
 				6A1D8664235A8C2D008C4D75 /* LogTVC.swift in Sources */,
 				6AF9C8FB234E1C3C002BD8BF /* AppDelegate.swift in Sources */,
 				6A1D8667235A8C52008C4D75 /* InventoryCell.swift in Sources */,
 				6A1D865E235A8BA1008C4D75 /* LogInVC.swift in Sources */,
 				6A1D8662235A8C13008C4D75 /* ItemDetailVC.swift in Sources */,
+				6AA4FF272367F4CF00CF7649 /* CategoryDetailVC.swift in Sources */,
 				6AF9C8FD234E1C3C002BD8BF /* SceneDelegate.swift in Sources */,
 				6AE7976723627C8800B9D191 /* NSManagedObjectContext.swift in Sources */,
+				6AA4FF2B23688F0300CF7649 /* LogVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

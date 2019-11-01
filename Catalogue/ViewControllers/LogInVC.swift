@@ -17,10 +17,6 @@ class LogInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if(container == nil) {
-            print("container is nil on log in page")
-        }
-        
         // Set the Information for the Navigation Item
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = "Log In"
@@ -32,11 +28,7 @@ class LogInVC: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        // Pass the container to the next view controller
-        if let tabVC = segue.destination as? UITabBarController,
-            let inventoryVC = tabVC.viewControllers?[0] as? InventoryCVC {
-            inventoryVC.container = container
-        }
+
     }
 
 

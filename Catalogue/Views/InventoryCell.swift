@@ -9,5 +9,7 @@
 import UIKit
 
 class InventoryCell: UICollectionViewCell {
-    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var soldOutLabel: UILabel!
 }

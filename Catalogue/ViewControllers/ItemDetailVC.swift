@@ -10,10 +10,13 @@ import UIKit
 import CoreData
 
 class ItemDetailVC: UIViewController {
-
+    
     // MARK: Properties
-    var container: NSPersistentContainer!
     var item: Item?
+    var db: DBHelper!
+    var categories = [Category]()
+    var selectedCategory: Category?
+    var picker: UIPickerView?
     
     
     // Number formatter for formatting price
@@ -31,6 +34,7 @@ class ItemDetailVC: UIViewController {
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var price: UITextField!
+    @IBOutlet weak var category: UITextField!
     @IBOutlet weak var details: UITextView!
     @IBOutlet weak var stockButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
@@ -51,22 +55,22 @@ class ItemDetailVC: UIViewController {
             let nameInput = self.name.text,
             let priceInput = (self.price.text as NSString?)?.doubleValue,
             let detailsInput = self.details.text
-        else {
-            print("Invalid input")
-            return
+            else {
+                print("Invalid input")
+                return
         }
         
         // If this is a new item, get the details and save it to the database
         if item == nil {
-            let moc = container.viewContext
+            //            let newCategory = Category(context: moc)
+            let success = db.addItem(name: nameInput, price: priceInput, details: detailsInput, category: selectedCategory)
             
-            moc.persist {
-                let itemToSave = Item(context: moc)
-                itemToSave.name = nameInput
-                itemToSave.price = priceInput
-                itemToSave.details = detailsInput
-                print("Saving item!")
+            if(success) {
+                print("Successfully added item!")
+            } else {
+                print("Could not add item")
             }
+            
         }
         
     }
@@ -86,29 +90,29 @@ class ItemDetailVC: UIViewController {
         self.details.delegate = self
         
         
-        // Check if this is an edit or a new item
-//        if let itemToEdit = item {
-//            name.text = itemToEdit.name
-//            price.text = "$\(itemToEdit.price)"
-//            details.text = itemToEdit.details
-//
-//            if itemToEdit.soldOut {
-//                // Change the button if it is sold out
-//
-//            }
-//
-//        }
-        
-        // Hide the tool bar and customize the nav bar
-        
-        
         // Customize the buttons
         stockButton.layer.cornerRadius = 10
         deleteButton.layer.cornerRadius = 10
         saveButton.layer.cornerRadius = 10
         
+        // Create and customise the picker for selecting the category
+        picker = UIPickerView()
+        
+        // Set the inputView of the Category TextField to the picker
+        category.inputView = picker
+        
+        // Assign the delegate and datasource of the picker to this class
+        picker?.dataSource = self
+        picker?.delegate = self
+        
         
         // Load the information if it is not a new item
+        if(item != nil) {
+            self.name.text = item?.name
+            self.price.text = "$\(self.format.string(from: NSNumber(value: (item?.price ?? 0.00))) ?? "0.00")"
+            self.details.text = item?.details
+            self.category.text = item?.category?.name
+        }
         
         
     }
@@ -118,21 +122,25 @@ class ItemDetailVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Get the Persistent Container if it is nil
-        if container == nil {
+        // Get the database if it is nil
+        if db == nil {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            container = appDelegate.persistentContainer
+            db = appDelegate.dbHelper
         }
+        
+        categories = db.getAllCategories()
     }
     
     
     // MARK: Functions
-
+    
     // Create an action to dismiss the keyboard
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
-
+    
+    
+    
 }
 
 
@@ -147,5 +155,28 @@ extension ItemDetailVC:UITextFieldDelegate {
 extension ItemDetailVC:UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.resignFirstResponder()
+    }
+}
+
+extension ItemDetailVC: UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return categories.count
+    }
+}
+
+extension ItemDetailVC: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return categories[row].name
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        category.text = categories[row].name
+        selectedCategory = categories[row]
+        category.resignFirstResponder()
     }
 }

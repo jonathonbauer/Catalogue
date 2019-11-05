@@ -17,6 +17,8 @@ class ItemDetailVC: UIViewController {
     var categories = [Category]()
     var selectedCategory: Category?
     var picker: UIPickerView?
+    var isInEditMode = false
+    var previousVC: UIViewController?
     
     
     // Number formatter for formatting price
@@ -39,6 +41,7 @@ class ItemDetailVC: UIViewController {
     @IBOutlet weak var stockButton: UIButton!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var navBar: UINavigationBar!
     
     // MARK: Actions
     
@@ -49,29 +52,53 @@ class ItemDetailVC: UIViewController {
     }
     
     @IBAction func saveItem(_ sender: Any) {
-        
+        print("Save button pressed")
         // Check that there is valid input
         guard
             let nameInput = self.name.text,
             let priceInput = (self.price.text as NSString?)?.doubleValue,
-            let detailsInput = self.details.text
+            let detailsInput = self.details.text,
+            let categoryInput = self.selectedCategory
             else {
                 print("Invalid input")
                 return
         }
         
-        // If this is a new item, get the details and save it to the database
-        if item == nil {
-            //            let newCategory = Category(context: moc)
+        
+        if let selectedItem = item {
+            selectedItem.name = nameInput
+            print("Items price: \(priceInput)")
+            selectedItem.price = priceInput
+            selectedItem.details = detailsInput
+            selectedItem.category = categoryInput
+            db.save()
+
+//            self.presentingViewController?.viewWillAppear(true)
+            if let previousVC = self.previousVC {
+                previousVC.viewWillAppear(true)
+            }
+            
+            self.dismiss(animated: true, completion: nil)
+        } else {
             let success = db.addItem(name: nameInput, price: priceInput, details: detailsInput, category: selectedCategory)
             
             if(success) {
                 print("Successfully added item!")
+//                let navVC = self.navigationController
+//                navVC?.presentingViewController?.viewWillAppear(true)
+//                self.presentingViewController?.viewWillAppear(true)
+                
+                if let previousVC = self.previousVC {
+                    previousVC.viewWillAppear(true)
+                }
+                self.dismiss(animated: true, completion: nil)
+                
+                
             } else {
                 print("Could not add item")
             }
-            
         }
+        
         
     }
     
@@ -95,6 +122,15 @@ class ItemDetailVC: UIViewController {
         deleteButton.layer.cornerRadius = 10
         saveButton.layer.cornerRadius = 10
         
+        // Customize the text fields
+        self.details.layer.cornerRadius = 5
+        self.details.layer.borderWidth = 0.5
+        self.details.layer.borderColor = UIColor.lightGray.cgColor
+        self.details.clipsToBounds = true
+        
+        // Set the title
+        self.navBar.topItem?.title = "New Item"
+        
         // Create and customise the picker for selecting the category
         picker = UIPickerView()
         
@@ -107,13 +143,17 @@ class ItemDetailVC: UIViewController {
         
         
         // Load the information if it is not a new item
-        if(item != nil) {
-            self.name.text = item?.name
-            self.price.text = "$\(self.format.string(from: NSNumber(value: (item?.price ?? 0.00))) ?? "0.00")"
-            self.details.text = item?.details
-            self.category.text = item?.category?.name
+        if let item = item {
+            // Set the Title
+            self.navBar.topItem?.title = item.name
+            
+            self.name.text = item.name
+            self.price.text = "\(self.format.string(from: NSNumber(value: item.price)) ?? "0.00")"
+            self.details.text = item.details
+            self.category.text = item.category?.name
+            selectedCategory = item.category
         }
-        
+
         
     }
     
@@ -131,6 +171,14 @@ class ItemDetailVC: UIViewController {
         categories = db.getAllCategories()
     }
     
+    // MARK: View Will Dissappear
+    
+    
+//
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        self.presentingViewController?.viewWillAppear(true)
+//    }
     
     // MARK: Functions
     
@@ -139,7 +187,26 @@ class ItemDetailVC: UIViewController {
         view.endEditing(true)
     }
     
-    
+    // Toggle Edit Mode
+    func toggleEditMode(){
+        if(isInEditMode) {
+            self.saveButton.isHidden = false
+            self.deleteButton.isHidden = false
+            self.stockButton.isEnabled = true
+            self.name.isEnabled = true
+            self.price.isEnabled = true
+            self.category.isEnabled = true
+            self.details.isEditable = true
+        } else {
+            self.saveButton.isHidden = true
+            self.deleteButton.isHidden = true
+            self.stockButton.isEnabled = false
+            self.name.isEnabled = false
+            self.price.isEnabled = false
+            self.category.isEnabled = false
+            self.details.isEditable = false
+        }
+    }
     
 }
 
@@ -179,4 +246,5 @@ extension ItemDetailVC: UIPickerViewDelegate {
         selectedCategory = categories[row]
         category.resignFirstResponder()
     }
+    
 }

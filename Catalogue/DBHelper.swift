@@ -18,6 +18,23 @@ class DBHelper {
     // MARK: Properties
     var container: NSPersistentContainer!
     
+    // MARK: Save Function
+    
+    func save() {
+        let context = self.container.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                fatalError("Could not save the changes to the database \(error)")
+            }
+            print("Database has been saved")
+        } else {
+            print("Database did not need to be saved")
+        }
+        
+    }
+    
     
     // MARK: Item Functions
     
@@ -42,7 +59,7 @@ class DBHelper {
     func getAllItems() -> [Item] {
         // Get the database and create a request
         let moc = self.container.viewContext
-        var items = [NSManagedObject]()
+        var items = [Item]()
         
         let itemRequest = NSFetchRequest<Item>(entityName: "Item")
         
@@ -54,13 +71,13 @@ class DBHelper {
             fatalError("Could not load items")
         }
         print("Fetched \(items.count) items")
-        return items as! [Item]
+        return items
     }
     
     func getAllItemsForCategory(category: Category) -> [Item] {
         // Get the database and create a request
         let moc = self.container.viewContext
-        var items = [NSManagedObject]()
+        var items = [Item]()
         
         let itemRequest = NSFetchRequest<Item>(entityName: "Item")
         itemRequest.predicate = NSPredicate(format: "category == %@", category)
@@ -72,11 +89,43 @@ class DBHelper {
         } catch {
             fatalError("Could not load items")
         }
-        print("Fetched \(items.count) items with the category \(String(describing: category.name))")
-        return items as! [Item]
+        print("Fetched \(items.count) items with the category \(category.name!)")
+        return items
         
     }
     
+//    func updateItem(item: Item) -> Bool {
+//
+//        let moc = self.container.viewContext
+//
+//        moc.persist {
+////            let newItem = Item(context: moc)
+////            newItem.name = name
+////            newItem.price = price
+////            newItem.details = details
+////            guard let category = category else { return }
+////            newItem.category = category
+////            print("Saving item!")
+////        }
+//
+//        return true
+//    }
+    
+    func getPercentSoldOut(forItems items: [Item]) -> Int {
+        var numSoldOut = 0
+        
+        if(items.count != 0) {
+            for item in items {
+                if item.soldOut {
+                    numSoldOut += 1
+                }
+            }
+            return numSoldOut / items.count * 100
+        } else {
+            return 0
+        }
+        
+    }
     
     // MARK: Category Functions
     
@@ -97,7 +146,7 @@ class DBHelper {
     func getAllCategories() -> [Category] {
           // Get the database and create a request
         let moc = self.container.viewContext
-          var categories = [NSManagedObject]()
+          var categories = [Category]()
           
           let categoryRequest = NSFetchRequest<Category>(entityName: "Category")
           
@@ -109,7 +158,7 @@ class DBHelper {
               fatalError("Could not load items")
           }
           print("Fetched \(categories.count) categories")
-          return categories as! [Category]
+          return categories
       }
     
     

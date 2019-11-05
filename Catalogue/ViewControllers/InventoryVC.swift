@@ -18,6 +18,7 @@ class InventoryVC: UIViewController {
     var inventory = [Category: [Item]]()
     var categories = [Category]()
     var section: Int?
+    var headers = [String: Int]()
     
     // Number formatter for formatting price
     let format: NumberFormatter = {
@@ -43,37 +44,36 @@ class InventoryVC: UIViewController {
             db = appDelegate.dbHelper
         }
         
-        // Set the CollectionView datasource and delegate to this class
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         // When the view Appears on the screen, set the title and hide the back button
         self.navItem?.title = "Inventory"
         self.navItem?.hidesBackButton = true
         
-        // Get the database if it is nil
-        if db == nil {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            db = appDelegate.dbHelper
-        }
+        // Set the CollectionView datasource and delegate to this class
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         // MARK: Retrieve the database contents
         
         // Get all the categories
         categories = db.getAllCategories()
         
-        // Get the inventory of items for each category, store it in the dictionary
-        for i in 0...categories.count - 1 {
-            print("index: \(i)")
-            inventory[categories[i]] = db.getAllItemsForCategory(category: categories[i])
+        //         Get the inventory of items for each category, store it in the dictionary
+        if(categories.count != 0) {
+            for category in categories {
+                inventory[category] = db.getAllItemsForCategory(category: category)
+            }
         }
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("Reloading Collection View")
+        self.collectionView.reloadData()
+
+
+    }
+    
     
     // MARK: Actions
     
@@ -90,8 +90,8 @@ class InventoryVC: UIViewController {
             guard let navVC = self.navigationController else { return }
             
             let newVC: ItemDetailVC? = self.storyboard?.instantiateViewController(identifier: "ItemDetailVC")
+            newVC?.previousVC = self
             
-            //            navVC.pushViewController(newVC!, animated: true)
             navVC.present(newVC!, animated: true, completion: nil)
             
         }
@@ -101,7 +101,7 @@ class InventoryVC: UIViewController {
             guard let navVC = self.navigationController else { return }
             
             let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
-            
+            newVC?.previousVC = self
             navVC.present(newVC!, animated: true, completion: nil)
             
             
@@ -118,8 +118,11 @@ class InventoryVC: UIViewController {
     }
     
     // MARK: Functions
-    
-    
+        
+    func refreshInventory(){
+        self.collectionView.reloadData()
+        print("Reloading Collection View")
+    }
 }
 
 
@@ -131,11 +134,18 @@ class InventoryVC: UIViewController {
 
 extension InventoryVC: UICollectionViewDataSource {
     
-    // User selecting the header function
-    @objc func categoryTapped(){
+    //     User selecting the header function
+    @objc func categoryTapped(_ sender: CategoryTapGesture){
         
-        print("TAP")
+        guard let navVC = self.navigationController else { return }
+        
+        let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
+        newVC?.category = categories[sender.indexPath!.section]
+        
+        navVC.present(newVC!, animated: true, completion: nil)
+        
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return inventory[categories[section]]!.count
@@ -146,8 +156,6 @@ extension InventoryVC: UICollectionViewDataSource {
         
         cell.layer.borderWidth = 1
         
-        print("Section \(indexPath.section)")
-        print("Row \(indexPath.row)")
         let item = inventory[categories[indexPath.section]]![indexPath.row]
         
         cell.name?.text = item.name
@@ -173,14 +181,18 @@ extension InventoryVC: UICollectionViewDataSource {
         // Get the current category
         let category = categories[indexPath.section]
         
+        headers[category.name!] = indexPath.section
+        
         // Customize the view of the header
         header.name?.text = category.name
         header.layer.cornerRadius = 5
         
         // Detect if a user selects the category
-        let tap = UITapGestureRecognizer(target:self, action:#selector(categoryTapped))
+        //        let tap = UITapGestureRecognizer(target:self, action:#selector(categoryTapped))
+        //        header.addGestureRecognizer(tap)
+        let tap = CategoryTapGesture(target: self, action: #selector(categoryTapped(_:)))
+        tap.indexPath = indexPath
         header.addGestureRecognizer(tap)
-        
         return header
     }
 }
@@ -196,6 +208,7 @@ extension InventoryVC: UICollectionViewDelegate {
         
         let newVC: ItemDetailVC? = self.storyboard?.instantiateViewController(identifier: "ItemDetailVC")
         newVC?.item = inventory[categories[indexPath.section]]![indexPath.row]
+        newVC?.previousVC = self
         
         navVC.present(newVC!, animated: true, completion: nil)
     }

@@ -321,65 +321,47 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="1gg-xn-03W">
-                                <rect key="frame" x="32" y="497" width="350" height="151"/>
+                                <rect key="frame" x="32" y="497" width="350" height="175"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="175" id="ufj-eZ-CbI"/>
+                                </constraints>
                                 <string key="text">This is a description for an item and will contain whatever information you want to share about it such as its dimensions, weight or coolness.</string>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="3K2-1A-qH6">
-                                <rect key="frame" x="32" y="656" width="350" height="182"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZI-ip-eSh">
-                                        <rect key="frame" x="0.0" y="0.0" width="350" height="48"/>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="FJ0-g0-cda"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Sold Out"/>
-                                        <connections>
-                                            <action selector="toggleSoldOut:" destination="XGu-7D-YXm" eventType="touchUpInside" id="Lvq-Tb-zIL"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k7N-Bb-2Dq">
-                                        <rect key="frame" x="0.0" y="67" width="350" height="48"/>
-                                        <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="7uw-1e-8ZX"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Save"/>
-                                        <connections>
-                                            <action selector="saveItem:" destination="XGu-7D-YXm" eventType="touchUpInside" id="POF-yp-FaT"/>
-                                            <action selector="toggleSoldOut:" destination="XGu-7D-YXm" eventType="touchUpInside" id="2Bm-Q4-06I"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fhX-k8-5Xw">
-                                        <rect key="frame" x="0.0" y="134" width="350" height="48"/>
-                                        <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="48" id="dVt-Au-GXD"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <state key="normal" title="Delete Item"/>
-                                        <connections>
-                                            <action selector="deleteItem:" destination="XGu-7D-YXm" eventType="touchUpInside" id="gQk-Ow-dOE"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                            </stackView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Gd-7P-KCI">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <items>
-                                    <navigationItem title="Item" id="wFu-V2-ASr"/>
+                                    <navigationItem title="Item" id="wFu-V2-ASr">
+                                        <barButtonItem key="leftBarButtonItem" title="Delete" id="nh4-7s-Q8K">
+                                            <connections>
+                                                <action selector="deleteItem:" destination="XGu-7D-YXm" id="7we-W4-GRH"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="3rn-CE-3vh">
+                                            <connections>
+                                                <action selector="editItem:" destination="XGu-7D-YXm" id="MZS-IP-kPe"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZI-ip-eSh">
+                                <rect key="frame" x="32" y="688" width="350" height="48"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="FJ0-g0-cda"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="In Stock"/>
+                                <connections>
+                                    <action selector="toggleSoldOut:" destination="XGu-7D-YXm" eventType="touchUpInside" id="Lvq-Tb-zIL"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -388,16 +370,15 @@
                             <constraint firstItem="7la-TK-czd" firstAttribute="trailing" secondItem="1gg-xn-03W" secondAttribute="trailing" constant="32" id="DAD-t3-p7Q"/>
                             <constraint firstItem="dhj-Tv-gVf" firstAttribute="leading" secondItem="7la-TK-czd" secondAttribute="leading" constant="32" id="F3M-pN-fTg"/>
                             <constraint firstItem="1gg-xn-03W" firstAttribute="top" secondItem="KVl-Ov-kFX" secondAttribute="bottom" constant="8" id="HRa-hh-SLP"/>
-                            <constraint firstItem="7la-TK-czd" firstAttribute="bottom" secondItem="3K2-1A-qH6" secondAttribute="bottom" constant="24" id="LuT-2v-f5U"/>
+                            <constraint firstItem="GZI-ip-eSh" firstAttribute="top" secondItem="1gg-xn-03W" secondAttribute="bottom" constant="16" id="MvI-OU-kNX"/>
                             <constraint firstItem="7la-TK-czd" firstAttribute="trailing" secondItem="dhj-Tv-gVf" secondAttribute="trailing" constant="32" id="OgK-iQ-0zm"/>
-                            <constraint firstItem="7la-TK-czd" firstAttribute="trailing" secondItem="3K2-1A-qH6" secondAttribute="trailing" constant="32" id="Pw2-QY-mPh"/>
                             <constraint firstItem="7la-TK-czd" firstAttribute="trailing" secondItem="KVl-Ov-kFX" secondAttribute="trailing" constant="32" id="UVI-TW-OWN"/>
+                            <constraint firstItem="GZI-ip-eSh" firstAttribute="leading" secondItem="7la-TK-czd" secondAttribute="leading" constant="32" id="eE7-Wm-hC1"/>
+                            <constraint firstItem="7la-TK-czd" firstAttribute="trailing" secondItem="GZI-ip-eSh" secondAttribute="trailing" constant="32" id="gK5-ST-IAu"/>
                             <constraint firstItem="KVl-Ov-kFX" firstAttribute="top" secondItem="dhj-Tv-gVf" secondAttribute="bottom" constant="12" id="h4X-uv-Rqg"/>
-                            <constraint firstItem="3K2-1A-qH6" firstAttribute="leading" secondItem="7la-TK-czd" secondAttribute="leading" constant="32" id="hRK-WC-f7g"/>
                             <constraint firstItem="dhj-Tv-gVf" firstAttribute="top" secondItem="mOV-FN-3d9" secondAttribute="bottom" constant="24" id="nW0-fy-qa6"/>
                             <constraint firstItem="mOV-FN-3d9" firstAttribute="centerX" secondItem="F2N-xb-YcX" secondAttribute="centerX" id="o3R-sL-5md"/>
                             <constraint firstItem="1gg-xn-03W" firstAttribute="leading" secondItem="7la-TK-czd" secondAttribute="leading" constant="32" id="pEN-a1-gq3"/>
-                            <constraint firstItem="3K2-1A-qH6" firstAttribute="top" secondItem="1gg-xn-03W" secondAttribute="bottom" constant="8" id="qhE-zJ-qRU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7la-TK-czd"/>
                     </view>
@@ -405,13 +386,13 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="category" destination="aA1-94-Zep" id="t8b-Ic-apw"/>
-                        <outlet property="deleteButton" destination="fhX-k8-5Xw" id="PCl-Ka-ZYO"/>
+                        <outlet property="deleteButton" destination="nh4-7s-Q8K" id="zYs-8d-iwx"/>
                         <outlet property="details" destination="1gg-xn-03W" id="BL4-56-9ss"/>
+                        <outlet property="editButton" destination="3rn-CE-3vh" id="EXD-P9-U2N"/>
                         <outlet property="image" destination="mOV-FN-3d9" id="Qpf-N2-Jyp"/>
                         <outlet property="name" destination="JZs-3w-eGo" id="BY5-ZY-kHO"/>
                         <outlet property="navBar" destination="2Gd-7P-KCI" id="CDa-8t-Ld7"/>
                         <outlet property="price" destination="Zgz-Ua-QMt" id="gDW-SX-xOh"/>
-                        <outlet property="saveButton" destination="k7N-Bb-2Dq" id="ZSg-as-ILu"/>
                         <outlet property="stockButton" destination="GZI-ip-eSh" id="sfh-ba-iJg"/>
                     </connections>
                 </viewController>
@@ -513,10 +494,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Delete Item"/>
-                                <connections>
-                                    <action selector="deleteCategory:" destination="eav-XE-TV6" eventType="touchUpInside" id="oHY-12-wnR"/>
-                                    <action selector="deleteItem:" destination="XGu-7D-YXm" eventType="touchUpInside" id="Pnq-p5-chs"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6y-Yb-ni8">
                                 <rect key="frame" x="32" y="734" width="350" height="48"/>

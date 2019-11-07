@@ -68,10 +68,7 @@ class InventoryVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("Reloading Collection View")
-        self.collectionView.reloadData()
-
-
+        refreshInventory()
     }
     
     
@@ -85,7 +82,6 @@ class InventoryVC: UIViewController {
         
         // Create the three buttons for the controller
         let itemButton = UIAlertAction(title: "New Item", style: .default) { _ in
-            //            self.performSegue(withIdentifier: "itemDetailSegue", sender: self)
             
             guard let navVC = self.navigationController else { return }
             
@@ -120,6 +116,16 @@ class InventoryVC: UIViewController {
     // MARK: Functions
         
     func refreshInventory(){
+        // Get all the categories
+        categories = db.getAllCategories()
+        
+        // Get the inventory of items for each category, store it in the dictionary
+        if(categories.count != 0) {
+            for category in categories {
+                inventory[category] = db.getAllItemsForCategory(category: category)
+            }
+        }
+
         self.collectionView.reloadData()
         print("Reloading Collection View")
     }

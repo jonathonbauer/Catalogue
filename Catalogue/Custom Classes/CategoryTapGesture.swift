@@ -11,4 +11,5 @@ import UIKit
 
 class CategoryTapGesture: UITapGestureRecognizer {
     var indexPath: IndexPath?
+    var row: Int?
 }

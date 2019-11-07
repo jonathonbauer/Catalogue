@@ -38,7 +38,7 @@ class DBHelper {
     
     // MARK: Item Functions
     
-    func addItem(name: String, price: Double, details: String, category: Category?) -> Bool {
+    func addItem(name: String, price: Double, details: String, soldOut: Bool, category: Category?, completion: @escaping (() -> Void)) -> Bool {
         
         let moc = self.container.viewContext
         
@@ -50,9 +50,11 @@ class DBHelper {
             guard let category = category else { return }
             newItem.category = category
             print("Saving item!")
+            completion()
         }
         
         return true
+        
     }
     
     
@@ -94,22 +96,16 @@ class DBHelper {
         
     }
     
-//    func updateItem(item: Item) -> Bool {
-//
-//        let moc = self.container.viewContext
-//
-//        moc.persist {
-////            let newItem = Item(context: moc)
-////            newItem.name = name
-////            newItem.price = price
-////            newItem.details = details
-////            guard let category = category else { return }
-////            newItem.category = category
-////            print("Saving item!")
-////        }
-//
-//        return true
-//    }
+    func deleteItem(item: Item) {
+        let moc = self.container.viewContext
+        
+        do {
+            moc.delete(item)
+            try moc.save()
+        } catch {
+            fatalError("Could not delete item")
+        }
+    }
     
     func getPercentSoldOut(forItems items: [Item]) -> Int {
         var numSoldOut = 0
@@ -144,22 +140,22 @@ class DBHelper {
     }
     
     func getAllCategories() -> [Category] {
-          // Get the database and create a request
+        // Get the database and create a request
         let moc = self.container.viewContext
-          var categories = [Category]()
-          
-          let categoryRequest = NSFetchRequest<Category>(entityName: "Category")
-          
-          categoryRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-          
-          do {
-              categories = try moc.fetch(categoryRequest)
-          } catch {
-              fatalError("Could not load items")
-          }
-          print("Fetched \(categories.count) categories")
-          return categories
-      }
+        var categories = [Category]()
+        
+        let categoryRequest = NSFetchRequest<Category>(entityName: "Category")
+        
+        categoryRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        do {
+            categories = try moc.fetch(categoryRequest)
+        } catch {
+            fatalError("Could not load items")
+        }
+        print("Fetched \(categories.count) categories")
+        return categories
+    }
     
     
     

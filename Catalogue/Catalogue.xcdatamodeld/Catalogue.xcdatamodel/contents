@@ -3,7 +3,7 @@
     <entity name="Category" representedClassName="Category" syncable="YES" codeGenerationType="class">
         <attribute name="details" attributeType="String" spotlightIndexingEnabled="YES"/>
         <attribute name="name" attributeType="String" spotlightIndexingEnabled="YES"/>
-        <relationship name="item" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="category" inverseEntity="Item" spotlightIndexingEnabled="YES"/>
+        <relationship name="item" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="category" inverseEntity="Item" spotlightIndexingEnabled="YES"/>
     </entity>
     <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
         <attribute name="information" optional="YES" attributeType="String"/>

@@ -226,6 +226,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addButton" destination="ESr-eR-tow" id="GXQ-4u-Guh"/>
                         <outlet property="collectionView" destination="Km1-71-JbZ" id="f8E-wa-SWV"/>
                     </connections>
                 </viewController>
@@ -411,7 +412,18 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7JO-FZ-eyw">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                 <items>
-                                    <navigationItem title="Category" id="Xl8-pV-UBY"/>
+                                    <navigationItem title="Category" id="Xl8-pV-UBY">
+                                        <barButtonItem key="leftBarButtonItem" title="Delete" id="3bC-yC-rpC">
+                                            <connections>
+                                                <action selector="deleteCategory:" destination="eav-XE-TV6" id="M2o-dC-1jD"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Edit" id="4N5-NV-ghk">
+                                            <connections>
+                                                <action selector="editCategory:" destination="eav-XE-TV6" id="wN2-Pf-Ge2"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
                                 </items>
                             </navigationBar>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="czF-IB-sjP">
@@ -485,45 +497,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDe-az-vI6">
-                                <rect key="frame" x="32" y="798" width="350" height="48"/>
-                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="jtn-Qs-hvl"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Delete Item"/>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x6y-Yb-ni8">
-                                <rect key="frame" x="32" y="734" width="350" height="48"/>
-                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="FYW-b3-Rq3"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="Save"/>
-                                <connections>
-                                    <action selector="saveCategory:" destination="eav-XE-TV6" eventType="touchUpInside" id="Y9m-52-bo5"/>
-                                    <action selector="saveItem:" destination="XGu-7D-YXm" eventType="touchUpInside" id="ifc-tH-EsZ"/>
-                                    <action selector="toggleSoldOut:" destination="XGu-7D-YXm" eventType="touchUpInside" id="PoW-ga-oB2"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="x6y-Yb-ni8" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="32" id="0y0-Wa-a0m"/>
                             <constraint firstItem="NPq-Yv-gQ2" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="16" id="59s-2C-8XC"/>
-                            <constraint firstItem="tDe-az-vI6" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="32" id="5hB-rZ-RD6"/>
                             <constraint firstItem="7JO-FZ-eyw" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" id="5jT-2S-nN6"/>
                             <constraint firstItem="NHt-Nu-dFU" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="16" id="9lJ-Bl-Ol1"/>
                             <constraint firstItem="7JO-FZ-eyw" firstAttribute="leading" secondItem="YeG-yv-I10" secondAttribute="leading" id="APK-Hc-94u"/>
-                            <constraint firstItem="tDe-az-vI6" firstAttribute="top" secondItem="x6y-Yb-ni8" secondAttribute="bottom" constant="16" id="AVr-Rt-1Yl"/>
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="NHt-Nu-dFU" secondAttribute="trailing" constant="16" id="Bg4-Ig-pxL"/>
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="NPq-Yv-gQ2" secondAttribute="trailing" constant="16" id="FrO-pL-HbX"/>
                             <constraint firstItem="Q3a-Jd-bTg" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="16" id="G7P-9f-oGG"/>
-                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="x6y-Yb-ni8" secondAttribute="trailing" constant="32" id="JdK-KL-e0J"/>
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="h3n-ub-T2Y" secondAttribute="trailing" constant="16" id="Lqz-Ys-eaW"/>
                             <constraint firstItem="7JO-FZ-eyw" firstAttribute="trailing" secondItem="CBp-Yw-FZ5" secondAttribute="trailing" id="N7p-aB-Auo"/>
                             <constraint firstItem="6lb-Xp-xf5" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="16" id="PUW-Nw-K9A"/>
@@ -533,9 +516,7 @@
                             <constraint firstItem="6lb-Xp-xf5" firstAttribute="top" secondItem="NPq-Yv-gQ2" secondAttribute="bottom" constant="16" id="f9g-Mc-oxn"/>
                             <constraint firstItem="NHt-Nu-dFU" firstAttribute="top" secondItem="6lb-Xp-xf5" secondAttribute="bottom" constant="32" id="fun-7S-a1H"/>
                             <constraint firstItem="NPq-Yv-gQ2" firstAttribute="top" secondItem="h3n-ub-T2Y" secondAttribute="bottom" constant="16" id="g3U-Yf-ShV"/>
-                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="bottom" secondItem="tDe-az-vI6" secondAttribute="bottom" constant="16" id="m3b-pj-a0Z"/>
                             <constraint firstItem="czF-IB-sjP" firstAttribute="leading" secondItem="Q3a-Jd-bTg" secondAttribute="trailing" constant="16" id="op2-Q8-aN7"/>
-                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="tDe-az-vI6" secondAttribute="trailing" constant="32" id="qne-cl-mK7"/>
                             <constraint firstItem="Q3a-Jd-bTg" firstAttribute="top" secondItem="7JO-FZ-eyw" secondAttribute="bottom" constant="88" id="vdk-aj-EO5"/>
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="czF-IB-sjP" secondAttribute="trailing" constant="16" id="wr3-Ew-ev1"/>
                             <constraint firstAttribute="trailing" secondItem="7JO-FZ-eyw" secondAttribute="trailing" id="yJa-kD-LEq"/>
@@ -546,12 +527,13 @@
                     </view>
                     <navigationItem key="navigationItem" id="f2u-TL-mR6"/>
                     <connections>
-                        <outlet property="deleteButton" destination="tDe-az-vI6" id="tGk-ie-lch"/>
+                        <outlet property="deleteButton" destination="3bC-yC-rpC" id="sz6-RH-1a6"/>
                         <outlet property="details" destination="NPq-Yv-gQ2" id="pkZ-GO-bpC"/>
+                        <outlet property="editButton" destination="4N5-NV-ghk" id="Z7a-qF-goo"/>
                         <outlet property="name" destination="Q3a-Jd-bTg" id="FnY-VO-tJI"/>
+                        <outlet property="navBar" destination="7JO-FZ-eyw" id="hYv-pR-Ejz"/>
                         <outlet property="numberOfItems" destination="dJJ-1E-Ave" id="bcy-Dz-bHX"/>
                         <outlet property="percentSoldOut" destination="Kap-iS-xDF" id="7Ah-qg-MlA"/>
-                        <outlet property="saveButton" destination="x6y-Yb-ni8" id="GtX-GI-3UJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyN-Ho-nXb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

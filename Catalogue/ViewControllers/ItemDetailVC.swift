@@ -96,11 +96,6 @@ class ItemDetailVC: UIViewController {
         }
     }
     
-    // MARK: Save Item
-    @IBAction func saveItem(_ sender: Any) {
-        let success = saveItem()
-        print(success)
-    }
     
     // MARK: viewDidLoad
     
@@ -197,18 +192,6 @@ class ItemDetailVC: UIViewController {
         self.resignFirstResponder()
     }
     
-    // MARK: Toggle Edit Mode
-    func toggleEditMode(){
-        if(!isInEditMode) {
-            
-        } else {
-            let success = saveItem()
-            if(success) {
-                
-            }
-        }
-    }
-    
     // MARK: Set Edit Mode
     func setEditMode(enabled: Bool) {
         if(enabled) {
@@ -240,8 +223,10 @@ class ItemDetailVC: UIViewController {
         // Check that there is valid input
         guard
             let nameInput = self.name.text,
+            nameInput.count > 0,
             let priceInput = (self.price.text as NSString?)?.doubleValue,
             let detailsInput = self.details.text,
+            detailsInput.count > 0,
             let categoryInput = self.selectedCategory
             else {
                 print("Invalid input")
@@ -251,7 +236,6 @@ class ItemDetailVC: UIViewController {
         
         if let selectedItem = item {
             selectedItem.name = nameInput
-            print("Items price: \(priceInput)")
             selectedItem.price = priceInput
             selectedItem.details = detailsInput
             selectedItem.category = categoryInput

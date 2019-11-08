@@ -31,9 +31,10 @@ class InventoryVC: UIViewController {
     
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var addButton: UIBarButtonItem!
     
     
-    // MARK: viewDidLoad & viewDidAppear
+    // MARK: viewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +57,7 @@ class InventoryVC: UIViewController {
         
         // Get all the categories
         categories = db.getAllCategories()
+        print("Number of items in the database: \(db.getAllItems().count)")
         
         //         Get the inventory of items for each category, store it in the dictionary
         if(categories.count != 0) {
@@ -66,6 +68,7 @@ class InventoryVC: UIViewController {
         
     }
     
+    // MARK: viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshInventory()
@@ -109,6 +112,9 @@ class InventoryVC: UIViewController {
         alertController.addAction(categoryButton)
         alertController.addAction(cancelButton)
         
+        // Set the anchor if this is launched on iPad
+        alertController.popoverPresentationController?.barButtonItem = self.addButton
+        
         // Present the controller
         self.present(alertController, animated: true, completion: nil)
     }
@@ -147,6 +153,7 @@ extension InventoryVC: UICollectionViewDataSource {
         
         let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
         newVC?.category = categories[sender.indexPath!.section]
+        newVC?.previousVC = self
         
         navVC.present(newVC!, animated: true, completion: nil)
         

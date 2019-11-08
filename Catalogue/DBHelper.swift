@@ -125,7 +125,7 @@ class DBHelper {
     
     // MARK: Category Functions
     
-    func addCategory(name: String, details: String) -> Bool {
+    func addCategory(name: String, details: String, completion: @escaping (() -> Void)) -> Bool {
         
         let moc = self.container.viewContext
         
@@ -134,6 +134,7 @@ class DBHelper {
             newCategory.name = name
             newCategory.details = details
             print("Saving Category!")
+            completion()
         }
         
         return true
@@ -157,7 +158,16 @@ class DBHelper {
         return categories
     }
     
-    
+    func deleteCategory(category: Category) {
+           let moc = self.container.viewContext
+           
+           do {
+               moc.delete(category)
+               try moc.save()
+           } catch {
+               fatalError("Could not delete category")
+           }
+       }
     
     
 }

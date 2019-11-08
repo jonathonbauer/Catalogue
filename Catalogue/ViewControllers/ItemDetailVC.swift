@@ -17,6 +17,9 @@ class ItemDetailVC: UIViewController {
     var categories = [Category]()
     var selectedCategory: Category?
     var picker: UIPickerView?
+    var isInEditMode = false
+    var previousVC: UIViewController?
+    var soldout = false
     
     
     // Number formatter for formatting price
@@ -37,43 +40,62 @@ class ItemDetailVC: UIViewController {
     @IBOutlet weak var category: UITextField!
     @IBOutlet weak var details: UITextView!
     @IBOutlet weak var stockButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var saveButton: UIButton!
+    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var editButton: UIBarButtonItem!
+    @IBOutlet var deleteButton: UIBarButtonItem!
     
-    // MARK: Actions
+    // MARK: Edit Item
     
-    @IBAction func deleteItem(_ sender: Any) {
-    }
-    
-    @IBAction func toggleSoldOut(_ sender: Any) {
-    }
-    
-    @IBAction func saveItem(_ sender: Any) {
-        
-        // Check that there is valid input
-        guard
-            let nameInput = self.name.text,
-            let priceInput = (self.price.text as NSString?)?.doubleValue,
-            let detailsInput = self.details.text
-            else {
-                print("Invalid input")
-                return
+    @IBAction func editItem(_ sender: Any) {
+        if(isInEditMode) {
+            let success = saveItem()
+            if (success) {
+                setEditMode(enabled: false)
+            }
+        } else {
+            setEditMode(enabled: true)
         }
+    }
+    
+    
+    // MARK: Delete Item
+    @IBAction func deleteItem(_ sender: Any) {
         
-        // If this is a new item, get the details and save it to the database
-        if item == nil {
-            //            let newCategory = Category(context: moc)
-            let success = db.addItem(name: nameInput, price: priceInput, details: detailsInput, category: selectedCategory)
+        guard let item = item else { return }
+        
+        let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "Delete Item", style: .destructive, handler: { _ in
+            self.db.deleteItem(item: item)
             
-            if(success) {
-                print("Successfully added item!")
-            } else {
-                print("Could not add item")
+            if let previousVC = self.previousVC {
+                previousVC.viewWillAppear(true)
             }
             
-        }
+            self.dismiss(animated: true, completion: nil)
+        })
         
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
     }
+    
+    // MARK: Toggle Sold Out
+    @IBAction func toggleSoldOut(_ sender: Any) {
+        if soldout {
+            soldout = false
+            stockButton.setTitle("In Stock", for: .normal)
+//            stockButton.titleLabel?.text = "In Stock"
+        } else {
+            soldout = true
+            stockButton.setTitle("Sold Out", for: .normal)
+//            stockButton.titleLabel?.text = "Sold Out"
+        }
+    }
+    
     
     // MARK: viewDidLoad
     
@@ -89,11 +111,17 @@ class ItemDetailVC: UIViewController {
         self.price.delegate = self
         self.details.delegate = self
         
-        
         // Customize the buttons
         stockButton.layer.cornerRadius = 10
-        deleteButton.layer.cornerRadius = 10
-        saveButton.layer.cornerRadius = 10
+        
+        // Customize the text fields
+        self.details.layer.cornerRadius = 5
+        self.details.layer.borderWidth = 0.5
+        self.details.layer.borderColor = UIColor.lightGray.cgColor
+        self.details.clipsToBounds = true
+        
+        // Set the title
+        self.navBar.topItem?.title = "New Item"
         
         // Create and customise the picker for selecting the category
         picker = UIPickerView()
@@ -106,15 +134,33 @@ class ItemDetailVC: UIViewController {
         picker?.delegate = self
         
         
-        // Load the information if it is not a new item
-        if(item != nil) {
-            self.name.text = item?.name
-            self.price.text = "$\(self.format.string(from: NSNumber(value: (item?.price ?? 0.00))) ?? "0.00")"
-            self.details.text = item?.details
-            self.category.text = item?.category?.name
+        // Customize the view differently if this is a new item or not
+        if let item = item {
+            // Disable edit mode if this an existing item
+            setEditMode(enabled: false)
+            
+            // Set the Title
+            self.navBar.topItem?.title = item.name
+            
+            self.name.text = item.name
+            self.price.text = "\(self.format.string(from: NSNumber(value: item.price)) ?? "0.00")"
+            self.details.text = item.details
+            self.category.text = item.category?.name
+            selectedCategory = item.category
+            if item.soldOut {
+                self.stockButton.setTitle("Sold Out", for: .normal)
+            } else {
+                self.stockButton.setTitle("In Stock", for: .normal)
+            }
+            
+        } else {
+            // If this is a new item
+            setEditMode(enabled: true)
+            self.navBar.topItem?.leftBarButtonItem = nil
+            self.navBar.topItem?.rightBarButtonItem?.title = "Save Item"
+            
         }
-        
-        
+  
     }
     
     // MARK: View Will Appear
@@ -132,14 +178,94 @@ class ItemDetailVC: UIViewController {
     }
     
     
-    // MARK: Functions
+    // MARK: Dismiss Keyboard
     
     // Create an action to dismiss the keyboard
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
     
+    // MARK: Category Selected
+    @objc func categorySelected(_ sender: CategoryTapGesture){
+        print("Category tapped")
+        selectedCategory = categories[sender.row!]
+        self.resignFirstResponder()
+    }
     
+    // MARK: Set Edit Mode
+    func setEditMode(enabled: Bool) {
+        if(enabled) {
+            self.editButton.title = "Done"
+            self.navBar.topItem?.leftBarButtonItem = self.deleteButton
+            self.stockButton.isEnabled = true
+            self.name.isEnabled = true
+            self.price.isEnabled = true
+            self.category.isEnabled = true
+            self.details.isEditable = true
+            self.isInEditMode = true
+        } else {
+            self.editButton.title = "Edit"
+            self.navBar.topItem?.leftBarButtonItem = nil
+            self.stockButton.isEnabled = false
+            self.name.isEnabled = false
+            self.price.isEnabled = false
+            self.category.isEnabled = false
+            self.details.isEditable = false
+            self.isInEditMode = false
+            self.dismissKeyboard()
+        }
+    }
+    
+    // MARK: Save Item
+    
+    func saveItem() -> Bool {
+        print("Save button pressed")
+        // Check that there is valid input
+        guard
+            let nameInput = self.name.text,
+            nameInput.count > 0,
+            let priceInput = (self.price.text as NSString?)?.doubleValue,
+            let detailsInput = self.details.text,
+            detailsInput.count > 0,
+            let categoryInput = self.selectedCategory
+            else {
+                print("Invalid input")
+                return false
+        }
+        
+        
+        if let selectedItem = item {
+            selectedItem.name = nameInput
+            selectedItem.price = priceInput
+            selectedItem.details = detailsInput
+            selectedItem.category = categoryInput
+            selectedItem.soldOut = soldout
+            db.save()
+
+            if let previousVC = self.previousVC {
+                previousVC.viewWillAppear(true)
+            }
+            return true
+//            self.dismiss(animated: true, completion: nil)
+            
+        } else {
+            let success = db.addItem(name: nameInput, price: priceInput, details: detailsInput, soldOut: soldout, category: selectedCategory, completion: {
+                print("Successfully added item!")
+                
+                if let previousVC = self.previousVC {
+                    previousVC.viewWillAppear(true)
+                }
+                self.dismiss(animated: true, completion: nil)
+                
+            })
+            
+            if(!success) {
+                print("Could not add item")
+                return false
+            }
+            return true
+        }
+    }
     
 }
 
@@ -166,10 +292,16 @@ extension ItemDetailVC: UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return categories.count
     }
+
 }
 
 extension ItemDetailVC: UIPickerViewDelegate {
+    
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let tap = CategoryTapGesture(target: self, action: #selector(categorySelected(_:)))
+        tap.row = row
+        pickerView.addGestureRecognizer(tap)
         return categories[row].name
         
     }
@@ -179,4 +311,5 @@ extension ItemDetailVC: UIPickerViewDelegate {
         selectedCategory = categories[row]
         category.resignFirstResponder()
     }
+    
 }

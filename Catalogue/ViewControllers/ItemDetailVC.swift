@@ -47,9 +47,6 @@ class ItemDetailVC: UIViewController {
     @IBOutlet var deleteButton: UIBarButtonItem!
     
     
-    
-    
-    
     // MARK: viewDidLoad
     
     override func viewDidLoad() {
@@ -90,8 +87,23 @@ class ItemDetailVC: UIViewController {
         // Create and customise the picker for selecting the category
         picker = UIPickerView()
         
+        // Add a done button to the pickerview
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        toolBar.sizeToFit()
+
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(pickerSelected))
+
+        toolBar.setItems([spacer, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        
         // Set the inputView of the Category TextField to the picker
         category.inputView = picker
+        category.inputAccessoryView = toolBar
         
         // Assign the delegate and datasource of the picker to this class
         picker?.dataSource = self
@@ -116,6 +128,7 @@ class ItemDetailVC: UIViewController {
             } else {
                 self.stockButton.setTitle("In Stock", for: .normal)
             }
+            
             
             if let data = item.image {
                 self.imageView.image = UIImage(data: data)
@@ -211,11 +224,29 @@ class ItemDetailVC: UIViewController {
         view.endEditing(true)
     }
     
-    // MARK: Category Selected
-    @objc func categorySelected(_ sender: CategoryTapGesture){
-        print("Category tapped")
-        selectedCategory = categories[sender.row!]
-        self.resignFirstResponder()
+//    // MARK: Category Selected
+//    @objc func categorySelected(_ sender: CategoryTapGesture){
+//        print("Category tapped")
+////        selectedCategory = categories[sender.row!]
+//        if let row = sender.row {
+//            category.text = categories[row].name
+//            selectedCategory = categories[row]
+//            category.resignFirstResponder()
+//        }
+//        self.resignFirstResponder()
+//    }
+    
+    // MARK: Picker Selected
+    @objc func pickerSelected(){
+        print("Done button selected")
+        
+        if let row = picker?.selectedRow(inComponent: 0) {
+            category.text = categories[row].name
+            selectedCategory = categories[row]
+            category.resignFirstResponder()
+        }
+        
+        
     }
     
     // MARK: Set Edit Mode
@@ -275,6 +306,7 @@ class ItemDetailVC: UIViewController {
     }
     
     // MARK: Save Item
+
     
     func saveItem() -> Bool {
         print("Save button pressed")
@@ -368,17 +400,17 @@ extension ItemDetailVC: UIPickerViewDataSource {
 extension ItemDetailVC: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let tap = CategoryTapGesture(target: self, action: #selector(categorySelected(_:)))
-        tap.row = row
-        pickerView.addGestureRecognizer(tap)
+//        let tap = CategoryTapGesture(target: self, action: #selector(categorySelected(_:)))
+//        tap.row = row
+//        pickerView.addGestureRecognizer(tap)
         return categories[row].name
-        
+
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        category.text = categories[row].name
-        selectedCategory = categories[row]
-        category.resignFirstResponder()
+//        category.text = categories[row].name
+//        selectedCategory = categories[row]
+//        category.resignFirstResponder()
     }
     
 }
@@ -394,7 +426,7 @@ extension ItemDetailVC: UIImagePickerControllerDelegate, UINavigationControllerD
         
         if let image = cropImage(image: selectedImage) {
             self.imageView.image = cropImage(image: image)
-            self.imageData = image.pngData()
+            self.imageData = image.jpegData(compressionQuality: 1.0)
         } else {
             print("Something went wrong cropping and saving the image")
         }

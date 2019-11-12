@@ -38,7 +38,7 @@ class DBHelper {
     
     // MARK: Item Functions
     
-    func addItem(name: String, price: Double, details: String, soldOut: Bool, category: Category?, completion: @escaping (() -> Void)) -> Bool {
+    func addItem(name: String, image: Data?, price: Double, details: String, soldOut: Bool, category: Category?, completion: @escaping (() -> Void)) -> Bool {
         
         let moc = self.container.viewContext
         
@@ -49,6 +49,10 @@ class DBHelper {
             newItem.details = details
             guard let category = category else { return }
             newItem.category = category
+            if let imageData = image {
+                newItem.image = imageData
+            }
+            
             print("Saving item!")
             completion()
         }

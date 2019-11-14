@@ -22,16 +22,9 @@ class ItemDetailVC: UIViewController {
     var previousVC: UIViewController?
     var soldout = false
     var imagePicker: UIImagePickerController?
+    var numberFormatter = Formatter(minDecimalPlaces: 2, maxDecimalPlaces: 2)
     
     
-    // Number formatter for formatting price
-    let format: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .decimal
-        f.minimumFractionDigits = 2
-        f.maximumFractionDigits = 2
-        return f
-    }()
     
     
     // MARK: Outlets
@@ -112,7 +105,9 @@ class ItemDetailVC: UIViewController {
         picker?.delegate = self
         
         
-        // Customize the view differently if this is a new item or not
+        
+        // MARK: Populate Item Information
+
         if let item = item {
             // Disable edit mode if this an existing item
             setEditMode(enabled: false)
@@ -121,10 +116,11 @@ class ItemDetailVC: UIViewController {
             self.navBar.topItem?.title = item.name
             
             self.name.text = item.name
-            self.price.text = "\(self.format.string(from: NSNumber(value: item.price)) ?? "0.00")"
+            self.price.text = "$\(self.numberFormatter.format.string(from: NSNumber(value: item.price)) ?? "$0.00")"
             self.details.text = item.details
             self.category.text = item.category?.name
             selectedCategory = item.category
+            self.soldout = item.soldOut
             if item.soldOut {
                 self.stockButton.setTitle("Sold Out", for: .normal)
             } else {
@@ -226,21 +222,8 @@ class ItemDetailVC: UIViewController {
         view.endEditing(true)
     }
     
-//    // MARK: Category Selected
-//    @objc func categorySelected(_ sender: CategoryTapGesture){
-//        print("Category tapped")
-//        selectedCategory = categories[sender.row!]
-//        if let row = sender.row {
-//            category.text = categories[row].name
-//            selectedCategory = categories[row]
-//            category.resignFirstResponder()
-//        }
-//        self.resignFirstResponder()
-//    }
-    
     // MARK: Picker Selected
     @objc func pickerSelected(){
-        print("Done button selected")
         
         if let row = picker?.selectedRow(inComponent: 0) {
             category.text = categories[row].name
@@ -402,17 +385,8 @@ extension ItemDetailVC: UIPickerViewDataSource {
 extension ItemDetailVC: UIPickerViewDelegate {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        let tap = CategoryTapGesture(target: self, action: #selector(categorySelected(_:)))
-//        tap.row = row
-//        pickerView.addGestureRecognizer(tap)
         return categories[row].name
 
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        category.text = categories[row].name
-//        selectedCategory = categories[row]
-//        category.resignFirstResponder()
     }
     
 }

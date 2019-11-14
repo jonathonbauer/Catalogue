@@ -17,15 +17,7 @@ class CategoryDetailVC: UIViewController {
     var numSoldOut = 0
     var previousVC: UIViewController?
     var isInEditMode = false
-    
-    // Number formatter for formatting price
-    let format: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .decimal
-        f.minimumFractionDigits = 0
-        f.maximumFractionDigits = 0
-        return f
-    }()
+    var numberFormatter = Formatter(minDecimalPlaces: 0, maxDecimalPlaces: 2)
     
     // MARK: Outlets
     
@@ -36,6 +28,7 @@ class CategoryDetailVC: UIViewController {
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var numberOfItems: UILabel!
     @IBOutlet weak var percentSoldOut: UILabel!
+    @IBOutlet weak var totalValue: UILabel!
     
     // MARK: Actions
     @IBAction func deleteCategory(_ sender: Any) {
@@ -80,7 +73,8 @@ class CategoryDetailVC: UIViewController {
         
         // Get the database if it is nil
         if db == nil {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
+                else { return }
             db = appDelegate.dbHelper
         }
         
@@ -102,13 +96,15 @@ class CategoryDetailVC: UIViewController {
         
         setEditMode(enabled: true)
         
+        // MARK: Populate Category
         if let category = category {
             self.navBar.topItem?.title = category.name
             self.name.text = category.name
             self.details.text = category.details
             let items = db.getAllItemsForCategory(category: category)
             self.numberOfItems.text = String(items.count)
-            self.percentSoldOut.text = "\(self.format.string(from: NSNumber(value: db.getPercentSoldOut(forItems: items))) ?? "0") %"
+            self.percentSoldOut.text = "\(numberFormatter.format.string(from: NSNumber(value: db.getPercentSoldOut(forItems: items))) ?? "0") %"
+            self.totalValue.text = "$\(numberFormatter.format.string(from: NSNumber(value: db.getTotalValue(forItems: items))) ?? "0.00")"
             setEditMode(enabled: false)
         }
         

@@ -132,6 +132,21 @@ class DBHelper {
         
     }
     
+    // MARK: Get Total Value
+    func getTotalValue(forItems items: [Item]) -> Double {
+        var totalValue: Double = 0.0
+        
+        if(items.count != 0) {
+            for item in items {
+                totalValue += item.price
+            }
+            return totalValue
+        } else {
+            return 0
+        }
+    }
+    
+    
     // MARK: Add Category
     
     func addCategory(name: String, details: String, completion: @escaping (() -> Void)) -> Bool {

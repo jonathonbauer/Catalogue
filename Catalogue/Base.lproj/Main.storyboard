@@ -438,18 +438,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stats" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6lb-Xp-xf5">
-                                <rect key="frame" x="16" y="464" width="382" height="31.5"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUk-MS-aVL">
-                                <rect key="frame" x="230" y="543.5" width="160" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="This is where you would describe what this category is and what is contained within." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NPq-Yv-gQ2">
                                 <rect key="frame" x="16" y="298" width="382" height="150"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -460,6 +448,18 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Stats" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6lb-Xp-xf5">
+                                <rect key="frame" x="16" y="464" width="382" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUk-MS-aVL">
+                                <rect key="frame" x="254" y="543.5" width="112" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGM-PG-d9a">
                                 <rect key="frame" x="173" y="92" width="68.5" height="30"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="25"/>
@@ -467,19 +467,31 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number Of Items:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3b-FZ-zjb">
-                                <rect key="frame" x="24" y="543.5" width="158" height="24"/>
+                                <rect key="frame" x="48" y="543.5" width="158" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Percent Sold Out:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uG5-0J-3I0">
-                                <rect key="frame" x="24" y="591.5" width="157" height="24"/>
+                                <rect key="frame" x="48" y="591.5" width="157" height="24"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0%" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C54-ve-wRm">
-                                <rect key="frame" x="229" y="591.5" width="161" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="0%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C54-ve-wRm">
+                                <rect key="frame" x="253" y="591.5" width="113" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Value Of Items:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hhP-mj-YG7">
+                                <rect key="frame" x="48" y="639.5" width="183" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="$0.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6cC-gO-i9A">
+                                <rect key="frame" x="279" y="639.5" width="87" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -493,6 +505,8 @@
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="Q3a-Jd-bTg" secondAttribute="trailing" constant="8" id="7uf-u4-4JC"/>
                             <constraint firstItem="7JO-FZ-eyw" firstAttribute="leading" secondItem="YeG-yv-I10" secondAttribute="leading" id="APK-Hc-94u"/>
                             <constraint firstItem="cUk-MS-aVL" firstAttribute="leading" secondItem="f3b-FZ-zjb" secondAttribute="trailing" constant="48" id="BDW-8A-4rM"/>
+                            <constraint firstItem="hhP-mj-YG7" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="48" id="D13-93-ZAr"/>
+                            <constraint firstItem="hhP-mj-YG7" firstAttribute="top" secondItem="uG5-0J-3I0" secondAttribute="bottom" constant="24" id="EXs-ew-ame"/>
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="NPq-Yv-gQ2" secondAttribute="trailing" constant="16" id="FrO-pL-HbX"/>
                             <constraint firstItem="Q3a-Jd-bTg" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="16" id="G7P-9f-oGG"/>
                             <constraint firstItem="uG5-0J-3I0" firstAttribute="top" secondItem="f3b-FZ-zjb" secondAttribute="bottom" constant="24" id="IP0-ea-a6T"/>
@@ -505,15 +519,18 @@
                             <constraint firstItem="gGM-PG-d9a" firstAttribute="top" secondItem="7JO-FZ-eyw" secondAttribute="bottom" constant="48" id="UkB-K9-4Mv"/>
                             <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="6lb-Xp-xf5" secondAttribute="trailing" constant="16" id="VQ6-T5-CLa"/>
                             <constraint firstItem="Q3a-Jd-bTg" firstAttribute="top" secondItem="gGM-PG-d9a" secondAttribute="bottom" constant="32" id="YEk-8C-PQU"/>
-                            <constraint firstItem="uG5-0J-3I0" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="24" id="aqE-NM-a6x"/>
+                            <constraint firstItem="uG5-0J-3I0" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="48" id="aqE-NM-a6x"/>
                             <constraint firstItem="C54-ve-wRm" firstAttribute="leading" secondItem="uG5-0J-3I0" secondAttribute="trailing" constant="48" id="awz-10-bci"/>
                             <constraint firstItem="h3n-ub-T2Y" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="16" id="dbm-bL-sHo"/>
                             <constraint firstItem="6lb-Xp-xf5" firstAttribute="top" secondItem="NPq-Yv-gQ2" secondAttribute="bottom" constant="16" id="f9g-Mc-oxn"/>
                             <constraint firstItem="NPq-Yv-gQ2" firstAttribute="top" secondItem="h3n-ub-T2Y" secondAttribute="bottom" constant="32" id="g3U-Yf-ShV"/>
-                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="C54-ve-wRm" secondAttribute="trailing" constant="24" id="kxg-Te-Jpu"/>
-                            <constraint firstItem="f3b-FZ-zjb" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="24" id="puZ-Ab-oDH"/>
+                            <constraint firstItem="6cC-gO-i9A" firstAttribute="top" secondItem="C54-ve-wRm" secondAttribute="bottom" constant="24" id="jP2-Ss-L0M"/>
+                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="C54-ve-wRm" secondAttribute="trailing" constant="48" id="kxg-Te-Jpu"/>
+                            <constraint firstItem="6cC-gO-i9A" firstAttribute="leading" secondItem="hhP-mj-YG7" secondAttribute="trailing" constant="48" id="oa7-Vt-RcG"/>
+                            <constraint firstItem="f3b-FZ-zjb" firstAttribute="leading" secondItem="CBp-Yw-FZ5" secondAttribute="leading" constant="48" id="puZ-Ab-oDH"/>
                             <constraint firstItem="gGM-PG-d9a" firstAttribute="centerX" secondItem="YeG-yv-I10" secondAttribute="centerX" id="tcG-6O-wcE"/>
-                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="cUk-MS-aVL" secondAttribute="trailing" constant="24" id="uJ9-Y4-U6V"/>
+                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="cUk-MS-aVL" secondAttribute="trailing" constant="48" id="uJ9-Y4-U6V"/>
+                            <constraint firstItem="CBp-Yw-FZ5" firstAttribute="trailing" secondItem="6cC-gO-i9A" secondAttribute="trailing" constant="48" id="ufI-R4-aKi"/>
                             <constraint firstAttribute="trailing" secondItem="7JO-FZ-eyw" secondAttribute="trailing" id="yJa-kD-LEq"/>
                             <constraint firstItem="7JO-FZ-eyw" firstAttribute="top" secondItem="YeG-yv-I10" secondAttribute="top" id="zcs-E0-JO4"/>
                         </constraints>
@@ -528,6 +545,7 @@
                         <outlet property="navBar" destination="7JO-FZ-eyw" id="hYv-pR-Ejz"/>
                         <outlet property="numberOfItems" destination="cUk-MS-aVL" id="Pfa-0r-eW6"/>
                         <outlet property="percentSoldOut" destination="C54-ve-wRm" id="PT9-Ub-J2P"/>
+                        <outlet property="totalValue" destination="6cC-gO-i9A" id="f7j-V4-qdR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyN-Ho-nXb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -19,15 +19,7 @@ class InventoryVC: UIViewController {
     var categories = [Category]()
     var section: Int?
     var headers = [String: Int]()
-    
-    // Number formatter for formatting price
-    let format: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .decimal
-        f.minimumFractionDigits = 2
-        f.maximumFractionDigits = 2
-        return f
-    }()
+    var numberFormatter = Formatter(minDecimalPlaces: 2, maxDecimalPlaces: 2)
     
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
@@ -53,25 +45,15 @@ class InventoryVC: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        // MARK: Retrieve the database contents
-        
-        // Get all the categories
-        categories = db.getAllCategories()
-        print("Number of items in the database: \(db.getAllItems().count)")
-        
-        //         Get the inventory of items for each category, store it in the dictionary
-        if(categories.count != 0) {
-            for category in categories {
-                inventory[category] = db.getAllItemsForCategory(category: category)
-            }
-        }
         
     }
     
     // MARK: viewWillAppear
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        refreshInventory()
+        
+        // MARK: Retrieve the database contents
+        loadInventory()
     }
     
     
@@ -121,7 +103,7 @@ class InventoryVC: UIViewController {
     
     // MARK: Functions
         
-    func refreshInventory(){
+    func loadInventory(){
         // Get all the categories
         categories = db.getAllCategories()
         
@@ -172,7 +154,7 @@ extension InventoryVC: UICollectionViewDataSource {
         let item = inventory[categories[indexPath.section]]![indexPath.row]
         
         cell.name?.text = item.name
-        cell.price?.text = "$\(self.format.string(from: NSNumber(value: (item.value(forKey: "price") as! Double))) ?? "0.00")"
+        cell.price?.text = "$\(numberFormatter.format.string(from: NSNumber(value: (item.value(forKey: "price") as! Double))) ?? "0.00")"
         
         
         if(item.soldOut) {

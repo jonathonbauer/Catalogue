@@ -16,25 +16,20 @@ class ItemDetailVC: UIViewController {
     var db: DBHelper!
     var categories = [Category]()
     var selectedCategory: Category?
+    var imageData: Data?
     var picker: UIPickerView?
     var isInEditMode = false
     var previousVC: UIViewController?
     var soldout = false
+    var imagePicker: UIImagePickerController?
+    var numberFormatter = Formatter(minDecimalPlaces: 2, maxDecimalPlaces: 2)
     
     
-    // Number formatter for formatting price
-    let format: NumberFormatter = {
-        let f = NumberFormatter()
-        f.numberStyle = .decimal
-        f.minimumFractionDigits = 2
-        f.maximumFractionDigits = 2
-        return f
-    }()
     
     
     // MARK: Outlets
     
-    @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var price: UITextField!
     @IBOutlet weak var category: UITextField!
@@ -43,6 +38,128 @@ class ItemDetailVC: UIViewController {
     @IBOutlet weak var navBar: UINavigationBar!
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet var deleteButton: UIBarButtonItem!
+    
+    
+    // MARK: viewDidLoad
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // Register a tap recognizer to dismiss the keyboard
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+        // Register a tap recognizer to detect when the user taps on the imageView
+        let imageTap = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        self.imageView.addGestureRecognizer(imageTap)
+        
+        // Set interactivity to false by default
+        self.imageView.isUserInteractionEnabled = false
+        
+        // Create an ImagePicker and assign its delegate
+        self.imagePicker = UIImagePickerController()
+        self.imagePicker?.delegate = self
+        
+        // Set the text fields delegates to this view controller
+        self.name.delegate = self
+        self.price.delegate = self
+        self.details.delegate = self
+        
+        // Customize the buttons
+        stockButton.layer.cornerRadius = 10
+        
+        // Customize the text fields
+        self.details.layer.cornerRadius = 5
+        self.details.layer.borderWidth = 0.5
+        self.details.layer.borderColor = UIColor.lightGray.cgColor
+        self.details.clipsToBounds = true
+        
+        
+        
+        // Set the title
+        self.navBar.topItem?.title = "New Item"
+        
+        // Create and customise the picker for selecting the category
+        picker = UIPickerView()
+        
+        // Add a done button to the pickerview
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
+        toolBar.sizeToFit()
+
+        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(pickerSelected))
+
+        toolBar.setItems([spacer, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        
+        // Set the inputView of the Category TextField to the picker
+        category.inputView = picker
+        category.inputAccessoryView = toolBar
+        
+        // Assign the delegate and datasource of the picker to this class
+        picker?.dataSource = self
+        picker?.delegate = self
+        
+        
+        
+        // MARK: Populate Item Information
+
+        if let item = item {
+            // Disable edit mode if this an existing item
+            setEditMode(enabled: false)
+            
+            // Set the Title
+            self.navBar.topItem?.title = item.name
+            
+            self.name.text = item.name
+            self.price.text = "$\(self.numberFormatter.format.string(from: NSNumber(value: item.price)) ?? "$0.00")"
+            self.details.text = item.details
+            self.category.text = item.category?.name
+            selectedCategory = item.category
+            self.soldout = item.soldOut
+            if item.soldOut {
+                self.stockButton.setTitle("Sold Out", for: .normal)
+            } else {
+                self.stockButton.setTitle("In Stock", for: .normal)
+            }
+            
+            
+            if let data = item.image {
+                self.imageView.image = UIImage(data: data)
+            }
+            
+            
+        } else {
+            // If this is a new item
+            setEditMode(enabled: true)
+            self.navBar.topItem?.leftBarButtonItem = nil
+            self.navBar.topItem?.rightBarButtonItem?.title = "Save Item"
+            
+        }
+        
+    }
+    
+    // MARK: View Will Appear
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Get the database if it is nil
+        if db == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            db = appDelegate.dbHelper
+        }
+        
+        categories = db.getAllCategories()
+    }
+    
+    // MARK: - Custom Functions
+    
+    
     
     // MARK: Edit Item
     
@@ -83,98 +200,17 @@ class ItemDetailVC: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
     // MARK: Toggle Sold Out
     @IBAction func toggleSoldOut(_ sender: Any) {
         if soldout {
             soldout = false
             stockButton.setTitle("In Stock", for: .normal)
-//            stockButton.titleLabel?.text = "In Stock"
+            
         } else {
             soldout = true
             stockButton.setTitle("Sold Out", for: .normal)
-//            stockButton.titleLabel?.text = "Sold Out"
         }
-    }
-    
-    
-    // MARK: viewDidLoad
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Register a tap recognizer to dismiss the keyboard
-        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-        
-        // Set the text fields delegates to this view controller
-        self.name.delegate = self
-        self.price.delegate = self
-        self.details.delegate = self
-        
-        // Customize the buttons
-        stockButton.layer.cornerRadius = 10
-        
-        // Customize the text fields
-        self.details.layer.cornerRadius = 5
-        self.details.layer.borderWidth = 0.5
-        self.details.layer.borderColor = UIColor.lightGray.cgColor
-        self.details.clipsToBounds = true
-        
-        // Set the title
-        self.navBar.topItem?.title = "New Item"
-        
-        // Create and customise the picker for selecting the category
-        picker = UIPickerView()
-        
-        // Set the inputView of the Category TextField to the picker
-        category.inputView = picker
-        
-        // Assign the delegate and datasource of the picker to this class
-        picker?.dataSource = self
-        picker?.delegate = self
-        
-        
-        // Customize the view differently if this is a new item or not
-        if let item = item {
-            // Disable edit mode if this an existing item
-            setEditMode(enabled: false)
-            
-            // Set the Title
-            self.navBar.topItem?.title = item.name
-            
-            self.name.text = item.name
-            self.price.text = "\(self.format.string(from: NSNumber(value: item.price)) ?? "0.00")"
-            self.details.text = item.details
-            self.category.text = item.category?.name
-            selectedCategory = item.category
-            if item.soldOut {
-                self.stockButton.setTitle("Sold Out", for: .normal)
-            } else {
-                self.stockButton.setTitle("In Stock", for: .normal)
-            }
-            
-        } else {
-            // If this is a new item
-            setEditMode(enabled: true)
-            self.navBar.topItem?.leftBarButtonItem = nil
-            self.navBar.topItem?.rightBarButtonItem?.title = "Save Item"
-            
-        }
-  
-    }
-    
-    // MARK: View Will Appear
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        // Get the database if it is nil
-        if db == nil {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-            db = appDelegate.dbHelper
-        }
-        
-        categories = db.getAllCategories()
     }
     
     
@@ -182,14 +218,20 @@ class ItemDetailVC: UIViewController {
     
     // Create an action to dismiss the keyboard
     @objc func dismissKeyboard() {
+        print("Dismissing keyboard")
         view.endEditing(true)
     }
     
-    // MARK: Category Selected
-    @objc func categorySelected(_ sender: CategoryTapGesture){
-        print("Category tapped")
-        selectedCategory = categories[sender.row!]
-        self.resignFirstResponder()
+    // MARK: Picker Selected
+    @objc func pickerSelected(){
+        
+        if let row = picker?.selectedRow(inComponent: 0) {
+            category.text = categories[row].name
+            selectedCategory = categories[row]
+            category.resignFirstResponder()
+        }
+        
+        
     }
     
     // MARK: Set Edit Mode
@@ -202,6 +244,7 @@ class ItemDetailVC: UIViewController {
             self.price.isEnabled = true
             self.category.isEnabled = true
             self.details.isEditable = true
+            self.imageView.isUserInteractionEnabled = true
             self.isInEditMode = true
         } else {
             self.editButton.title = "Edit"
@@ -211,12 +254,44 @@ class ItemDetailVC: UIViewController {
             self.price.isEnabled = false
             self.category.isEnabled = false
             self.details.isEditable = false
+            self.imageView.isUserInteractionEnabled = false
             self.isInEditMode = false
             self.dismissKeyboard()
         }
     }
     
+    // MARK: Image Tapped
+    
+    @objc func imageTapped() {
+        
+        // Create the alert controller
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let takePhotoButton = UIAlertAction(title: "Take Photo", style: .default) { _ in
+            // Open the camera
+            self.imagePicker?.sourceType = .camera
+            self.present(self.imagePicker!, animated: true, completion: nil)
+        }
+        
+        let selectImageButton = UIAlertAction(title: "Select Photo", style: .default) { _ in
+            // Open the photo library
+            self.imagePicker?.sourceType = .savedPhotosAlbum
+            self.present(self.imagePicker!, animated: true, completion: nil)
+        }
+        
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alertController.addAction(takePhotoButton)
+        alertController.addAction(selectImageButton)
+        alertController.addAction(cancelButton)
+        
+        present(alertController, animated: true, completion: nil)
+        
+        
+    }
+    
     // MARK: Save Item
+
     
     func saveItem() -> Bool {
         print("Save button pressed")
@@ -240,16 +315,23 @@ class ItemDetailVC: UIViewController {
             selectedItem.details = detailsInput
             selectedItem.category = categoryInput
             selectedItem.soldOut = soldout
+            
+            if let data = self.imageData {
+                selectedItem.image = data
+            }
+            
             db.save()
-
+            
             if let previousVC = self.previousVC {
                 previousVC.viewWillAppear(true)
             }
+            self.navBar.topItem?.title = nameInput
+            
             return true
-//            self.dismiss(animated: true, completion: nil)
+            //            self.dismiss(animated: true, completion: nil)
             
         } else {
-            let success = db.addItem(name: nameInput, price: priceInput, details: detailsInput, soldOut: soldout, category: selectedCategory, completion: {
+            let success = db.addItem(name: nameInput, image: imageData, price: priceInput, details: detailsInput, soldOut: soldout, category: selectedCategory, completion: {
                 print("Successfully added item!")
                 
                 if let previousVC = self.previousVC {
@@ -269,8 +351,11 @@ class ItemDetailVC: UIViewController {
     
 }
 
+// MARK: - Extensions
 
-// MARK: Extensions
+
+
+// MARK: Text Field Extensions
 
 extension ItemDetailVC:UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -284,6 +369,8 @@ extension ItemDetailVC:UITextViewDelegate {
     }
 }
 
+
+// MARK: PickerView Extensions
 extension ItemDetailVC: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -292,24 +379,64 @@ extension ItemDetailVC: UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return categories.count
     }
-
+    
 }
 
 extension ItemDetailVC: UIPickerViewDelegate {
     
-    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let tap = CategoryTapGesture(target: self, action: #selector(categorySelected(_:)))
-        tap.row = row
-        pickerView.addGestureRecognizer(tap)
         return categories[row].name
+
+    }
+    
+}
+
+// MARK: ImagePicker Extensions
+
+extension ItemDetailVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        picker.dismiss(animated: true, completion: nil)
+        guard let selectedImage = info[.originalImage] as? UIImage else { return }
+        
+        if let image = cropImage(image: selectedImage) {
+            self.imageView.image = cropImage(image: image)
+            self.imageData = image.jpegData(compressionQuality: 1.0)
+        } else {
+            print("Something went wrong cropping and saving the image")
+        }
         
     }
     
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        category.text = categories[row].name
-        selectedCategory = categories[row]
-        category.resignFirstResponder()
+    // Function used to crop the photo after its taken
+    
+    func cropImage(image: UIImage) -> UIImage? {
+        let context = CIContext(options: nil)
+        
+        guard let cgImage = image.cgImage, let filter = CIFilter(name: "CICrop")
+            else { return nil }
+        
+        let imageOrientation = image.imageOrientation
+        
+        
+        let size = CGFloat(min(cgImage.width, cgImage.height))
+        let center = CGPoint(x: cgImage.width / 2, y: cgImage.height / 2)
+        let origin = CGPoint(x: center.x - size / 2, y: center.y - size / 2)
+        let cropRect = CGRect(origin: origin, size: CGSize(width: size, height: size))
+        
+        let sourceImage = CIImage(cgImage: cgImage)
+        filter.setValue(sourceImage, forKey: kCIInputImageKey)
+        filter.setValue(CIVector(cgRect: cropRect), forKey: "inputRectangle")
+        
+        guard let outputImage = filter.outputImage,
+            let cgImageOut = context.createCGImage(outputImage, from: outputImage.extent)
+            else { return nil }
+        
+        return UIImage(cgImage: cgImageOut, scale: 1, orientation: imageOrientation)
     }
+    
+    
+    
     
 }

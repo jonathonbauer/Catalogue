@@ -18,6 +18,15 @@ class CategoryDetailVC: UIViewController {
     var previousVC: UIViewController?
     var isInEditMode = false
     
+    // Number formatter for formatting price
+    let format: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.minimumFractionDigits = 0
+        f.maximumFractionDigits = 0
+        return f
+    }()
+    
     // MARK: Outlets
     
     @IBOutlet weak var name: UITextField!
@@ -25,8 +34,8 @@ class CategoryDetailVC: UIViewController {
     @IBOutlet weak var editButton: UIBarButtonItem!
     @IBOutlet var deleteButton: UIBarButtonItem!
     @IBOutlet weak var navBar: UINavigationBar!
-    @IBOutlet weak var numberOfItems: UITextField!
-    @IBOutlet weak var percentSoldOut: UITextField!
+    @IBOutlet weak var numberOfItems: UILabel!
+    @IBOutlet weak var percentSoldOut: UILabel!
     
     // MARK: Actions
     @IBAction func deleteCategory(_ sender: Any) {
@@ -82,17 +91,24 @@ class CategoryDetailVC: UIViewController {
         // Set the text fields delegates to this view controller
         self.name.delegate = self
         self.details.delegate = self
-        self.numberOfItems.delegate = self
-        self.percentSoldOut.delegate = self
+        
+        // Customise the text view
+        self.details.layer.cornerRadius = 5
+        self.details.layer.borderWidth = 0.5
+        self.details.layer.borderColor = UIColor.lightGray.cgColor
+        self.details.clipsToBounds = true
+        
+        self.name.sizeToFit()
         
         setEditMode(enabled: true)
         
         if let category = category {
+            self.navBar.topItem?.title = category.name
             self.name.text = category.name
             self.details.text = category.details
             let items = db.getAllItemsForCategory(category: category)
             self.numberOfItems.text = String(items.count)
-            self.percentSoldOut.text = "\(String(db.getPercentSoldOut(forItems: items)))%"
+            self.percentSoldOut.text = "\(self.format.string(from: NSNumber(value: db.getPercentSoldOut(forItems: items))) ?? "0") %"
             setEditMode(enabled: false)
         }
         
@@ -141,6 +157,7 @@ class CategoryDetailVC: UIViewController {
         if let category = category {
             category.name = nameInput
             category.details = detailsInput
+            self.navBar.topItem?.title = category.name
             db.save()
             
             if let previousVC = self.previousVC {

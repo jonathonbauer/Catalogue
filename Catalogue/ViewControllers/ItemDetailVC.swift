@@ -81,6 +81,8 @@ class ItemDetailVC: UIViewController {
         self.details.layer.borderColor = UIColor.lightGray.cgColor
         self.details.clipsToBounds = true
         
+        
+        
         // Set the title
         self.navBar.topItem?.title = "New Item"
         
@@ -227,7 +229,7 @@ class ItemDetailVC: UIViewController {
 //    // MARK: Category Selected
 //    @objc func categorySelected(_ sender: CategoryTapGesture){
 //        print("Category tapped")
-////        selectedCategory = categories[sender.row!]
+//        selectedCategory = categories[sender.row!]
 //        if let row = sender.row {
 //            category.text = categories[row].name
 //            selectedCategory = categories[row]

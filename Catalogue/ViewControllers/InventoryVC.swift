@@ -55,16 +55,16 @@ class InventoryVC: UIViewController {
         
         // MARK: Retrieve the database contents
         
-        // Get all the categories
-        categories = db.getAllCategories()
-        print("Number of items in the database: \(db.getAllItems().count)")
-        
-        //         Get the inventory of items for each category, store it in the dictionary
-        if(categories.count != 0) {
-            for category in categories {
-                inventory[category] = db.getAllItemsForCategory(category: category)
-            }
-        }
+////        // Get all the categories
+////        categories = db.getAllCategories()
+////        print("Number of items in the database: \(db.getAllItems().count)")
+//        
+//        //         Get the inventory of items for each category, store it in the dictionary
+//        if(categories.count != 0) {
+//            for category in categories {
+//                inventory[category] = db.getAllItemsForCategory(category: category)
+//            }
+//        }
         
     }
     

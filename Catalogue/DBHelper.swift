@@ -36,7 +36,7 @@ class DBHelper {
     }
     
     
-    // MARK: Item Functions
+    // MARK: Add Item
     
     func addItem(name: String, image: Data?, price: Double, details: String, soldOut: Bool, category: Category?, completion: @escaping (() -> Void)) -> Bool {
         
@@ -61,6 +61,7 @@ class DBHelper {
         
     }
     
+     // MARK: Get All Items
     
     func getAllItems() -> [Item] {
         // Get the database and create a request
@@ -80,6 +81,7 @@ class DBHelper {
         return items
     }
     
+     // MARK: Get All Items For Category
     func getAllItemsForCategory(category: Category) -> [Item] {
         // Get the database and create a request
         let moc = self.container.viewContext
@@ -100,6 +102,8 @@ class DBHelper {
         
     }
     
+    // MARK: Delete Item
+    
     func deleteItem(item: Item) {
         let moc = self.container.viewContext
         
@@ -110,9 +114,10 @@ class DBHelper {
             fatalError("Could not delete item")
         }
     }
-    
-    func getPercentSoldOut(forItems items: [Item]) -> Int {
-        var numSoldOut = 0
+
+    // MARK: Get Percent Sold Out
+    func getPercentSoldOut(forItems items: [Item]) -> Double {
+        var numSoldOut: Double = 0.0
         
         if(items.count != 0) {
             for item in items {
@@ -120,14 +125,14 @@ class DBHelper {
                     numSoldOut += 1
                 }
             }
-            return numSoldOut / items.count * 100
+            return numSoldOut / Double(items.count) * 100
         } else {
             return 0
         }
         
     }
     
-    // MARK: Category Functions
+    // MARK: Add Category
     
     func addCategory(name: String, details: String, completion: @escaping (() -> Void)) -> Bool {
         
@@ -143,6 +148,9 @@ class DBHelper {
         
         return true
     }
+    
+    
+    // MARK: Get All Categories
     
     func getAllCategories() -> [Category] {
         // Get the database and create a request
@@ -161,6 +169,8 @@ class DBHelper {
         print("Fetched \(categories.count) categories")
         return categories
     }
+    
+    // MARK: Delete Category
     
     func deleteCategory(category: Category) {
            let moc = self.container.viewContext

@@ -10,9 +10,13 @@ import UIKit
 
 class LogVC: UIViewController {
 
+    
+    
+    
+    // MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("Event Test: \(LogEvent(rawValue: 1)!)")
         // Do any additional setup after loading the view.
     }
     

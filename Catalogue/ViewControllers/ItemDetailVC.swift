@@ -310,6 +310,7 @@ class ItemDetailVC: UIViewController {
         
         
         if let selectedItem = item {
+            let originalName = selectedItem.name
             selectedItem.name = nameInput
             selectedItem.price = priceInput
             selectedItem.details = detailsInput
@@ -319,8 +320,8 @@ class ItemDetailVC: UIViewController {
             if let data = self.imageData {
                 selectedItem.image = data
             }
-            
             db.save()
+            db.logEvent(event: .ItemUpdated, details: "The item \(String(describing: originalName)) has been updated")
             
             if let previousVC = self.previousVC {
                 previousVC.viewWillAppear(true)

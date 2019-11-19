@@ -56,6 +56,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        if dbHelper.getAllCategories().count == 0 {
+            dbHelper.preloadData()
+        }
+        
+        
         return true
     }
     

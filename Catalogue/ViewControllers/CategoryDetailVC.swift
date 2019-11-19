@@ -30,7 +30,7 @@ class CategoryDetailVC: UIViewController {
     @IBOutlet weak var percentSoldOut: UILabel!
     @IBOutlet weak var totalValue: UILabel!
     
-    // MARK: Actions
+    // MARK: Delete Category
     @IBAction func deleteCategory(_ sender: Any) {
         guard let category = category else { return }
         
@@ -55,6 +55,7 @@ class CategoryDetailVC: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    // MARK: Edit Category
     @IBAction func editCategory(_ sender: Any) {
         if(isInEditMode) {
             let success = saveCategory()
@@ -151,11 +152,12 @@ class CategoryDetailVC: UIViewController {
         }
         
         if let category = category {
+            let originalName = category.name
             category.name = nameInput
             category.details = detailsInput
             self.navBar.topItem?.title = category.name
             db.save()
-            
+            db.logEvent(event: .CategoryUpdated, details: "The category \(String(describing: originalName)) has been updated")
             if let previousVC = self.previousVC {
                 previousVC.viewWillAppear(true)
             }

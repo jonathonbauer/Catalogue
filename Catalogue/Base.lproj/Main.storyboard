@@ -80,13 +80,75 @@
         <!--Log Item-->
         <scene sceneID="yMM-8x-RfM">
             <objects>
-                <viewController storyboardIdentifier="LogDetailVC" title="Log Item" modalPresentationStyle="fullScreen" id="Gya-nc-Ieo" customClass="LogDetailVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LogDetailVC" title="Log Item" id="Gya-nc-Ieo" customClass="LogDetailVC" customModule="Catalogue" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gro-bS-xEE">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lnX-uZ-rBb">
+                                <rect key="frame" x="80.5" y="343.5" width="253" height="209"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAk-fP-0Qc">
+                                        <rect key="frame" x="0.0" y="0.0" width="253" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Item Added" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vOr-Np-yyb">
+                                        <rect key="frame" x="0.0" y="39" width="253" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Details" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DH9-l0-dPj">
+                                        <rect key="frame" x="0.0" y="73" width="253" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The item Y2K was added." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tTJ-De-prN">
+                                        <rect key="frame" x="0.0" y="112" width="253" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date &amp; Time" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gZz-GA-uVx">
+                                        <rect key="frame" x="0.0" y="146" width="253" height="29"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="December 31, 1999 11:59PM" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rp-c0-3z5">
+                                        <rect key="frame" x="0.0" y="185" width="253" height="24"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tcy-0S-tV9">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="5hK-aU-krn"/>
+                                </items>
+                            </navigationBar>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="tcy-0S-tV9" firstAttribute="leading" secondItem="gro-bS-xEE" secondAttribute="leading" id="7VE-iR-vrY"/>
+                            <constraint firstItem="tcy-0S-tV9" firstAttribute="top" secondItem="gro-bS-xEE" secondAttribute="top" id="KAm-OK-wTv"/>
+                            <constraint firstItem="lnX-uZ-rBb" firstAttribute="centerY" secondItem="gro-bS-xEE" secondAttribute="centerY" id="YRR-gn-D8x"/>
+                            <constraint firstItem="lnX-uZ-rBb" firstAttribute="centerX" secondItem="gro-bS-xEE" secondAttribute="centerX" id="ejJ-Hi-k08"/>
+                            <constraint firstAttribute="trailing" secondItem="tcy-0S-tV9" secondAttribute="trailing" id="reA-6j-Dh4"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="kHn-7e-tKE"/>
                     </view>
+                    <connections>
+                        <outlet property="details" destination="tTJ-De-prN" id="nTn-zz-W2Q"/>
+                        <outlet property="event" destination="vOr-Np-yyb" id="9IL-jF-M45"/>
+                        <outlet property="navBar" destination="tcy-0S-tV9" id="nx6-9g-vkr"/>
+                        <outlet property="timestamp" destination="8rp-c0-3z5" id="8to-vt-NUg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oBt-ag-eaP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -563,24 +625,32 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="d0i-yX-l5c">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="logItemCell" textLabel="9D8-0A-PfF" style="IBUITableViewCellStyleDefault" id="Kc5-9D-UUc">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="logItemCell" textLabel="9D8-0A-PfF" detailTextLabel="njg-kG-XfV" style="IBUITableViewCellStyleSubtitle" id="Kc5-9D-UUc" customClass="LogCell" customModule="Catalogue" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="55.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Kc5-9D-UUc" id="G9L-xQ-q4o">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9D8-0A-PfF">
-                                                    <rect key="frame" x="20" y="0.0" width="374" height="43.5"/>
+                                                    <rect key="frame" x="20" y="10" width="33.5" height="20.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="njg-kG-XfV">
+                                                    <rect key="frame" x="20" y="31.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Gya-nc-Ieo" kind="showDetail" id="qFU-RS-f8u"/>
+                                            <outlet property="subtitle" destination="njg-kG-XfV" id="mE8-FN-kdD"/>
+                                            <outlet property="title" destination="9D8-0A-PfF" id="HVS-9H-uU3"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -597,6 +667,9 @@
                     </view>
                     <navigationItem key="navigationItem" title="Log" id="tGF-kK-YbB"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="tableView" destination="d0i-yX-l5c" id="01E-Yl-acQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="r5d-cO-Dr2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

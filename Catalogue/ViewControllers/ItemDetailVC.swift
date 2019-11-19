@@ -299,7 +299,7 @@ class ItemDetailVC: UIViewController {
         guard
             let nameInput = self.name.text,
             nameInput.count > 0,
-            let priceInput = (self.price.text as NSString?)?.doubleValue,
+            let priceInput = self.price.text,
             let detailsInput = self.details.text,
             detailsInput.count > 0,
             let categoryInput = self.selectedCategory
@@ -308,10 +308,18 @@ class ItemDetailVC: UIViewController {
                 return false
         }
         
-        
         if let selectedItem = item {
+            
+            if priceInput.first == "$" {
+                selectedItem.price = (priceInput.dropFirst() as NSString?)!.doubleValue
+            } else {
+                selectedItem.price = (priceInput as NSString?)!.doubleValue
+            }
+            
+//            (self.price.text?.dropFirst() as NSString?)?.doubleValue,
+            let originalName = selectedItem.name
             selectedItem.name = nameInput
-            selectedItem.price = priceInput
+//            selectedItem.price = priceInput
             selectedItem.details = detailsInput
             selectedItem.category = categoryInput
             selectedItem.soldOut = soldout
@@ -319,8 +327,8 @@ class ItemDetailVC: UIViewController {
             if let data = self.imageData {
                 selectedItem.image = data
             }
-            
             db.save()
+            db.logEvent(event: .ItemUpdated, details: "The item \(originalName!) has been updated.")
             
             if let previousVC = self.previousVC {
                 previousVC.viewWillAppear(true)
@@ -331,7 +339,14 @@ class ItemDetailVC: UIViewController {
             //            self.dismiss(animated: true, completion: nil)
             
         } else {
-            let success = db.addItem(name: nameInput, image: imageData, price: priceInput, details: detailsInput, soldOut: soldout, category: selectedCategory, completion: {
+            var itemPrice = 0.00
+            if priceInput.first == "$" {
+                itemPrice = (priceInput.dropFirst() as NSString?)!.doubleValue
+            } else {
+                itemPrice = (priceInput as NSString?)!.doubleValue
+            }
+            
+            let success = db.addItem(name: nameInput, image: imageData, price: itemPrice, details: detailsInput, soldOut: soldout, category: selectedCategory, completion: {
                 print("Successfully added item!")
                 
                 if let previousVC = self.previousVC {

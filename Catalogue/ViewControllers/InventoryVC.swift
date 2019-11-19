@@ -183,8 +183,6 @@ extension InventoryVC: UICollectionViewDataSource {
         header.layer.cornerRadius = 5
         
         // Detect if a user selects the category
-        //        let tap = UITapGestureRecognizer(target:self, action:#selector(categoryTapped))
-        //        header.addGestureRecognizer(tap)
         let tap = CategoryTapGesture(target: self, action: #selector(categoryTapped(_:)))
         tap.indexPath = indexPath
         header.addGestureRecognizer(tap)

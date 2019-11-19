@@ -18,6 +18,21 @@ class DBHelper {
     // MARK: Properties
     var container: NSPersistentContainer!
     
+    
+    // MARK: Preload Data
+    
+    func preloadData(){
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            let newCategory = Category(context: moc)
+            newCategory.name = "Uncategorized"
+            newCategory.details = "These items do not belong to any other category."
+        }
+    }
+    
+    
+    
     // MARK: Save Function
     
     func save() {
@@ -106,14 +121,14 @@ class DBHelper {
     
     func deleteItem(item: Item) {
         let moc = self.container.viewContext
-        
+        self.logEvent(event: .ItemAdded, details: "The item \(item.name!) has been deleted.")
         do {
             moc.delete(item)
             try moc.save()
         } catch {
             fatalError("Could not delete item")
         }
-        self.logEvent(event: .ItemAdded, details: "The item \(String(describing: item.name)) has been deleted.")
+        
     }
 
     // MARK: Get Percent Sold Out
@@ -191,17 +206,21 @@ class DBHelper {
     
     func deleteCategory(category: Category) {
            let moc = self.container.viewContext
-           
+        self.logEvent(event: .CategoryDeleted, details: "The category \(category.name!) has been deleted.")
            do {
                moc.delete(category)
                try moc.save()
            } catch {
                fatalError("Could not delete category")
            }
-        self.logEvent(event: .CategoryDeleted, details: "The category \(String(describing: category.name)) has been deleted.")
+        
        }
     
     // MARK: - Log Functions
+    
+    
+    
+    // MARK: Log Event
     func logEvent(event: LogEvent, details: String){
         let moc = self.container.viewContext
         
@@ -215,6 +234,8 @@ class DBHelper {
         }
     }
     
+    
+    // MARK: Get Log
     func getLog() -> [Log] {
         // Get the database and create a request
         let moc = self.container.viewContext
@@ -222,7 +243,7 @@ class DBHelper {
         
         let logRequest = NSFetchRequest<Log>(entityName: "Log")
         
-        logRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        logRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
         
         do {
             log = try moc.fetch(logRequest)

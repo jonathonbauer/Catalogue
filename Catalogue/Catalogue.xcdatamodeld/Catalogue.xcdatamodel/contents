@@ -20,7 +20,7 @@
     <entity name="Log" representedClassName="Log" syncable="YES" codeGenerationType="class">
         <attribute name="details" optional="YES" attributeType="String"/>
         <attribute name="event" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO" spotlightIndexingEnabled="YES"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" spotlightIndexingEnabled="YES"/>
     </entity>
     <elements>
         <element name="Category" positionX="285.96484375" positionY="-275.9453125" width="128" height="88"/>

@@ -10,7 +10,6 @@
 		6A1D8654235A8207008C4D75 /* Catalogue.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8652235A8207008C4D75 /* Catalogue.xcdatamodeld */; };
 		6A1D865E235A8BA1008C4D75 /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D865D235A8BA1008C4D75 /* LogInVC.swift */; };
 		6A1D8662235A8C13008C4D75 /* ItemDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */; };
-		6A1D8664235A8C2D008C4D75 /* LogTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8663235A8C2D008C4D75 /* LogTVC.swift */; };
 		6A1D8667235A8C52008C4D75 /* InventoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D8666235A8C52008C4D75 /* InventoryCell.swift */; };
 		6A1D866B235A8C82008C4D75 /* LogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D866A235A8C82008C4D75 /* LogCell.swift */; };
 		6A1D866D235A92E7008C4D75 /* LogDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */; };
@@ -37,7 +36,6 @@
 		6A1D8653235A8207008C4D75 /* Catalogue.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Catalogue.xcdatamodel; sourceTree = "<group>"; };
 		6A1D865D235A8BA1008C4D75 /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailVC.swift; sourceTree = "<group>"; };
-		6A1D8663235A8C2D008C4D75 /* LogTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogTVC.swift; sourceTree = "<group>"; };
 		6A1D8666235A8C52008C4D75 /* InventoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryCell.swift; sourceTree = "<group>"; };
 		6A1D866A235A8C82008C4D75 /* LogCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogCell.swift; sourceTree = "<group>"; };
 		6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailVC.swift; sourceTree = "<group>"; };
@@ -77,13 +75,12 @@
 			isa = PBXGroup;
 			children = (
 				6A1D865D235A8BA1008C4D75 /* LogInVC.swift */,
-				6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */,
-				6A1D8663235A8C2D008C4D75 /* LogTVC.swift */,
-				6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */,
-				6A1D8672235A985F008C4D75 /* SettingsVC.swift */,
-				6AA4FF262367F4CF00CF7649 /* CategoryDetailVC.swift */,
 				6AA4FF2823688C5C00CF7649 /* InventoryVC.swift */,
+				6A1D8661235A8C13008C4D75 /* ItemDetailVC.swift */,
+				6AA4FF262367F4CF00CF7649 /* CategoryDetailVC.swift */,
+				6A1D866C235A92E7008C4D75 /* LogDetailVC.swift */,
 				6AA4FF2A23688F0300CF7649 /* LogVC.swift */,
+				6A1D8672235A985F008C4D75 /* SettingsVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -236,7 +233,6 @@
 				6AA4FF2923688C5C00CF7649 /* InventoryVC.swift in Sources */,
 				6AE7976523627C5100B9D191 /* NSPersistentContainer.swift in Sources */,
 				6AE7976C23667C5D00B9D191 /* DBHelper.swift in Sources */,
-				6A1D8664235A8C2D008C4D75 /* LogTVC.swift in Sources */,
 				6AF9C8FB234E1C3C002BD8BF /* AppDelegate.swift in Sources */,
 				6A1D8667235A8C52008C4D75 /* InventoryCell.swift in Sources */,
 				6A1D865E235A8BA1008C4D75 /* LogInVC.swift in Sources */,

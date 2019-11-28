@@ -11,12 +11,35 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    var initialViewController: UIViewController?
+    var db: DBHelper?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+     
+        if db == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            db = appDelegate.dbHelper
+        }
+        
+//        guard let db = db else { return }
+        
+        // Set the initial view controller based on if Bypass Login has been enabled,
+//        if(db.getSettings().bypassLogin) {
+//            // Ensure we are a guest if bypassing login
+//            db.getSettings().isGuest = true
+//
+//            initialViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "TabBarController") as! UITabBarController
+//        } else {
+//            initialViewController = UIStoryboard.init(name: "Main", bundle: nil).instantiateViewController(identifier: "LogInVC") as! LogInVC
+//        }
+        
+//        
+//        // set the rootViewController here using window instance
+//        self.window?.rootViewController = initialViewController
+        
+        
+        
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 

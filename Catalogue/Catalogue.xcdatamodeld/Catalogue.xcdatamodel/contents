@@ -5,10 +5,6 @@
         <attribute name="name" attributeType="String" spotlightIndexingEnabled="YES"/>
         <relationship name="item" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Item" inverseName="category" inverseEntity="Item" spotlightIndexingEnabled="YES"/>
     </entity>
-    <entity name="Event" representedClassName="Event" syncable="YES" codeGenerationType="class">
-        <attribute name="info" attributeType="String"/>
-        <attribute name="name" attributeType="String"/>
-    </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="details" attributeType="String" spotlightIndexingEnabled="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary"/>
@@ -22,10 +18,16 @@
         <attribute name="event" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" spotlightIndexingEnabled="YES"/>
     </entity>
+    <entity name="UserSettings" representedClassName="UserSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="bypassLogin" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="isGuest" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="password" attributeType="String" defaultValueString="password"/>
+        <attribute name="theme" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <elements>
         <element name="Category" positionX="285.96484375" positionY="-275.9453125" width="128" height="88"/>
         <element name="Item" positionX="-154.01171875" positionY="-46.390625" width="128" height="133"/>
         <element name="Log" positionX="8.23046875" positionY="183.57421875" width="128" height="88"/>
-        <element name="Event" positionX="54" positionY="-135" width="128" height="73"/>
+        <element name="UserSettings" positionX="63" positionY="-117" width="128" height="103"/>
     </elements>
 </model>

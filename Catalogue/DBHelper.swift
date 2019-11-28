@@ -31,7 +31,7 @@ class DBHelper {
             
             let userSettings = UserSettings(context: moc)
             userSettings.bypassLogin = false
-            userSettings.password = "catalogue123"
+            userSettings.password = "password"
             userSettings.theme = Theme.System.rawValue
         }
         print("Preloaded data")

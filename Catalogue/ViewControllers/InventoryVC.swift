@@ -12,8 +12,6 @@ import CoreData
 class InventoryVC: UIViewController {
     
     // MARK: Properties
-    private var navItem: UINavigationItem?
-    
     var db: DBHelper!
     var inventory = [Category: [Item]]()
     var categories = [Category]()
@@ -24,12 +22,26 @@ class InventoryVC: UIViewController {
     // MARK: Outlets
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var addButton: UIBarButtonItem!
-    
+    @IBOutlet weak var logOut: UIBarButtonItem!
+    @IBOutlet weak var navItem: UINavigationItem!
     
     // MARK: viewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+        
+        // Set the CollectionView datasource and delegate to this class
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+    }
+    
+    
+    // MARK: viewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         // Get the Persistent Container if it is nil
         if db == nil {
@@ -37,25 +49,45 @@ class InventoryVC: UIViewController {
             db = appDelegate.dbHelper
         }
         
-        // When the view Appears on the screen, set the title and hide the back button
-        self.navItem?.title = "Inventory"
-        self.navItem?.hidesBackButton = true
-        
-        // Set the CollectionView datasource and delegate to this class
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        
-        
-    }
-    
-    // MARK: viewWillAppear
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
         // MARK: Retrieve the database contents
         loadInventory()
+    
     }
     
+    // MARK: Prepare
+    
+    func prepareForGuest(){
+        print("We are logging in")
+        // Customise the view based on if we are a guest
+        guard let tabBarController = tabBarController else {
+            print("Returning")
+            return
+        }
+        
+        // Get the Persistent Container if it is nil
+        if db == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            db = appDelegate.dbHelper
+        }
+        
+        if db.getSettings().isGuest {
+            print("We're a guest")
+            self.navItem?.hidesBackButton = false
+            self.navItem?.rightBarButtonItem = nil
+            
+            tabBarController.viewControllers?.remove(at: 2)
+            tabBarController.viewControllers?.remove(at: 1)
+        } else {
+            print("We're an admin")
+            self.navItem?.hidesBackButton = false
+            self.navItem?.rightBarButtonItem = addButton
+            
+            guard let settingsVC = self.storyboard?.instantiateViewController(identifier: "SettingsVC"), let logVC = self.storyboard?.instantiateViewController(identifier: "LogVC"), tabBarController.viewControllers!.count < 3 else { return }
+            
+            tabBarController.viewControllers?.append(logVC)
+            tabBarController.viewControllers?.append(settingsVC)
+        }
+    }
     
     // MARK: Actions
     
@@ -101,8 +133,12 @@ class InventoryVC: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    // MARK: Functions
+    @IBAction func logOut(_ sender: Any?) {
         
+    }
+    
+    // MARK: Functions
+    
     func loadInventory(){
         // Get all the categories
         categories = db.getAllCategories()
@@ -113,9 +149,8 @@ class InventoryVC: UIViewController {
                 inventory[category] = db.getAllItemsForCategory(category: category)
             }
         }
-
+        
         self.collectionView.reloadData()
-        print("Reloading Collection View")
     }
 }
 
@@ -205,7 +240,4 @@ extension InventoryVC: UICollectionViewDelegate {
         
         navVC.present(newVC!, animated: true, completion: nil)
     }
-    
-    
-    
 }

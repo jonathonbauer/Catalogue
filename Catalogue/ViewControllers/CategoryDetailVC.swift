@@ -157,7 +157,7 @@ class CategoryDetailVC: UIViewController {
             category.details = detailsInput
             self.navBar.topItem?.title = category.name
             db.save()
-            db.logEvent(event: .CategoryUpdated, details: "The category \(String(describing: originalName)) has been updated")
+            db.logEvent(event: .CategoryUpdated, details: "The category \(originalName!) has been updated")
             if let previousVC = self.previousVC {
                 previousVC.viewWillAppear(true)
             }

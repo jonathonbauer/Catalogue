@@ -26,7 +26,6 @@ class LogVC: UIViewController {
     // MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Event Test: \(LogEvent(rawValue: 1)!)")
         
         // customize the date formatter
         dateFormatter.dateFormat = "MMMM dd, YYYY h:mma"

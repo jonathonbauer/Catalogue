@@ -28,9 +28,42 @@ class DBHelper {
             let newCategory = Category(context: moc)
             newCategory.name = "Uncategorized"
             newCategory.details = "These items do not belong to any other category."
+            
+            let userSettings = UserSettings(context: moc)
+            userSettings.bypassLogin = false
+            userSettings.password = "catalogue123"
+            userSettings.theme = Theme.System.rawValue
         }
+        print("Preloaded data")
     }
     
+    // MARK: Clear Database
+    
+    func clearDatabase(){
+        let moc = self.container.viewContext
+       
+        let categories = getAllCategories()
+        let items = getAllItems()
+        let log = getLog()
+        
+        for category in categories {
+                moc.delete(category)
+        }
+        
+        for item in items {
+                moc.delete(item)
+        }
+        
+        for logItem in log {
+                moc.delete(logItem)
+        }
+        
+        do {
+            try moc.save()
+        } catch {
+            fatalError("Could not clear database")
+        }
+    }
     
     
     // MARK: Save Function
@@ -92,7 +125,6 @@ class DBHelper {
         } catch {
             fatalError("Could not load items")
         }
-        print("Fetched \(items.count) items")
         return items
     }
     
@@ -112,7 +144,6 @@ class DBHelper {
         } catch {
             fatalError("Could not load items")
         }
-        print("Fetched \(items.count) items with the category \(category.name!)")
         return items
         
     }
@@ -198,7 +229,6 @@ class DBHelper {
         } catch {
             fatalError("Could not load items")
         }
-        print("Fetched \(categories.count) categories")
         return categories
     }
     
@@ -250,38 +280,8 @@ class DBHelper {
         } catch {
             fatalError("Could not load the log")
         }
-        print("Fetched \(log.count) log items")
         return log
     }
-    
-    
-//    // MARK: Add Event
-//    func addEvent(name: String, info: String){
-//
-//        let moc = self.container.viewContext
-//
-//        moc.persist {
-//            let newEvent = Event(context: moc)
-//            newEvent.name = name
-//            newEvent.info = info
-//            print("Adding event!")
-//        }
-//    }
-//
-//    func populateEvents() {
-//
-//        addEvent(name: "Item Added", info: "A new Item has been added")
-//        addEvent(name: "Item Updated", info: "The properties of an Item have been modified.")
-//        addEvent(name: "Item Deleted", info: "An Item has been deleted.")
-//
-//        addEvent(name: "Category Added", info: "A new Category has been added")
-//        addEvent(name: "Category Updated", info: "The properties of a Category have been modified.")
-//        addEvent(name: "Category Deleted", info: "A Category and all of its Items have been deleted.")
-//
-//        addEvent(name: "Guest Logged In", info: "A guest has logged in.")
-//        addEvent(name: "Admin Logged In", info: "An admin has logged in.")
-//
-//    }
 
     func compareItems(left: Item, right: Item) -> String {
         var differences = ""
@@ -308,6 +308,61 @@ class DBHelper {
         
         return differences
     }
+    
+    // MARK: Get Settings
+    
+    func getSettings() -> UserSettings {
+        let moc = self.container.viewContext
+        var settings = [UserSettings]()
+        
+        let settingsRequest = NSFetchRequest<UserSettings>(entityName: "UserSettings")
+        
+        do {
+            settings = try moc.fetch(settingsRequest)
+        } catch {
+            fatalError("Could not load the settings")
+        }
+        
+        return settings[0]
+        
+    }
+    
+    // MARK: Bypass Login
+    func bypassLogin(enabled: Bool) {
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            self.getSettings().bypassLogin = enabled
+        }
+    }
+    
+    // MARK: Update Password
+    func updatePassword(password: String) {
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            self.getSettings().password = password
+        }
+    }
+    
+   // MARK: Reset Password
+    func resetPassword() {
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            self.getSettings().password = "tempPassword"
+        }
+    }
+    
+    func setTheme(theme: Theme) {
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            self.getSettings().theme = theme.rawValue
+        }
+    }
+    
+    
     
     
 }

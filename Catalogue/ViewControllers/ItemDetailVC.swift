@@ -65,6 +65,7 @@ class ItemDetailVC: UIViewController {
         self.price.delegate = self
         self.details.delegate = self
         
+        
         // Customize the buttons
         stockButton.layer.cornerRadius = 10
         
@@ -213,13 +214,21 @@ class ItemDetailVC: UIViewController {
         }
     }
     
-    
     // MARK: Dismiss Keyboard
     
     // Create an action to dismiss the keyboard
     @objc func dismissKeyboard() {
         print("Dismissing keyboard")
         view.endEditing(true)
+        
+        // Append a $ to the price if it doesnt already exist
+        if price.text?.count != 0 {
+            print("Checking for $")
+            if price.text?.first != "$" {
+              print("Adding a $!")
+              price.text = "$\(price.text!)"
+            }
+        }
     }
     
     // MARK: Picker Selected
@@ -230,8 +239,6 @@ class ItemDetailVC: UIViewController {
             selectedCategory = categories[row]
             category.resignFirstResponder()
         }
-        
-        
     }
     
     // MARK: Set Edit Mode
@@ -336,7 +343,6 @@ class ItemDetailVC: UIViewController {
             self.navBar.topItem?.title = nameInput
             
             return true
-            //            self.dismiss(animated: true, completion: nil)
             
         } else {
             var itemPrice = 0.00
@@ -375,11 +381,14 @@ class ItemDetailVC: UIViewController {
 extension ItemDetailVC:UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        return true
     }
 }
 
 extension ItemDetailVC:UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
+        
+        
         textView.resignFirstResponder()
     }
 }

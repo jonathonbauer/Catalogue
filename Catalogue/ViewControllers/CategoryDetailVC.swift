@@ -29,6 +29,11 @@ class CategoryDetailVC: UIViewController {
     @IBOutlet weak var numberOfItems: UILabel!
     @IBOutlet weak var percentSoldOut: UILabel!
     @IBOutlet weak var totalValue: UILabel!
+    @IBOutlet weak var numItemsLabel: UILabel!
+    @IBOutlet weak var soldOutLabel: UILabel!
+    @IBOutlet weak var totalValueLabel: UILabel!
+    @IBOutlet weak var statsLabel: UILabel!
+    
     
     // MARK: Delete Category
     @IBAction func deleteCategory(_ sender: Any) {
@@ -107,6 +112,26 @@ class CategoryDetailVC: UIViewController {
             self.percentSoldOut.text = "\(numberFormatter.format.string(from: NSNumber(value: db.getPercentSoldOut(forItems: items))) ?? "0") %"
             self.totalValue.text = "$\(numberFormatter.format.string(from: NSNumber(value: db.getTotalValue(forItems: items))) ?? "0.00")"
             setEditMode(enabled: false)
+        }
+        
+        if(db.getSettings().isGuest) {
+            navBar.topItem?.rightBarButtonItem = nil
+            self.statsLabel.isHidden = true
+            self.numItemsLabel.isHidden = true
+            self.numberOfItems.isHidden = true
+            self.soldOutLabel.isHidden = true
+            self.percentSoldOut.isHidden = true
+            self.totalValueLabel.isHidden = true
+            self.totalValue.isHidden = true
+        } else {
+            navBar.topItem?.rightBarButtonItem = editButton
+            self.statsLabel.isHidden = false
+            self.numItemsLabel.isHidden = false
+            self.numberOfItems.isHidden = false
+            self.soldOutLabel.isHidden = false
+            self.percentSoldOut.isHidden = false
+            self.totalValueLabel.isHidden = false
+            self.totalValue.isHidden = false
         }
         
     }

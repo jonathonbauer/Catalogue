@@ -54,7 +54,7 @@ class InventoryVC: UIViewController {
     
     }
     
-    // MARK: Prepare
+    // MARK: Prepare For Guest
     
     func prepareForGuest(){
         print("We are logging in")

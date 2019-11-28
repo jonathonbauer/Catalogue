@@ -45,6 +45,13 @@ class ItemDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+       // Get the database if it is nil
+        if db == nil {
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+            db = appDelegate.dbHelper
+        }
+        
+        
         // Register a tap recognizer to dismiss the keyboard
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
@@ -142,6 +149,12 @@ class ItemDetailVC: UIViewController {
             
         }
         
+        if(db.getSettings().isGuest) {
+            navBar.topItem?.rightBarButtonItem = nil
+        } else {
+           navBar.topItem?.rightBarButtonItem = editButton
+        }
+        
     }
     
     // MARK: View Will Appear
@@ -159,7 +172,6 @@ class ItemDetailVC: UIViewController {
     }
     
     // MARK: - Custom Functions
-    
     
     
     // MARK: Edit Item

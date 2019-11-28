@@ -720,9 +720,13 @@
                         <outlet property="editButton" destination="4N5-NV-ghk" id="Z7a-qF-goo"/>
                         <outlet property="name" destination="Q3a-Jd-bTg" id="FnY-VO-tJI"/>
                         <outlet property="navBar" destination="7JO-FZ-eyw" id="hYv-pR-Ejz"/>
+                        <outlet property="numItemsLabel" destination="f3b-FZ-zjb" id="lA3-bm-p86"/>
                         <outlet property="numberOfItems" destination="cUk-MS-aVL" id="Pfa-0r-eW6"/>
                         <outlet property="percentSoldOut" destination="C54-ve-wRm" id="PT9-Ub-J2P"/>
+                        <outlet property="soldOutLabel" destination="uG5-0J-3I0" id="hwr-Vp-AN4"/>
+                        <outlet property="statsLabel" destination="6lb-Xp-xf5" id="tnN-VT-9OS"/>
                         <outlet property="totalValue" destination="6cC-gO-i9A" id="f7j-V4-qdR"/>
+                        <outlet property="totalValueLabel" destination="hhP-mj-YG7" id="Pfu-Am-9Zm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SyN-Ho-nXb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

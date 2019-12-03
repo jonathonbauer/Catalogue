@@ -60,7 +60,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if dbHelper.getAllCategories().count == 0 {
             dbHelper.preloadData()
         }
-
+        
+        
         return true
     }
     

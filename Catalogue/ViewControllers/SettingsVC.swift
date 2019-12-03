@@ -14,15 +14,14 @@ class SettingsVC: UIViewController {
     private var navItem: UINavigationItem?
     var db: DBHelper!
     var settings: UserSettings?
-    var themePicker: UIPickerView?
-    var themes = [Theme.System, Theme.Dark, Theme.Light]
+    var alertHelper = AlertHelper()
     
     
     // MARK: Outlets
-    @IBOutlet weak var theme: UITextField!
     @IBOutlet weak var bypassLogin: UISwitch!
     @IBOutlet weak var newPassword: UITextField!
     @IBOutlet weak var confirmPassword: UITextField!
+    @IBOutlet weak var logOut: UIBarButtonItem!
     
     // MARK: Clear Data
     @IBAction func clearData(_ sender: Any) {
@@ -65,12 +64,25 @@ class SettingsVC: UIViewController {
     // MARK: Reset Password
     @IBAction func resetPassword(_ sender: Any) {
         
-        if(newPassword.text == confirmPassword.text) {
-            let confirmReset = UIAlertController(title: "Are you sure?", message: "Are you sure you want to reset your password?", preferredStyle: .alert)
+        guard let password = newPassword.text else {
+            alertHelper.displayAlert(viewController: self, title: "Invalid Input", message: "You have not entered a valid pin.")
+            return
+        }
+        
+        if(password == confirmPassword.text && password.count >= 4) {
+            let confirmReset = UIAlertController(title: "Are you sure?", message: "Are you sure you want to reset your pin?", preferredStyle: .alert)
             
             let reset = UIAlertAction(title: "Reset", style: .default, handler: { _ in
                 self.settings?.password = self.newPassword.text
                 self.db.save()
+                
+                self.dismissKeyboard()
+                let success = UIAlertController(title: "Pin Updated", message: nil, preferredStyle: .alert)
+                let okay = UIAlertAction(title: "Okay", style: .default, handler: nil)
+                
+                success.addAction(okay)
+                
+                self.present(success, animated: true, completion: nil)
             })
             
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -78,21 +90,14 @@ class SettingsVC: UIViewController {
             confirmReset.addAction(cancel)
             confirmReset.addAction(reset)
             
-            
             self.present(confirmReset, animated: true, completion: nil)
             
             
         } else {
-            let invalidPasswordAlert = UIAlertController(title: "Passwords Do Not Match", message: nil, preferredStyle: .alert)
-            let okay = UIAlertAction(title: "Okay", style: .default, handler: nil)
             
-            invalidPasswordAlert.addAction(okay)
-            
-            self.present(invalidPasswordAlert, animated: true, completion: nil)
+            alertHelper.displayAlert(viewController: self, title: "Invalid Input", message: "The pins entered do not match or are less than 4 numbers long.")
             
         }
-        
-        
     }
     
     // MARK: viewDidLoad
@@ -104,31 +109,24 @@ class SettingsVC: UIViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
         
-        // Create and add the pickerView
-        themePicker = UIPickerView()
+        // Set the nav and tab bar colours
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        navigationController?.navigationBar.tintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.unselectedItemTintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.tintColor = UIColor.white
         
-        // Add a done button to the pickerview
-        let toolBar = UIToolbar()
-        toolBar.barStyle = UIBarStyle.default
-        toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor(red: 76/255, green: 217/255, blue: 100/255, alpha: 1)
-        toolBar.sizeToFit()
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Avenir", size: 24)!]
+        logOut.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
         
-        let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.done, target: self, action: #selector(pickerSelected))
+        // Customise the textViews
+        newPassword.layer.borderWidth = 1
+        newPassword.layer.cornerRadius = 5
+        newPassword.layer.borderColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue: 61.0/255.0, alpha: 1.0).cgColor
         
-        toolBar.setItems([spacer, doneButton], animated: false)
-        toolBar.isUserInteractionEnabled = true
-        
-        
-        // Set the inputView of the Category TextField to the picker
-        theme.inputView = themePicker
-        theme.inputAccessoryView = toolBar
-        
-        // Assign the delegate and datasource of the picker to this class
-        themePicker?.dataSource = self
-        themePicker?.delegate = self
-        
+        confirmPassword.layer.borderWidth = 1
+        confirmPassword.layer.cornerRadius = 5
+        confirmPassword.layer.borderColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue: 61.0/255.0, alpha: 1.0).cgColor
         
         // Get the NavigationItem from the View
         self.navItem = self.tabBarController?.navigationItem
@@ -147,18 +145,6 @@ class SettingsVC: UIViewController {
         
         bypassLogin.isOn = settings!.bypassLogin
         
-        if(settings?.theme == 0) {
-            theme.text = "System"
-            settings?.theme = themes[0].rawValue
-        } else if(settings?.theme == 1) {
-            theme.text = "Light"
-            settings?.theme = themes[1].rawValue
-        } else if(settings?.theme == 2) {
-            theme.text = "Dark"
-            settings?.theme = themes[2].rawValue
-        } else {
-            theme.text = "Unknown Theme"
-        }
     }
     
     // MARK: viewWillAppear
@@ -179,28 +165,6 @@ class SettingsVC: UIViewController {
         print("Dismissing keyboard")
         view.endEditing(true)
     }
-    
-    // MARK: Picker Selected
-    @objc func pickerSelected(){
-        
-        if let row = themePicker?.selectedRow(inComponent: 0) {
-            if(row == 0) {
-                theme.text = "System"
-                settings?.theme = themes[0].rawValue
-            } else if(row == 1) {
-                theme.text = "Light"
-                settings?.theme = themes[1].rawValue
-            } else if(row == 2) {
-                theme.text = "Dark"
-                settings?.theme = themes[2].rawValue
-            } else {
-                theme.text = "Unknown Theme"
-            }
-        }
-        db.save()
-        dismissKeyboard()
-        
-    }
 }
 
 
@@ -210,39 +174,6 @@ extension SettingsVC: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.resignFirstResponder()
-    }
-    
-}
-
-
-// MARK: PickerView Extensions
-
-extension SettingsVC: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return 3
-    }
-    
-}
-
-extension SettingsVC: UIPickerViewDelegate {
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
-        if(row == 0) {
-            return "System"
-        } else if(row == 1) {
-            return "Light"
-        } else if(row == 2) {
-            return "Dark"
-        } else {
-            return "Unknown Theme"
-        }
-        
-        
     }
     
 }

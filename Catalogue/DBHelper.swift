@@ -97,11 +97,11 @@ class DBHelper {
             newItem.details = details
             guard let category = category else { return }
             newItem.category = category
+            newItem.soldOut = soldOut
             if let imageData = image {
                 newItem.image = imageData
             }
             self.logEvent(event: .ItemAdded, details: "The item \(name) has been added.")
-            print("Saving item!")
             completion()
         }
         

@@ -199,10 +199,11 @@ extension InventoryVC: UICollectionViewDataSource {
 //        cell.layer.cornerRadius = 5
         
 //        cell.layer.shadowColor = UIColor.init(red: 222.0/255.0, green: 222.0/255.0, blue:217.0/255.0, alpha: 1.0).cgColor
-        cell.layer.shadowColor = UIColor.white.cgColor
+        
+        cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowOffset = CGSize(width: 0, height: 1)
-        cell.layer.shadowOpacity = 1.0
-        cell.layer.shadowRadius = 1.0
+        cell.layer.shadowOpacity = 0.5
+        cell.layer.shadowRadius = 3.0
         cell.layer.masksToBounds = false
         
         
@@ -245,6 +246,7 @@ extension InventoryVC: UICollectionViewDataSource {
 //        header.layer.cornerRadius = 5
 //        header.layer.borderWidth = 1
 //        header.layer.borderColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue: 61.0/255.0, alpha: 1.0).cgColor
+        
         
         // Detect if a user selects the category
         let tap = CategoryTapGesture(target: self, action: #selector(categoryTapped(_:)))

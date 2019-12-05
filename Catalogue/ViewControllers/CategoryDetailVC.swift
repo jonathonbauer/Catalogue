@@ -35,6 +35,9 @@ class CategoryDetailVC: UIViewController {
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var statsLabel: UILabel!
     
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
+    
     
     // MARK: Delete Category
     @IBAction func deleteCategory(_ sender: Any) {
@@ -77,6 +80,8 @@ class CategoryDetailVC: UIViewController {
     // MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         
         // Get the database if it is nil
         if db == nil {

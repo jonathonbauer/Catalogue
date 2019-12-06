@@ -12,20 +12,21 @@
 
 import UIKit
 import CoreData
+import AVKit
 
 class DBHelper {
     
     // MARK: Properties
     var container: NSPersistentContainer!
+    var player: AVAudioPlayer?
     
     
     // MARK: Database Seed Info
-    var index = [0,1,2,3,4]
+    var index = [0,1,2,3]
     
     var categories = [
         (name: "Produce", details: "Fresh goods from the farmers market"),
         (name: "Frozen Goods", details: "Goods that need to be kept frozen"),
-        (name: "Canned Soup", details: "Long lasting, can stored soup"),
         (name: "Snacks", details: "Non-essential food items"),
         (name: "Beverages", details: "Drinks and refreshments")
     ]
@@ -34,7 +35,6 @@ class DBHelper {
         (name: "Corn", price: 1.99, details: "Sweet & Yellow", outOfStock: true),
         (name: "Apples", price: 1.25, details: "Granny Smith", outOfStock: false),
         (name: "Tomatoes", price: 0.99, details: "Ripe and Juicy", outOfStock: false),
-        (name: "Carrots", price: 2.25, details: "Good for your eyesight!", outOfStock: true),
         (name: "Bananas", price: 3.50, details: "Perfect for banana bread!", outOfStock: false)
     ]
     
@@ -42,33 +42,61 @@ class DBHelper {
         (name: "Pizza", price: 2.50, details: "It's not delivery!", outOfStock: false),
         (name: "Hamburgers", price: 9.99, details: "8 Pack Angus Patties", outOfStock: false),
         (name: "Perogies", price: 7.49, details: "Cheddar Bacon", outOfStock: true),
-        (name: "Microwave Dinner", price: 1.49, details: "Salisbury Steak or Mac n Cheese", outOfStock: true),
         (name: "Corn Dogs", price: 5.99, details: "10 pack of carnival classics!", outOfStock: true)
-    ]
-    
-    var soup = [
-        (name: "Chicken Noodle", price: 1.25, details: "Great for colds!", outOfStock: true),
-        (name: "Beef Barley", price: 1.25, details: "The meaty classic", outOfStock: true),
-        (name: "Italian Wedding", price: 1.25, details: "Can't have soup without Italian Wedding", outOfStock: true),
-        (name: "Clam Chowder", price: 1.75, details: "Creamy and delicious", outOfStock: true),
-        (name: "Cream of Mushroom", price: 0.99, details: "Great for recipes!", outOfStock: true)
     ]
     
     var snacks = [
         (name: "Potato Chips", price: 2.75, details: "Salt & Vinegar or Sea Salt", outOfStock: true),
         (name: "Cookies", price: 1.50, details: "Chocolate Chip", outOfStock: false),
-        (name: "Large Candy", price: 4.25, details: "Large assorted bag of your choice", outOfStock: true),
-        (name: "Small Candy", price: 2.25, details: "Small pre-made candy bags", outOfStock: false),
+        (name: "Candy", price: 4.25, details: "Large assorted bag of your choice", outOfStock: true),
         (name: "Popcorn", price: 1.75, details: "White Cheddar or Butter", outOfStock: true)
     ]
-
+    
     var drinks = [
         (name: "Soda", price: 1.99, details: "Sweet caffeinated goodness", outOfStock: false),
         (name: "Water", price: 0.99, details: "Sparkling or Spring", outOfStock: false),
         (name: "Beer", price: 5.99, details: "Local brews change weekly", outOfStock: false),
-        (name: "Energy Drink", price: 3.99, details: "Whatever the kids are into these days", outOfStock: false),
         (name: "Coffee", price: 1.99, details: "Bring your own cup", outOfStock: false)
     ]
+    
+    // MARK: Play Sound
+    func playCrumple(){
+        guard let url = Bundle.main.url(forResource: "crumple", withExtension: "wav") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            
+            
+            guard let player = player else { return }
+            
+            player.play()
+            
+        } catch {
+            print("Could not play sound")
+        }
+    }
+    
+    func playExplosion(){
+        guard let url = Bundle.main.url(forResource: "explosion", withExtension: "wav") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.wav.rawValue)
+            
+            
+            guard let player = player else { return }
+            
+            player.play()
+            
+        } catch {
+            print("Could not play sound")
+        }
+    }
     
     
     // MARK: Preload Data
@@ -108,7 +136,7 @@ class DBHelper {
         let moc = self.container.viewContext
         
         moc.persist {
-            let products = [self.drinks, self.soup, self.frozen, self.produce, self.snacks]
+            let products = [self.drinks, self.frozen, self.produce, self.snacks]
             let categories = self.getAllCategories()
             
             for i in self.index {
@@ -128,31 +156,32 @@ class DBHelper {
         }
     }
     
-
+    
     
     // MARK: Clear Database
     
     func clearDatabase(){
         let moc = self.container.viewContext
-       
+        
         let categories = getAllCategories()
         let items = getAllItems()
         let log = getLog()
         
         for category in categories {
-                moc.delete(category)
+            moc.delete(category)
         }
         
         for item in items {
-                moc.delete(item)
+            moc.delete(item)
         }
         
         for logItem in log {
-                moc.delete(logItem)
+            moc.delete(logItem)
         }
         
         do {
             try moc.save()
+            playExplosion()
         } catch {
             fatalError("Could not clear database")
         }
@@ -202,7 +231,7 @@ class DBHelper {
         
     }
     
-     // MARK: Get All Items
+    // MARK: Get All Items
     
     func getAllItems() -> [Item] {
         // Get the database and create a request
@@ -221,7 +250,7 @@ class DBHelper {
         return items
     }
     
-     // MARK: Get All Items For Category
+    // MARK: Get All Items For Category
     func getAllItemsForCategory(category: Category) -> [Item] {
         // Get the database and create a request
         let moc = self.container.viewContext
@@ -249,12 +278,13 @@ class DBHelper {
         do {
             moc.delete(item)
             try moc.save()
+            playCrumple()
         } catch {
             fatalError("Could not delete item")
         }
         
     }
-
+    
     // MARK: Get Percent Sold Out
     func getPercentSoldOut(forItems items: [Item]) -> Double {
         var numSoldOut: Double = 0.0
@@ -328,16 +358,16 @@ class DBHelper {
     // MARK: Delete Category
     
     func deleteCategory(category: Category) {
-           let moc = self.container.viewContext
+        let moc = self.container.viewContext
         self.logEvent(event: .CategoryDeleted, details: "The category \(category.name!) has been deleted.")
-           do {
-               moc.delete(category)
-               try moc.save()
-           } catch {
-               fatalError("Could not delete category")
-           }
+        do {
+            moc.delete(category)
+            try moc.save()
+        } catch {
+            fatalError("Could not delete category")
+        }
         
-       }
+    }
     
     // MARK: - Log Functions
     
@@ -375,7 +405,7 @@ class DBHelper {
         }
         return log
     }
-
+    
     func compareItems(left: Item, right: Item) -> String {
         var differences = ""
         
@@ -396,7 +426,7 @@ class DBHelper {
         }
         
         if left.image != right.image {
-             differences += "The image has changed."
+            differences += "The image has changed."
         }
         
         return differences
@@ -438,7 +468,7 @@ class DBHelper {
         }
     }
     
-   // MARK: Reset Password
+    // MARK: Reset Password
     func resetPassword() {
         let moc = self.container.viewContext
         

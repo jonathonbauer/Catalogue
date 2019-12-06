@@ -22,6 +22,8 @@
 		6AA4FF2923688C5C00CF7649 /* InventoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA4FF2823688C5C00CF7649 /* InventoryVC.swift */; };
 		6AA4FF2B23688F0300CF7649 /* LogVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AA4FF2A23688F0300CF7649 /* LogVC.swift */; };
 		6AD944302384DD0E00449B62 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD9442F2384DD0E00449B62 /* Theme.swift */; };
+		6AE46EBA239ACD460031B74A /* crumple.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6AE46EB9239ACD460031B74A /* crumple.wav */; };
+		6AE46EBC239ACE5F0031B74A /* explosion.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6AE46EBB239ACE5F0031B74A /* explosion.wav */; };
 		6AE7976523627C5100B9D191 /* NSPersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976423627C5100B9D191 /* NSPersistentContainer.swift */; };
 		6AE7976723627C8800B9D191 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976623627C8800B9D191 /* NSManagedObjectContext.swift */; };
 		6AE7976C23667C5D00B9D191 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976B23667C5D00B9D191 /* DBHelper.swift */; };
@@ -49,6 +51,8 @@
 		6AA4FF2823688C5C00CF7649 /* InventoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InventoryVC.swift; sourceTree = "<group>"; };
 		6AA4FF2A23688F0300CF7649 /* LogVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogVC.swift; sourceTree = "<group>"; };
 		6AD9442F2384DD0E00449B62 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		6AE46EB9239ACD460031B74A /* crumple.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = crumple.wav; sourceTree = "<group>"; };
+		6AE46EBB239ACE5F0031B74A /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
 		6AE7976423627C5100B9D191 /* NSPersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSPersistentContainer.swift; sourceTree = "<group>"; };
 		6AE7976623627C8800B9D191 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		6AE7976B23667C5D00B9D191 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
@@ -137,6 +141,9 @@
 		6AF9C8F9234E1C3C002BD8BF /* Catalogue */ = {
 			isa = PBXGroup;
 			children = (
+				6AE46EB9239ACD460031B74A /* crumple.wav */,
+				6AE46EBB239ACE5F0031B74A /* explosion.wav */,
+				6AE7976B23667C5D00B9D191 /* DBHelper.swift */,
 				6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */,
 				6AF9C905234E1C3E002BD8BF /* LaunchScreen.storyboard */,
 				6AF9C900234E1C3C002BD8BF /* Main.storyboard */,
@@ -148,7 +155,6 @@
 				6AE7976323627BBF00B9D191 /* CoreData Extensions */,
 				6A1D864F235A814A008C4D75 /* ViewControllers */,
 				6A1D8665235A8C38008C4D75 /* Views */,
-				6AE7976B23667C5D00B9D191 /* DBHelper.swift */,
 			);
 			path = Catalogue;
 			sourceTree = "<group>";
@@ -211,9 +217,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AE46EBC239ACE5F0031B74A /* explosion.wav in Resources */,
 				6AF9C907234E1C3E002BD8BF /* LaunchScreen.storyboard in Resources */,
 				6AF9C904234E1C3E002BD8BF /* Assets.xcassets in Resources */,
 				6AF9C902234E1C3C002BD8BF /* Main.storyboard in Resources */,
+				6AE46EBA239ACD460031B74A /* crumple.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

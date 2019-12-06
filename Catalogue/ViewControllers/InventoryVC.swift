@@ -53,7 +53,7 @@ class InventoryVC: UIViewController {
     
     @objc func logOutSwipe(_ recognizer: UIGestureRecognizer){
         if recognizer.state == .recognized {
-           performSegue(withIdentifier: "inventoryLogOut", sender: self)
+            performSegue(withIdentifier: "inventoryLogOut", sender: self)
         }
     }
     
@@ -165,6 +165,35 @@ class InventoryVC: UIViewController {
         
         self.collectionView.reloadData()
     }
+    
+    // MARK: didLongPress
+    @objc func didLongPress(gestureRecognizer: UIGestureRecognizer){
+
+        guard db.getSettings().isGuest == false else { return }
+        
+        let position = gestureRecognizer.location(in: collectionView)
+        
+        guard let indexPath = collectionView.indexPathForItem(at: position) else { return }
+        
+        let item = inventory[categories[indexPath.section]]![indexPath.row]
+        
+        let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "Delete Item", style: .destructive, handler: { _ in
+            self.db.deleteItem(item: item)
+            self.loadInventory()
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    
+        print("Long pressed")
+    }
+        
 }
 
 // MARK: CollectionView DataSource
@@ -223,6 +252,9 @@ extension InventoryVC: UICollectionViewDataSource {
         }, completion: nil)
         
         
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
+        cell.addGestureRecognizer(longPress)
+        
         return cell
     }
     
@@ -263,6 +295,27 @@ extension InventoryVC: UICollectionViewDelegate {
         newVC?.previousVC = self
         
         navVC.present(newVC!, animated: true, completion: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5){
+            
+            let cell = collectionView.cellForItem(at: indexPath) as! ItemCell
+            cell.layer.shadowOffset = CGSize(width: 1, height: 2)
+            cell.layer.shadowRadius = 6.0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5) {
+            
+            let cell = collectionView.cellForItem(at: indexPath) as! ItemCell
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOffset = CGSize(width: 0, height: 1)
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowRadius = 3.0
+            cell.layer.masksToBounds = false
+        }
     }
 }
 

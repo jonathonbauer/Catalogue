@@ -14,10 +14,10 @@
             filePath = "Catalogue/ViewControllers/LogInVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "7">
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "LogInVC"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,8 +30,8 @@
             filePath = "Catalogue/ViewControllers/LogInVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>

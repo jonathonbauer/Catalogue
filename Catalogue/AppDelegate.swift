@@ -61,6 +61,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dbHelper.preloadData()
         }
         
+        let hasLaunched = UserDefaults.standard.bool(forKey: "hasLaunched")
+        if hasLaunched  {
+            // Seeding not required
+        } else {
+            print("Seeding database")
+            dbHelper.seedCategories()
+            dbHelper.seedItems()
+            UserDefaults.standard.set(true, forKey: "hasLaunched")
+        }
         
         return true
     }

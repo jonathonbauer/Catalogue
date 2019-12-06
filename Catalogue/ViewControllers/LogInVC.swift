@@ -21,6 +21,8 @@ class LogInVC: UIViewController {
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var logInAsGuestButton: UIButton!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     // MARK: View Did Load
@@ -49,9 +51,6 @@ class LogInVC: UIViewController {
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = "Log In"
         
-        
-        
-        
     }
     
     // MARK: View Did Appear
@@ -65,11 +64,6 @@ class LogInVC: UIViewController {
                 performSegue(withIdentifier: "logInSegue", sender: self)
             }
         }
-        
-//        UIView.animate(withDuration: 5.0, delay: 0.0, options: [.autoreverse, .repeat], animations:{ ()
-//            self.logo.transform = CGAffineTransform(scaleX: 0.5, y: 0.5)
-////            self.logo.transform = CGAffineTransform(rotationAngle: (720))
-//        }, completion: nil)
     }
     
     
@@ -129,6 +123,27 @@ class LogInVC: UIViewController {
         print("Dismissing keyboard")
         view.endEditing(true)
     }
+    
+    // MARK: View Adjustment for Keyboard
+    @objc func adjustViewForKeyboard(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo else { return }
+    
+        let endFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        
+        guard let keyboardHeight = endFrame?.cgRectValue.size.height else { return }
+    
+        if(notification.name == UIResponder.keyboardWillShowNotification) {
+            scrollView.setContentOffset(CGPoint(x: 0, y: keyboardHeight), animated: true)
+//            bottomConstraint.constant = keyboardHeight + 16
+
+        } else {
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+//            bottomConstraint.constant = 0
+        }
+        
+    }
+    
     
 }
 

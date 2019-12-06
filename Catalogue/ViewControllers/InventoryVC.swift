@@ -35,27 +35,26 @@ class InventoryVC: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
         tabBarController?.tabBar.unselectedItemTintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
         tabBarController?.tabBar.tintColor = UIColor.white
-         navigationController?.navigationBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
         tabBarController?.tabBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
         
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Avenir", size: 24)!]
         logOut.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
         
-        
-        
         // Set the CollectionView datasource and delegate to this class
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        
-        // Index this page for spotlight
-        
-        let activity = NSUserActivity(activityType: "ca.catalogue.openTab")
-        activity.title = "Inventory"
-        activity.isEligibleForSearch = true
-        activity.isEligibleForPublicIndexing = true
-        self.userActivity = activity
-        self.userActivity?.becomeCurrent()
+        // Add a gesture recognizer to detect a left edge log out swipe
+        let gestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(logOutSwipe))
+        gestureRecognizer.edges = .left
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func logOutSwipe(_ recognizer: UIGestureRecognizer){
+        if recognizer.state == .recognized {
+           performSegue(withIdentifier: "inventoryLogOut", sender: self)
+        }
     }
     
     
@@ -71,7 +70,7 @@ class InventoryVC: UIViewController {
         
         // MARK: Retrieve the Database
         loadInventory()
-    
+        
     }
     
     // MARK: Prepare For Guest
@@ -194,12 +193,6 @@ extension InventoryVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemCell
         
-//        cell.layer.borderWidth = 1
-//        cell.layer.borderColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue: 61.0/255.0, alpha: 1.0).cgColor
-//        cell.layer.cornerRadius = 5
-        
-//        cell.layer.shadowColor = UIColor.init(red: 222.0/255.0, green: 222.0/255.0, blue:217.0/255.0, alpha: 1.0).cgColor
-        
         cell.layer.shadowColor = UIColor.black.cgColor
         cell.layer.shadowOffset = CGSize(width: 0, height: 1)
         cell.layer.shadowOpacity = 0.5
@@ -224,10 +217,14 @@ extension InventoryVC: UICollectionViewDataSource {
             cell.soldOut?.text = "In Stock"
         }
         
+        cell.alpha = 0.0
+        UIView.animate(withDuration: 1.25, delay: 0.0, options: [], animations:{ ()
+            cell.alpha = 1.0
+        }, completion: nil)
+        
+        
         return cell
     }
-    
-   
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return categories.count
@@ -243,10 +240,6 @@ extension InventoryVC: UICollectionViewDataSource {
         
         // Customize the view of the header
         header.name?.text = category.name
-//        header.layer.cornerRadius = 5
-//        header.layer.borderWidth = 1
-//        header.layer.borderColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue: 61.0/255.0, alpha: 1.0).cgColor
-        
         
         // Detect if a user selects the category
         let tap = CategoryTapGesture(target: self, action: #selector(categoryTapped(_:)))
@@ -270,5 +263,18 @@ extension InventoryVC: UICollectionViewDelegate {
         newVC?.previousVC = self
         
         navVC.present(newVC!, animated: true, completion: nil)
+    }
+}
+
+extension InventoryVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = (self.view.frame.width / 2) - 25
+        
+        if size < 180 {
+            return CGSize(width: size, height: size)
+        } else {
+            return CGSize(width: 180, height: 180)
+        }
+        
     }
 }

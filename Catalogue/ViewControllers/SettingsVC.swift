@@ -130,6 +130,11 @@ class SettingsVC: UIViewController {
         
         // Get the NavigationItem from the View
         self.navItem = self.tabBarController?.navigationItem
+        
+        // Add a gesture recognizer to detect a left edge log out swipe
+        let gestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(logOutSwipe))
+        gestureRecognizer.edges = .left
+        view.addGestureRecognizer(gestureRecognizer)
     }
     
     // MARK: viewDidAppear
@@ -164,6 +169,13 @@ class SettingsVC: UIViewController {
     @objc func dismissKeyboard() {
         print("Dismissing keyboard")
         view.endEditing(true)
+    }
+    
+    // MARK: Log Out Swipe
+    @objc func logOutSwipe(_ recognizer: UIGestureRecognizer){
+        if recognizer.state == .recognized {
+           performSegue(withIdentifier: "settingsLogOut", sender: self)
+        }
     }
 }
 

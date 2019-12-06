@@ -26,10 +26,6 @@
 		6AE7976723627C8800B9D191 /* NSManagedObjectContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976623627C8800B9D191 /* NSManagedObjectContext.swift */; };
 		6AE7976C23667C5D00B9D191 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976B23667C5D00B9D191 /* DBHelper.swift */; };
 		6AE7976E236731F900B9D191 /* CategoryHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE7976D236731F900B9D191 /* CategoryHeader.swift */; };
-		6AF1C8912390460F00916997 /* log.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AF1C88D2390460900916997 /* log.png */; };
-		6AF1C8922390460F00916997 /* inventory.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AF1C88E2390460B00916997 /* inventory.png */; };
-		6AF1C8932390460F00916997 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AF1C88F2390460D00916997 /* logo.png */; };
-		6AF1C8942390460F00916997 /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AF1C8902390460F00916997 /* settings.png */; };
 		6AF9C8FB234E1C3C002BD8BF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */; };
 		6AF9C8FD234E1C3C002BD8BF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF9C8FC234E1C3C002BD8BF /* SceneDelegate.swift */; };
 		6AF9C902234E1C3C002BD8BF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AF9C900234E1C3C002BD8BF /* Main.storyboard */; };
@@ -57,10 +53,6 @@
 		6AE7976623627C8800B9D191 /* NSManagedObjectContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSManagedObjectContext.swift; sourceTree = "<group>"; };
 		6AE7976B23667C5D00B9D191 /* DBHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		6AE7976D236731F900B9D191 /* CategoryHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryHeader.swift; sourceTree = "<group>"; };
-		6AF1C88D2390460900916997 /* log.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = log.png; sourceTree = "<group>"; };
-		6AF1C88E2390460B00916997 /* inventory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inventory.png; sourceTree = "<group>"; };
-		6AF1C88F2390460D00916997 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		6AF1C8902390460F00916997 /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		6AF9C8F7234E1C3C002BD8BF /* Catalogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Catalogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6AF9C8FC234E1C3C002BD8BF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -126,17 +118,6 @@
 			path = "CoreData Extensions";
 			sourceTree = "<group>";
 		};
-		6AF1C88C239045E700916997 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				6AF1C88E2390460B00916997 /* inventory.png */,
-				6AF1C88D2390460900916997 /* log.png */,
-				6AF1C8902390460F00916997 /* settings.png */,
-				6AF1C88F2390460D00916997 /* logo.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		6AF9C8EE234E1C3C002BD8BF = {
 			isa = PBXGroup;
 			children = (
@@ -156,7 +137,6 @@
 		6AF9C8F9234E1C3C002BD8BF /* Catalogue */ = {
 			isa = PBXGroup;
 			children = (
-				6AF1C88C239045E700916997 /* Images */,
 				6AF9C8FA234E1C3C002BD8BF /* AppDelegate.swift */,
 				6AF9C905234E1C3E002BD8BF /* LaunchScreen.storyboard */,
 				6AF9C900234E1C3C002BD8BF /* Main.storyboard */,
@@ -231,10 +211,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6AF1C8912390460F00916997 /* log.png in Resources */,
-				6AF1C8942390460F00916997 /* settings.png in Resources */,
-				6AF1C8922390460F00916997 /* inventory.png in Resources */,
-				6AF1C8932390460F00916997 /* logo.png in Resources */,
 				6AF9C907234E1C3E002BD8BF /* LaunchScreen.storyboard in Resources */,
 				6AF9C904234E1C3E002BD8BF /* Assets.xcassets in Resources */,
 				6AF9C902234E1C3C002BD8BF /* Main.storyboard in Resources */,

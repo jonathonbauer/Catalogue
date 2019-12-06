@@ -19,6 +19,58 @@ class DBHelper {
     var container: NSPersistentContainer!
     
     
+    // MARK: Database Seed Info
+    var index = [0,1,2,3,4]
+    
+    var categories = [
+        (name: "Produce", details: "Fresh goods from the farmers market"),
+        (name: "Frozen Goods", details: "Goods that need to be kept frozen"),
+        (name: "Canned Soup", details: "Long lasting, can stored soup"),
+        (name: "Snacks", details: "Non-essential food items"),
+        (name: "Beverages", details: "Drinks and refreshments")
+    ]
+    
+    var produce = [
+        (name: "Corn", price: 1.99, details: "Sweet & Yellow", outOfStock: true),
+        (name: "Apples", price: 1.25, details: "Granny Smith", outOfStock: false),
+        (name: "Tomatoes", price: 0.99, details: "Ripe and Juicy", outOfStock: false),
+        (name: "Carrots", price: 2.25, details: "Good for your eyesight!", outOfStock: true),
+        (name: "Bananas", price: 3.50, details: "Perfect for banana bread!", outOfStock: false)
+    ]
+    
+    var frozen = [
+        (name: "Pizza", price: 2.50, details: "It's not delivery!", outOfStock: false),
+        (name: "Hamburgers", price: 9.99, details: "8 Pack Angus Patties", outOfStock: false),
+        (name: "Perogies", price: 7.49, details: "Cheddar Bacon", outOfStock: true),
+        (name: "Microwave Dinner", price: 1.49, details: "Salisbury Steak or Mac n Cheese", outOfStock: true),
+        (name: "Corn Dogs", price: 5.99, details: "10 pack of carnival classics!", outOfStock: true)
+    ]
+    
+    var soup = [
+        (name: "Chicken Noodle", price: 1.25, details: "Great for colds!", outOfStock: true),
+        (name: "Beef Barley", price: 1.25, details: "The meaty classic", outOfStock: true),
+        (name: "Italian Wedding", price: 1.25, details: "Can't have soup without Italian Wedding", outOfStock: true),
+        (name: "Clam Chowder", price: 1.75, details: "Creamy and delicious", outOfStock: true),
+        (name: "Cream of Mushroom", price: 0.99, details: "Great for recipes!", outOfStock: true)
+    ]
+    
+    var snacks = [
+        (name: "Potato Chips", price: 2.75, details: "Salt & Vinegar or Sea Salt", outOfStock: true),
+        (name: "Cookies", price: 1.50, details: "Chocolate Chip", outOfStock: false),
+        (name: "Large Candy", price: 4.25, details: "Large assorted bag of your choice", outOfStock: true),
+        (name: "Small Candy", price: 2.25, details: "Small pre-made candy bags", outOfStock: false),
+        (name: "Popcorn", price: 1.75, details: "White Cheddar or Butter", outOfStock: true)
+    ]
+
+    var drinks = [
+        (name: "Soda", price: 1.99, details: "Sweet caffeinated goodness", outOfStock: false),
+        (name: "Water", price: 0.99, details: "Sparkling or Spring", outOfStock: false),
+        (name: "Beer", price: 5.99, details: "Local brews change weekly", outOfStock: false),
+        (name: "Energy Drink", price: 3.99, details: "Whatever the kids are into these days", outOfStock: false),
+        (name: "Coffee", price: 1.99, details: "Bring your own cup", outOfStock: false)
+    ]
+    
+    
     // MARK: Preload Data
     
     func preloadData(){
@@ -36,6 +88,47 @@ class DBHelper {
         }
         print("Preloaded data")
     }
+    
+    // MARK: Seed Database
+    
+    func seedCategories(){
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            for category in self.categories {
+                let newCategory = Category(context: moc)
+                newCategory.name = category.name
+                newCategory.details = category.details
+                self.logEvent(event: .CategoryAdded, details: "The category \(category.name) has been added.")
+            }
+        }
+    }
+    
+    func seedItems(){
+        let moc = self.container.viewContext
+        
+        moc.persist {
+            let products = [self.drinks, self.soup, self.frozen, self.produce, self.snacks]
+            let categories = self.getAllCategories()
+            
+            for i in self.index {
+                let product = products[i]
+                
+                for item in product {
+                    let newItem = Item(context: moc)
+                    newItem.name = item.name
+                    newItem.details = item.details
+                    newItem.price = item.price
+                    newItem.soldOut = item.outOfStock
+                    newItem.category = categories[i]
+                    self.logEvent(event: .ItemAdded, details: "The item \(item.name) has been added.")
+                }
+                
+            }
+        }
+    }
+    
+
     
     // MARK: Clear Database
     

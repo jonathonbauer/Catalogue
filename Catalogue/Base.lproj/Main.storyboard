@@ -20,10 +20,10 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Bb-Pg-VNK" userLabel="contentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="545"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="584"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="ROF-wu-saT">
-                                                <rect key="frame" x="32" y="391" width="350" height="122"/>
+                                                <rect key="frame" x="32" y="430" width="350" height="122"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="myz-Y1-woV">
                                                         <rect key="frame" x="0.0" y="0.0" width="350" height="49"/>
@@ -48,15 +48,15 @@
                                                 </subviews>
                                             </stackView>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Pin" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gNG-Wy-LY6">
-                                                <rect key="frame" x="132" y="314" width="150" height="45"/>
+                                                <rect key="frame" x="132" y="353" width="150" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="eyC-Pj-QgT"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="27"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES" textContentType="password"/>
                                             </textField>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Sn-4D-tEw">
-                                                <rect key="frame" x="82" y="32" width="250" height="250"/>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="3Sn-4D-tEw">
+                                                <rect key="frame" x="82" y="71" width="250.00000000000023" height="250"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="250" id="GvH-qg-UaV"/>
                                                     <constraint firstAttribute="height" constant="250" id="x0n-kp-lrv"/>
@@ -65,8 +65,8 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.87058823529999996" green="0.87058823529999996" blue="0.85098039219999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <constraints>
-                                            <constraint firstItem="3Sn-4D-tEw" firstAttribute="top" secondItem="7Bb-Pg-VNK" secondAttribute="top" constant="32" id="8B4-mT-HQg"/>
                                             <constraint firstItem="3Sn-4D-tEw" firstAttribute="centerX" secondItem="7Bb-Pg-VNK" secondAttribute="centerX" id="8n7-Gf-20f"/>
+                                            <constraint firstItem="3Sn-4D-tEw" firstAttribute="centerY" secondItem="7Bb-Pg-VNK" secondAttribute="centerY" constant="-96" id="IS3-eh-uHD"/>
                                             <constraint firstAttribute="trailing" secondItem="ROF-wu-saT" secondAttribute="trailing" constant="32" id="JXu-aR-hLM"/>
                                             <constraint firstItem="ROF-wu-saT" firstAttribute="leading" secondItem="7Bb-Pg-VNK" secondAttribute="leading" constant="32" id="SEN-ti-Kba"/>
                                             <constraint firstItem="gNG-Wy-LY6" firstAttribute="centerX" secondItem="7Bb-Pg-VNK" secondAttribute="centerX" id="Thh-1r-KDY"/>
@@ -99,10 +99,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="ht2-PP-A5f"/>
                     <connections>
+                        <outlet property="bottomConstraint" destination="Wph-Fa-qLZ" id="2uI-U4-zKm"/>
                         <outlet property="logInAsGuestButton" destination="WYg-xV-jP4" id="say-IL-OiS"/>
                         <outlet property="logInButton" destination="myz-Y1-woV" id="zlf-WX-efb"/>
                         <outlet property="logo" destination="3Sn-4D-tEw" id="Tp9-ZF-4qn"/>
                         <outlet property="password" destination="gNG-Wy-LY6" id="cxe-H2-gVT"/>
+                        <outlet property="scrollView" destination="1S9-gj-bWj" id="jx7-HP-cyW"/>
                         <segue destination="tho-PD-H7A" kind="presentation" identifier="logInSegue" modalPresentationStyle="fullScreen" id="iKM-2E-INX"/>
                     </connections>
                 </viewController>
@@ -231,7 +233,7 @@
                     <navigationItem key="navigationItem" title="Settings" id="afC-M0-YXP">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="ofS-Rz-6Ja">
                             <connections>
-                                <segue destination="LG0-c6-T6p" kind="unwind" unwindAction="logOutSegueWithSegue:" id="Gl9-X4-qma"/>
+                                <segue destination="LG0-c6-T6p" kind="unwind" identifier="settingsLogOut" unwindAction="logOutSegueWithSegue:" id="Gl9-X4-qma"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -286,7 +288,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inventory" translatesAutoresizingMaskIntoConstraints="NO" id="OPj-vb-Bkd">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="OPj-vb-Bkd">
                                                     <rect key="frame" x="4" y="8" width="172" height="75"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="75" id="KGJ-3f-cmy"/>
@@ -363,7 +365,7 @@
                         <barButtonItem key="backBarButtonItem" title="Log Out" id="N5G-93-3Ik"/>
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="cat-fe-KNe">
                             <connections>
-                                <segue destination="QIr-5Y-y9N" kind="unwind" unwindAction="logOutSegueWithSegue:" id="Bsq-Od-yt4"/>
+                                <segue destination="QIr-5Y-y9N" kind="unwind" identifier="inventoryLogOut" unwindAction="logOutSegueWithSegue:" id="Bsq-Od-yt4"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ESr-eR-tow">
@@ -398,7 +400,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eYI-bO-stn" userLabel="contentView">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="728"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="inventory" translatesAutoresizingMaskIntoConstraints="NO" id="mOV-FN-3d9">
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="mOV-FN-3d9">
                                                 <rect key="frame" x="107" y="76" width="200" height="200"/>
                                                 <gestureRecognizers/>
                                                 <constraints>
@@ -815,7 +817,7 @@
                     <navigationItem key="navigationItem" title="Log" id="tGF-kK-YbB">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="6dX-PZ-G3Z">
                             <connections>
-                                <segue destination="FbK-zV-V7J" kind="unwind" unwindAction="logOutSegueWithSegue:" id="7nP-Qq-eIr"/>
+                                <segue destination="FbK-zV-V7J" kind="unwind" identifier="logLogOut" unwindAction="logOutSegueWithSegue:" id="7nP-Qq-eIr"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -834,7 +836,7 @@
         <scene sceneID="BSb-Bk-Y1D">
             <objects>
                 <navigationController title="Log Navigation" automaticallyAdjustsScrollViewInsets="NO" id="04a-Cq-dmF" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Log" image="clock" catalog="system" selectedImage="clock" id="k7H-DB-eV2"/>
+                    <tabBarItem key="tabBarItem" title="" image="log" selectedImage="log" id="k7H-DB-eV2"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="sYt-SR-BJC">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -853,7 +855,7 @@
         <scene sceneID="sZH-QA-Mw4">
             <objects>
                 <navigationController title="Inventory Navigation" automaticallyAdjustsScrollViewInsets="NO" id="jhu-Hp-PK2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Inventory" image="book" catalog="system" selectedImage="book" id="g39-aT-7Ur"/>
+                    <tabBarItem key="tabBarItem" title="" image="inventory" selectedImage="inventory" id="g39-aT-7Ur"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qSm-0f-VCk">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -873,7 +875,7 @@
         <scene sceneID="ahh-n8-U7Z">
             <objects>
                 <navigationController title="Settings Navigation" automaticallyAdjustsScrollViewInsets="NO" id="sbA-mp-qJz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="gear" catalog="system" selectedImage="gear" id="gqV-46-aKO"/>
+                    <tabBarItem key="tabBarItem" title="" image="settings" selectedImage="settings" id="gqV-46-aKO"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="b00-wn-jW6">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -911,10 +913,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="book" catalog="system" width="64" height="50"/>
-        <image name="clock" catalog="system" width="64" height="60"/>
-        <image name="gear" catalog="system" width="64" height="58"/>
-        <image name="inventory" width="665" height="666"/>
-        <image name="logo.png" width="349.92001342773438" height="237.60000610351562"/>
+        <image name="inventory" width="40" height="40"/>
+        <image name="log" width="40" height="40"/>
+        <image name="logo" width="1458" height="990"/>
+        <image name="placeholder" width="665" height="666"/>
+        <image name="settings" width="40" height="40"/>
     </resources>
 </document>

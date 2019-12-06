@@ -44,6 +44,11 @@ class LogVC: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+        // Add a gesture recognizer to detect a left edge log out swipe
+        let gestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(logOutSwipe))
+        gestureRecognizer.edges = .left
+        view.addGestureRecognizer(gestureRecognizer)
+        
     }
     
     // MARK: View Will Appear
@@ -61,7 +66,19 @@ class LogVC: UIViewController {
         tableView.reloadData()
     }
     
+    // MARK: Log Out Swipe
+    @objc func logOutSwipe(_ recognizer: UIGestureRecognizer){
+        if recognizer.state == .recognized {
+           performSegue(withIdentifier: "logLogOut", sender: self)
+        }
+    }
+    
+    
 }
+
+
+
+
 
 // MARK: TableView DataSource
 

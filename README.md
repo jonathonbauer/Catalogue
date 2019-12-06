@@ -1,4 +1,4 @@
-<div style="text-align: center">
+
 # Catalogue
 
 
@@ -32,7 +32,6 @@ The initial admin pin number is 1234.
 ![Category Detail](images/categoryDetail.PNG)
 ![Settings](images/settings.PNG)
 
-</div>
 
 ## Authors
 
@@ -42,7 +41,7 @@ The initial admin pin number is 1234.
 
 ## Credits
 
-Application Design: [Stephanie Markert - Graphic Designer](https://stephdesigns.ca)
+Application Design and Assets: [Stephanie Markert - Graphic Designer](https://stephdesigns.ca)
 <br/>
 Explosion Sound: [V-ktor](https://freesound.org/people/V-ktor/sounds/482992/)
 <br/>

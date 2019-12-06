@@ -12,4 +12,5 @@ class ItemCell: UICollectionViewCell {
     @IBOutlet var name: UILabel!
     @IBOutlet var price: UILabel!
     @IBOutlet var soldOut: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
 }

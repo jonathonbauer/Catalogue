@@ -31,11 +31,30 @@ class InventoryVC: UIViewController {
         super.viewDidLoad()
         
         
+        // Customize the nav and tab bar controllers
+        navigationController?.navigationBar.tintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.unselectedItemTintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.tintColor = UIColor.white
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Avenir", size: 24)!]
+        logOut.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
         
         // Set the CollectionView datasource and delegate to this class
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        // Add a gesture recognizer to detect a left edge log out swipe
+        let gestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(logOutSwipe))
+        gestureRecognizer.edges = .left
+        view.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    @objc func logOutSwipe(_ recognizer: UIGestureRecognizer){
+        if recognizer.state == .recognized {
+            performSegue(withIdentifier: "inventoryLogOut", sender: self)
+        }
     }
     
     
@@ -49,9 +68,9 @@ class InventoryVC: UIViewController {
             db = appDelegate.dbHelper
         }
         
-        // MARK: Retrieve the database contents
+        // MARK: Retrieve the Database
         loadInventory()
-    
+        
     }
     
     // MARK: Prepare For Guest
@@ -89,7 +108,7 @@ class InventoryVC: UIViewController {
         }
     }
     
-    // MARK: Actions
+    // MARK: Add Item
     
     @IBAction func addItem(_ sender: Any?) {
         print("Add Item Pressed")
@@ -116,8 +135,6 @@ class InventoryVC: UIViewController {
             let newVC: CategoryDetailVC? = self.storyboard?.instantiateViewController(identifier: "CategoryDetailVC")
             newVC?.previousVC = self
             navVC.present(newVC!, animated: true, completion: nil)
-            
-            
         }
         
         let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
@@ -133,11 +150,7 @@ class InventoryVC: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    @IBAction func logOut(_ sender: Any?) {
-        
-    }
-    
-    // MARK: Functions
+    // MARK: Load Inventory
     
     func loadInventory(){
         // Get all the categories
@@ -152,11 +165,36 @@ class InventoryVC: UIViewController {
         
         self.collectionView.reloadData()
     }
+    
+    // MARK: didLongPress
+    @objc func didLongPress(gestureRecognizer: UIGestureRecognizer){
+
+        guard db.getSettings().isGuest == false else { return }
+        
+        let position = gestureRecognizer.location(in: collectionView)
+        
+        guard let indexPath = collectionView.indexPathForItem(at: position) else { return }
+        
+        let item = inventory[categories[indexPath.section]]![indexPath.row]
+        
+        let alert = UIAlertController(title: "Delete Item", message: "Are you sure you want to delete this item?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "Delete Item", style: .destructive, handler: { _ in
+            self.db.deleteItem(item: item)
+            self.loadInventory()
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(delete)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: true, completion: nil)
+    
+        print("Long pressed")
+    }
+        
 }
-
-
-// MARK: Extensions
-
 
 // MARK: CollectionView DataSource
 
@@ -184,19 +222,38 @@ extension InventoryVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "itemCell", for: indexPath) as! ItemCell
         
-        cell.layer.borderWidth = 1
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOffset = CGSize(width: 0, height: 1)
+        cell.layer.shadowOpacity = 0.5
+        cell.layer.shadowRadius = 3.0
+        cell.layer.masksToBounds = false
+        
         
         let item = inventory[categories[indexPath.section]]![indexPath.row]
         
         cell.name?.text = item.name
         cell.price?.text = "$\(numberFormatter.format.string(from: NSNumber(value: (item.value(forKey: "price") as! Double))) ?? "0.00")"
         
+        if let data = item.image {
+            cell.imageView.image = UIImage(data: data)
+        } else {
+            cell.imageView.image = UIImage(named: "inventory")
+        }
         
         if(item.soldOut) {
             cell.soldOut?.text = "Sold Out"
         } else {
             cell.soldOut?.text = "In Stock"
         }
+        
+        cell.alpha = 0.0
+        UIView.animate(withDuration: 1.25, delay: 0.0, options: [], animations:{ ()
+            cell.alpha = 1.0
+        }, completion: nil)
+        
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress))
+        cell.addGestureRecognizer(longPress)
         
         return cell
     }
@@ -215,7 +272,6 @@ extension InventoryVC: UICollectionViewDataSource {
         
         // Customize the view of the header
         header.name?.text = category.name
-        header.layer.cornerRadius = 5
         
         // Detect if a user selects the category
         let tap = CategoryTapGesture(target: self, action: #selector(categoryTapped(_:)))
@@ -239,5 +295,39 @@ extension InventoryVC: UICollectionViewDelegate {
         newVC?.previousVC = self
         
         navVC.present(newVC!, animated: true, completion: nil)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5){
+            
+            let cell = collectionView.cellForItem(at: indexPath) as! ItemCell
+            cell.layer.shadowOffset = CGSize(width: 1, height: 2)
+            cell.layer.shadowRadius = 6.0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        UIView.animate(withDuration: 0.5) {
+            
+            let cell = collectionView.cellForItem(at: indexPath) as! ItemCell
+            cell.layer.shadowColor = UIColor.black.cgColor
+            cell.layer.shadowOffset = CGSize(width: 0, height: 1)
+            cell.layer.shadowOpacity = 0.5
+            cell.layer.shadowRadius = 3.0
+            cell.layer.masksToBounds = false
+        }
+    }
+}
+
+extension InventoryVC: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = (self.view.frame.width / 2) - 25
+        
+        if size < 180 {
+            return CGSize(width: size, height: size)
+        } else {
+            return CGSize(width: 180, height: 180)
+        }
+        
     }
 }

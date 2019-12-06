@@ -12,20 +12,30 @@ class LogVC: UIViewController {
     
     // MARK: Outlets
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var navBar: UINavigationBar!
+    @IBOutlet weak var logOut: UIBarButtonItem!
     
     
     // MARK: Properties
     var db: DBHelper!
     var log = [Log]()
+    var alertHelper = AlertHelper()
     
     var dateFormatter = DateFormatter()
-    
     
     
     // MARK: View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Set the nav and tab bar colours
+        navigationController?.navigationBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        navigationController?.navigationBar.tintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.unselectedItemTintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        tabBarController?.tabBar.tintColor = UIColor.white
+        
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont(name: "Avenir", size: 24)!]
+        logOut.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
         
         // customize the date formatter
         dateFormatter.dateFormat = "MMMM dd, YYYY h:mma"
@@ -33,6 +43,11 @@ class LogVC: UIViewController {
         // Set the table view data source and delegate
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        // Add a gesture recognizer to detect a left edge log out swipe
+        let gestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(logOutSwipe))
+        gestureRecognizer.edges = .left
+        view.addGestureRecognizer(gestureRecognizer)
         
     }
     
@@ -51,14 +66,19 @@ class LogVC: UIViewController {
         tableView.reloadData()
     }
     
-    // MARK: Log Item Tapped
-    
-    @objc func logItemTapped(){
-        
+    // MARK: Log Out Swipe
+    @objc func logOutSwipe(_ recognizer: UIGestureRecognizer){
+        if recognizer.state == .recognized {
+           performSegue(withIdentifier: "logLogOut", sender: self)
+        }
     }
     
     
 }
+
+
+
+
 
 // MARK: TableView DataSource
 
@@ -71,30 +91,7 @@ extension LogVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "logItemCell") as! LogCell
         
         let logItem = log[indexPath.row]
-//        let event = LogEvent(rawValue: logItem.event)
         cell.title.text = logItem.details
-        
-        
-//        switch event {
-//        case .ItemAdded:
-//            cell.title.text = "Item Added"
-//        case .ItemUpdated:
-//            cell.title.text = "Item Updated"
-//        case .ItemDeleted:
-//            cell.title.text = "Item Deleted"
-//        case .CategoryAdded:
-//            cell.title.text = "Category Added"
-//        case .CategoryUpdated:
-//            cell.title.text = "Category Updated"
-//        case .CategoryDeleted:
-//            cell.title.text = "Category Deleted"
-//        case .AdminLogin:
-//            cell.title.text = "Admin Login"
-//        case .GuestLogin:
-//            cell.title.text = "Guest Login"
-//        case .none:
-//            cell.title.text = "Unknown Event"
-//        }
         
         cell.subtitle.text = dateFormatter.string(from: logItem.timestamp!)
         
@@ -110,12 +107,10 @@ extension LogVC: UITableViewDataSource {
 
 extension LogVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let navVC = self.navigationController else { return }
         
-        let newVC: LogDetailVC? = self.storyboard?.instantiateViewController(identifier: "LogDetailVC")
-        newVC?.logItem = log[indexPath.row]
+        let logItem = log[indexPath.row]
         
-        navVC.present(newVC!, animated: true, completion: nil)
+        alertHelper.displayAlert(viewController: self, title: "Log Event Details", message: "\(logItem.details!)\n \(dateFormatter.string(from: logItem.timestamp!))")
         
         tableView.deselectRow(at: indexPath, animated: true)
     }

@@ -14,13 +14,15 @@ class LogInVC: UIViewController {
     // MARK: Properties
     var db: DBHelper?
     var settings: UserSettings?
+    var alertHelper = AlertHelper()
     
     // MARK: Outlets
-    @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var logo: UIImageView!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var logInAsGuestButton: UIButton!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     // MARK: View Did Load
@@ -33,15 +35,17 @@ class LogInVC: UIViewController {
             db = appDelegate.dbHelper
         }
         
-        //        settings = db?.getSettings()
-        
         // Register a tap recognizer to dismiss the keyboard
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tap)
         
         // Set the textView's delegates
-        username.delegate = self
         password.delegate = self
+        
+        // Customise the textView
+        password.layer.borderWidth = 1
+        password.layer.cornerRadius = 5
+        password.layer.borderColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue: 61.0/255.0, alpha: 1.0).cgColor
         
         // Set the Information for the Navigation Item
         self.navigationItem.hidesBackButton = true
@@ -49,11 +53,10 @@ class LogInVC: UIViewController {
         
     }
     
-    // MARK: View Will Appear
+    // MARK: View Did Appear
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
          
-        
         if db?.getSettings() != nil {
             if db!.getSettings().bypassLogin {
                 db!.getSettings().isGuest = true
@@ -74,22 +77,21 @@ class LogInVC: UIViewController {
     // MARK: Log In
     @IBAction func logInButton(_ sender: Any) {
         
-        if(username?.text == "admin" && password?.text == db?.getSettings().password) {
+        if(password?.text == db?.getSettings().password) {
             guard let db = db else { return }
             
+            password?.text = ""
+            
             db.getSettings().isGuest = false
+            db.logEvent(event: .AdminLogin, details: "Admin has logged in.")
             db.save()
+            
             
             performSegue(withIdentifier: "logInSegue", sender: self)
         } else {
             // Display an alert to notify of invalid login
-            let alert = UIAlertController(title: "Invalid Input", message: "You have entered an invalid username or password.", preferredStyle: .alert)
             
-            let reset = UIAlertAction(title: "Okay", style: .default, handler: nil)
-            
-            alert.addAction(reset)
-            
-            self.present(alert, animated: true, completion: nil)
+            alertHelper.displayAlert(viewController: self, title: "Invalid Input", message: "You have entered an invalid pin.")
             
         }
     }
@@ -98,6 +100,7 @@ class LogInVC: UIViewController {
     @IBAction func logInAsGuestButton(_ sender: Any) {
         guard let db = db else { return }
         db.getSettings().isGuest = true
+        db.logEvent(event: .GuestLogin, details: "Guest has logged in.")
         db.save()
         performSegue(withIdentifier: "logInSegue", sender: self)
     }
@@ -106,16 +109,8 @@ class LogInVC: UIViewController {
     // MARK: Prepare
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "logInSegue" {
-//            if db!.getSettings().isGuest {
-//                let backItem = UIBarButtonItem()
-//                backItem.title = "Log Out"
-//                navigationItem.backBarButtonItem = backItem
-//            }
-//        }
         if segue.identifier == "logInSegue" {
             print("Preparing")
-//            segue.destination.viewControllers!.g
             let destination = segue.destination as! UITabBarController
             let nc = destination.viewControllers![0] as! UINavigationController
             let vc = nc.viewControllers[0] as! InventoryVC
@@ -128,6 +123,27 @@ class LogInVC: UIViewController {
         print("Dismissing keyboard")
         view.endEditing(true)
     }
+    
+    // MARK: View Adjustment for Keyboard
+    @objc func adjustViewForKeyboard(_ notification: Notification) {
+        
+        guard let userInfo = notification.userInfo else { return }
+    
+        let endFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        
+        guard let keyboardHeight = endFrame?.cgRectValue.size.height else { return }
+    
+        if(notification.name == UIResponder.keyboardWillShowNotification) {
+            scrollView.setContentOffset(CGPoint(x: 0, y: keyboardHeight), animated: true)
+//            bottomConstraint.constant = keyboardHeight + 16
+
+        } else {
+            scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+//            bottomConstraint.constant = 0
+        }
+        
+    }
+    
     
 }
 

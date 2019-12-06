@@ -1,6 +1,6 @@
-<p align="center">
-# Catalogue <br/> Product Inventory Application
-</p>
+
+# Catalogue
+
 
 ![Logo](images/logo.png)
 

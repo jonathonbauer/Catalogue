@@ -1,4 +1,6 @@
+<p align="center">
 # Catalogue <br/> Product Inventory Application
+</p>
 
 ![Logo](images/logo.png)
 
@@ -21,16 +23,16 @@ The application does not require any initial setup.
 
 ## Mockup
 
-![Log In](images/login.png)
-![Guest Inventory](images/guestInventory.png)
+![Log In](images/login.PNG)
+![Guest Inventory](images/guestInventory.PNG)
 <br/>
-![Admin Inventory](images/adminInventory.png)
-![Log](images/log.png)
+![Admin Inventory](images/adminInventory.PNG)
+![Log](images/log.PNG)
 <br/>
-![Item Detail](images/itemDetail.png)
-![Category Detail](images/categoryDetail.png)
+![Item Detail](images/itemDetail.PNG)
+![Category Detail](images/categoryDetail.PNG)
 <br/>
-![Settings](images/settings.png)
+![Settings](images/settings.PNG)
 
 
 
@@ -43,5 +45,7 @@ The application does not require any initial setup.
 ## Credits
 
 Application Design: [Stephanie Markert - Graphic Designer](https://stephdesigns.ca)
+<br/>
 Explosion Sound: [V-ktor](https://freesound.org/people/V-ktor/sounds/482992/)
+<br/>
 Paper Sound: [Anthousai](https://freesound.org/people/Anthousai/sounds/398897/)

@@ -18,6 +18,7 @@ class CategoryDetailVC: UIViewController {
     var previousVC: UIViewController?
     var isInEditMode = false
     var numberFormatter = Formatter(minDecimalPlaces: 0, maxDecimalPlaces: 2)
+    var alertHelper = AlertHelper()
     
     // MARK: Outlets
     
@@ -33,6 +34,9 @@ class CategoryDetailVC: UIViewController {
     @IBOutlet weak var soldOutLabel: UILabel!
     @IBOutlet weak var totalValueLabel: UILabel!
     @IBOutlet weak var statsLabel: UILabel!
+    
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     // MARK: Delete Category
@@ -77,12 +81,22 @@ class CategoryDetailVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         // Get the database if it is nil
         if db == nil {
             guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
                 else { return }
             db = appDelegate.dbHelper
         }
+        
+        // Set the nav and tab bar colours
+        navBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        navBar.tintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        
+        navBar.titleTextAttributes = [.font: UIFont(name: "Avenir", size: 24)!]
+        editButton.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
+        deleteButton.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
         
         // Register a tap recognizer to dismiss the keyboard
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -172,6 +186,7 @@ class CategoryDetailVC: UIViewController {
             let detailsInput = self.details.text,
             detailsInput.count > 0
             else {
+                alertHelper.displayAlert(viewController: self, title: "Invalid Input", message: "You have entered invalid or incomplete information.")
                 print("Invalid input")
                 return false
         }
@@ -220,5 +235,10 @@ extension CategoryDetailVC:UITextFieldDelegate {
 extension CategoryDetailVC:UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         textView.resignFirstResponder()
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        textView.text = ""
+        return true
     }
 }

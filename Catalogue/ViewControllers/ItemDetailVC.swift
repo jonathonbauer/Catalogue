@@ -23,6 +23,7 @@ class ItemDetailVC: UIViewController {
     var soldout = false
     var imagePicker: UIImagePickerController?
     var numberFormatter = Formatter(minDecimalPlaces: 2, maxDecimalPlaces: 2)
+    var alertHelper = AlertHelper()
     
     
     
@@ -51,6 +52,14 @@ class ItemDetailVC: UIViewController {
             db = appDelegate.dbHelper
         }
         
+        // Set the nav and tab bar colours
+        navBar.barTintColor = UIColor.init(red: 138.0/255.0, green: 181.0/255.0, blue: 155.0/255.0, alpha: 1.0)
+        navBar.tintColor = UIColor.init(red: 23.0/255.0, green: 40.0/255.0, blue:61.0/255.0, alpha: 1.0)
+        
+        navBar.titleTextAttributes = [.font: UIFont(name: "Avenir", size: 24)!]
+        editButton.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
+        deleteButton.setTitleTextAttributes([.font: UIFont(name: "Avenir", size: 18)!], for: .normal)
+      
         
         // Register a tap recognizer to dismiss the keyboard
         let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -75,6 +84,7 @@ class ItemDetailVC: UIViewController {
         
         // Customize the buttons
         stockButton.layer.cornerRadius = 10
+        stockButton.titleLabel?.font = UIFont(name: "Avenir", size: 22)
         
         // Customize the text fields
         self.details.layer.cornerRadius = 5
@@ -219,7 +229,6 @@ class ItemDetailVC: UIViewController {
         if soldout {
             soldout = false
             stockButton.setTitle("In Stock", for: .normal)
-            
         } else {
             soldout = true
             stockButton.setTitle("Sold Out", for: .normal)
@@ -230,14 +239,11 @@ class ItemDetailVC: UIViewController {
     
     // Create an action to dismiss the keyboard
     @objc func dismissKeyboard() {
-        print("Dismissing keyboard")
         view.endEditing(true)
         
         // Append a $ to the price if it doesnt already exist
         if price.text?.count != 0 {
-            print("Checking for $")
             if price.text?.first != "$" {
-              print("Adding a $!")
               price.text = "$\(price.text!)"
             }
         }
@@ -313,7 +319,6 @@ class ItemDetailVC: UIViewController {
 
     
     func saveItem() -> Bool {
-        print("Save button pressed")
         // Check that there is valid input
         guard
             let nameInput = self.name.text,
@@ -323,7 +328,8 @@ class ItemDetailVC: UIViewController {
             detailsInput.count > 0,
             let categoryInput = self.selectedCategory
             else {
-                print("Invalid input")
+                alertHelper.displayAlert(viewController: self, title: "Invalid Input", message: "You have entered invalid or incomplete information.")
+                
                 return false
         }
         
@@ -335,10 +341,8 @@ class ItemDetailVC: UIViewController {
                 selectedItem.price = (priceInput as NSString?)!.doubleValue
             }
             
-//            (self.price.text?.dropFirst() as NSString?)?.doubleValue,
             let originalName = selectedItem.name
             selectedItem.name = nameInput
-//            selectedItem.price = priceInput
             selectedItem.details = detailsInput
             selectedItem.category = categoryInput
             selectedItem.soldOut = soldout
@@ -363,9 +367,7 @@ class ItemDetailVC: UIViewController {
             } else {
                 itemPrice = (priceInput as NSString?)!.doubleValue
             }
-            
             let success = db.addItem(name: nameInput, image: imageData, price: itemPrice, details: detailsInput, soldOut: soldout, category: selectedCategory, completion: {
-                print("Successfully added item!")
                 
                 if let previousVC = self.previousVC {
                     previousVC.viewWillAppear(true)
@@ -402,6 +404,11 @@ extension ItemDetailVC:UITextViewDelegate {
         
         
         textView.resignFirstResponder()
+    }
+    
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        textView.text = ""
+        return true
     }
 }
 

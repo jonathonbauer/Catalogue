@@ -1,4 +1,4 @@
-
+<div style="text-align: center">
 # Catalogue
 
 
@@ -14,7 +14,7 @@ The app also logs any events such as admin sign on, new items or item deletions.
 
 ## Getting Started
 
-The application does not require any initial setup.
+The initial admin pin number is 1234.
 
 ## Database Design
 
@@ -25,16 +25,14 @@ The application does not require any initial setup.
 
 ![Log In](images/login.PNG)
 ![Guest Inventory](images/guestInventory.PNG)
-<br/>
 ![Admin Inventory](images/adminInventory.PNG)
 ![Log](images/log.PNG)
 <br/>
 ![Item Detail](images/itemDetail.PNG)
 ![Category Detail](images/categoryDetail.PNG)
-<br/>
 ![Settings](images/settings.PNG)
 
-
+</div>
 
 ## Authors
 
